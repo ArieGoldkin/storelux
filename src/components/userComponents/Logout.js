@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { authUserLogout } from "../store/rootReducers";
+// import { authUserLogout } from "../store/rootReducers";
 
 import * as actions from "./usersActions/authActions";
 
-const Logout = ({ onLogout, setAllStateOnlogout }) => {
+const Logout = ({ onLogout }) => {
   useEffect(() => {
     onLogout();
   }, [onLogout]);
@@ -16,7 +16,7 @@ const Logout = ({ onLogout, setAllStateOnlogout }) => {
 const mapStateToProps = (state) => {
   return {
     state: state,
-    setAllStateOnlogout: authUserLogout(state, state.auth.isLogin),
+    // setAllStateOnlogout: authUserLogout(state, state.auth.isLogin),
   };
 };
 

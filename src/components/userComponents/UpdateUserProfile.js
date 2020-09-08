@@ -16,6 +16,8 @@ import {
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
 import * as actionTypes from "./usersActions/UserActions";
+import * as authSelectors from "./selectors/AuthSelectors";
+import * as userSelectors from "./selectors/UserSelectors";
 import "./usersCss/UserForm.css";
 
 const UpdateUserProfile = ({
@@ -24,7 +26,6 @@ const UpdateUserProfile = ({
   onUpdate,
   loading,
   error,
-  userState,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState(null);
@@ -207,12 +208,11 @@ const UpdateUserProfile = ({
 };
 const mapStateToProps = (state) => {
   return {
-    userId: state.auth.userId,
-    user: state.user.item,
-    isDone: state.user.isDone,
-    loading: state.user.loading,
-    error: state.user.error,
-    // userState: checkUserState(state.user, state.user.isDone),
+    userId: authSelectors.getAuthUserId(state),
+    user: userSelectors.getUserItem(state),
+    isDone: userSelectors.getUserIsDone(state),
+    loading: userSelectors.getUserLoading(state),
+    error: userSelectors.getUsersError(state),
   };
 };
 

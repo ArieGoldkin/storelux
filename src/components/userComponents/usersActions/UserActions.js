@@ -28,9 +28,6 @@ export const userError = (error) => ({
   error: error,
 });
 
-// export const userDataRequest = () => ({
-//   type: Types.USER_PROFILE_START,
-// });
 
 export const userDataStart = (userId) => ({
   type: Types.USER_PROFILE_REQUEST,
@@ -46,10 +43,6 @@ export const userDataFailure = (error) => ({
   type: Types.USER_PROFILE_FAILURE,
   error: error,
 });
-
-// export const userUpdateStart = () => ({
-//   type: Types.USER_UPDATE_START,
-// });
 
 export const userUpdateRequest = (userId, formData) => ({
   type: Types.USER_UPDATE_REQUEST,

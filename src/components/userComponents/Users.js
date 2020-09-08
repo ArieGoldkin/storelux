@@ -5,23 +5,21 @@ import UsersList from "./UsersList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as actionTypes from "./usersActions/UserActions";
-import { getUsersState } from "../store/rootReducers";
-import { getUserProductsChange } from "../store/rootReducers";
+import * as userSelectors from "./selectors/UserSelectors";
 
 const Users = ({
   loadUsers,
   loading,
   error,
   users,
-  UsersState,
+  UsersIsDone,
   userProductsChange,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  console.log(userProductsChange);
 
   useEffect(() => {
-    if (!UsersState || userProductsChange) {
+    if (!UsersIsDone || userProductsChange) {
       loadUsers();
     }
     if (loading) {
@@ -36,7 +34,7 @@ const Users = ({
       behavior: "smooth",
       top: 0,
     });
-  }, [loading, error, loadUsers, UsersState, userProductsChange]);
+  }, [loading, error, loadUsers, UsersIsDone, userProductsChange]);
 
   const clearError = () => {
     setErrorMessage(null);
@@ -57,14 +55,11 @@ const Users = ({
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users.items,
-    loading: state.users.loading,
-    error: state.users.error,
-    UsersState: getUsersState(state, state.users.isDone),
-    userProductsChange: getUserProductsChange(
-      state,
-      state.userProducts.hasChanged
-    ),
+    users: userSelectors.getUsers(state),
+    loading: userSelectors.getUsersLoading(state),
+    error: userSelectors.getUsersError(state),
+    UsersIsDone: userSelectors.getUsersIsDone(state),
+    userProductsChange: userSelectors.getUserProductsChange(state),
   };
 };
 

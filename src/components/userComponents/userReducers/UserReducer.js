@@ -1,11 +1,14 @@
+// import produce from "immer";
+
 import { Types } from "../usersActions/UserActions";
 import { Types as productActions } from "../../productComponents/productsActions/productsActions";
 import { updateObject } from "../../store/utility";
 
+
 const initialState = {
   items: [], //users
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
 };
 

@@ -56,18 +56,3 @@ export default function authReducer(state = initialState, action) {
       return state;
   }
 }
-
-export const authUserLogout = (state, isLogin) => {
-  switch (isLogin) {
-    case true:
-      return (
-        (state.users.isDone = false),
-        (state.products.isDone = false),
-        (state.user.isDone = false)
-      );
-    case false:
-      return state;
-    default:
-      throw new Error(`Something went wrong.`);
-  }
-};
