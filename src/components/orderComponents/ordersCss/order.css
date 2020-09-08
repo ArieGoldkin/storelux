@@ -1,0 +1,75 @@
+.order_wrapper {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.order_item {
+  width: 70%;
+  margin-top: 1rem;
+}
+.order_item_header {
+  padding-left: 1rem;
+}
+.info-container_order {
+  height: 25rem;
+  display: flex;
+}
+
+.product-modal_image_item {
+  width: 30%;
+  padding: 1rem;
+}
+
+.product-modal_content_item {
+  display: inherit;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30%;
+  padding-bottom: 1rem;
+}
+
+.shippment_address {
+  width: 18rem;
+}
+
+.order_info {
+  width: 100%;
+}
+.shippment_info_title {
+  margin-bottom: 0;
+}
+.product-modal_qun-orderItem {
+  display: flex;
+  width: 6rem;
+  justify-content: space-between;
+}
+.orderItem_summary {
+  width: 25%;
+}
+
+.subTotal_item_price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button_position {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.loadingSpinerOrderPosition {
+  display: flex;
+  justify-content: center;
+  width: 73%;
+  padding-top: 8rem;
+  height: 20vh;
+}
+
+.loadingOrderPosition {
+  /* display: flex;
+    justify-content: center; */
+  width: 100%;
+  /* padding-top: 6rem;
+    height: 20vh; */
+}
