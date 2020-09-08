@@ -6,6 +6,8 @@ import Button from "../common/FormElements/Button";
 import Modal from "../common/UIElements/Modal";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import * as userProductsSelectors from "./selectors/UserProductsSelectors";
 import * as actionTypes from "./productsActions/productsActions";
 import "./productsCss/ProductItem.css";
 
@@ -133,10 +135,10 @@ const ProductItem = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    userId: state.auth.userId,
-    token: state.auth.token,
-    loading: state.userProducts.loading,
-    error: state.userProducts.error,
+    userId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthtoken(state),
+    loading: userProductsSelectors.getUserProductsLoading(state),
+    error: userProductsSelectors.getUserProductsError(state),
   };
 };
 

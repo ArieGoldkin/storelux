@@ -15,6 +15,9 @@ import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ImageUpload from "../common/FormElements/ImageUpload";
 import { useForm } from "../hooks/form-hook";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import * as updateProductSelectors from "./selectors/UpdateProductSelector";
+import * as categoriesSelectors from "../categoriesComponents/categoriesSelectors";
 import * as categoriesAction from "../categoriesComponents/categoriesActions";
 import * as productsAction from "./productsActions/productsActions";
 import "./productsCss/ProductForm.css";
@@ -29,8 +32,6 @@ const UpdateProduct = ({
   onUpdate,
   product,
   productLoading,
-  productIsDone,
-  productState,
   error,
 }) => {
   const [isLoading, setIsloading] = useState();
@@ -100,7 +101,6 @@ const UpdateProduct = ({
     loadCategories,
     product,
     productId,
-    productIsDone,
     productLoading,
     setFormData,
   ]);
@@ -121,7 +121,7 @@ const UpdateProduct = ({
     formData.append("image", formState.inputs.image.value);
 
     onUpdate(token, productId, formData);
-    if (!productState.isLoading) {
+    if (!productLoading) {
       history.push(`/${userId}/products`);
     }
   };
@@ -231,15 +231,13 @@ const UpdateProduct = ({
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.categories.items,
-    isDone: state.categories.isDone,
-    productIsDone: state.updateProduct.isDone,
-    token: state.auth.token,
-    userId: state.auth.userId,
-    product: state.updateProduct.item,
-    productState: state.updateProduct,
-    productLoading: state.updateProduct.loading,
-    error: state.updateProduct.error,
+    categories: categoriesSelectors.getCategories(state),
+    isDone: categoriesSelectors.getCategoriesIsDone(state),
+    token: authSelectors.getAuthtoken(state),
+    userId: authSelectors.getAuthUserId(state),
+    product: updateProductSelectors.getUpdateProduct(state),
+    productLoading: updateProductSelectors.getUpdateProductLoading(state),
+    error: updateProductSelectors.getUpdateProductError(state),
   };
 };
 

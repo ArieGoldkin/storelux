@@ -4,8 +4,9 @@ import { updateObject } from "../../store/utility";
 const initialState = {
   items: [], //products
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
+  failure: false,
 };
 
 const requestProductsStart = (state, action) => {
@@ -30,6 +31,7 @@ const getProductsFailure = (state, action) => {
     error: action.error,
     loading: false,
     isDone: true,
+    failure: true,
   });
 };
 
