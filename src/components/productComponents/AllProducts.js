@@ -4,6 +4,11 @@ import { connect } from "react-redux";
 import AllProductsList from "./AllProductsList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import Card from "../common/UIElements/Card";
+import Search from "../common/FormElements/Search";
+import * as userSelectors from "../userComponents/selectors/UserSelectors";
+import * as allProductsSelectors from "./selectors/AllProductsSelectors";
+import * as addToCartSelectors from "./selectors/AddToCartSelectors";
 import * as productsAction from "./productsActions/productsActions";
 import * as usersAction from "../userComponents/usersActions/UserActions";
 
@@ -22,6 +27,8 @@ const AllProducts = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     if (!usersDone && !productsDone) {
@@ -67,22 +74,34 @@ const AllProducts = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && <AllProductsList products={products} users={users} />}
+      {!isLoading && products && (
+        <div className="products-list__table">
+          <Card>
+            <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+            <AllProductsList
+              products={products}
+              searchValue={searchValue}
+              users={users}
+            />
+          </Card>
+        </div>
+      )}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    usersDone: state.users.isDone,
-    productsDone: state.products.isDone,
-    products: state.products.items,
-    loadingProducts: state.products.loading,
-    users: state.users.items,
-    loadingUsers: state.users.loading,
-    usersError: state.users.error,
-    productsError: state.products.error,
-    addToCart: state.addToCart,
+    usersDone: userSelectors.getUsersIsDone(state),
+    productsDone: allProductsSelectors.getProductsIsDone(state),
+    failure: allProductsSelectors.getProductsFailure(state),
+    products: allProductsSelectors.getProducts(state),
+    loadingProducts: allProductsSelectors.getProductsLoading(state),
+    users: userSelectors.getUsers(state),
+    loadingUsers: userSelectors.getUsersLoading(state),
+    usersError: userSelectors.getUsersError(state),
+    productsError: allProductsSelectors.getProductsError(state),
+    addToCart: addToCartSelectors.getAddToCartState(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

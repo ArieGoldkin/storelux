@@ -5,6 +5,7 @@ import Modal from "../common/UIElements/Modal";
 import Button from "../common/FormElements/Button";
 import Avatar from "../common/UIElements/Avatar";
 import ErrorModal from "../common/UIElements/ErrorModal";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as actionTypes from "./productsActions/addToCartActions";
 import "./productsCss/AllProductsItem.css";
 
@@ -140,8 +141,8 @@ const AllProductsItem = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.auth.userId,
-    token: state.auth.token,
+    userId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthtoken(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

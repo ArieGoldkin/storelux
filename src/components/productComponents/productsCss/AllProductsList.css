@@ -13,7 +13,7 @@ table {
 
 thead {
   display: table-header-group;
-  border-top: 1px solid rgb(160, 160, 160);
+  /* border-top: 1px solid rgb(160, 160, 160); */
   border-bottom: 2px solid rgb(214, 214, 214);
   vertical-align: middle;
   border-color: inherit;
@@ -24,7 +24,7 @@ tr {
   display: table-row;
   vertical-align: inherit;
   border-color: inherit;
-  border-top: 1px solid rgb(214, 214, 214);
+  /* border-top: 1px solid rgb(214, 214, 214); */
   height: 3.5rem;
 }
 
