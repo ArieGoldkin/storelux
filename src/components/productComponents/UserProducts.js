@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import ProductList from "./ProductList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import * as userProductsSelectors from "./selectors/UserProductsSelectors";
+import * as newProductsSelector from "./selectors/NewProductSelectors";
 import * as productsAction from "./productsActions/productsActions";
 
 const UserProducts = ({
@@ -65,11 +67,11 @@ const UserProducts = ({
 
 const mapStateToProps = (state) => {
   return {
-    userProducts: state.userProducts.items,
-    isDone: state.userProducts.isDone,
-    redirected: state.newProduct.canRedirect,
-    loading: state.userProducts.loading,
-    error: state.userProducts.error,
+    userProducts: userProductsSelectors.getUserProducts(state),
+    isDone: userProductsSelectors.getUserProductsIsDone(state),
+    redirected: newProductsSelector.getNewProductRedirect(state),
+    loading: userProductsSelectors.getUserProductsLoading(state),
+    error: userProductsSelectors.getUserProductsError(state),
   };
 };
 

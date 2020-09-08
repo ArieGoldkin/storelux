@@ -6,7 +6,7 @@ import { updateObject } from "../../store/utility";
 const initialState = {
   items: [],
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
   hasChanged: false,
 };
@@ -84,14 +84,3 @@ export default function userProductsReducer(state = initialState, action) {
       return state;
   }
 }
-
-export const getUserProductsChange = (state, hasChanged) => {
-  switch (hasChanged) {
-    case true:
-      return state.hasChanged;
-    case false:
-      return state.hasChanged;
-    default:
-      throw new Error(`Unknown hasChanged result.`);
-  }
-};
