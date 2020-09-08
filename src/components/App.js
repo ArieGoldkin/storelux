@@ -14,12 +14,17 @@ import Users from "./userComponents/Users";
 import UserProfile from "./userComponents/UserProfile";
 import UpdateUserProfile from "./userComponents/UpdateUserProfile";
 import ShoppingCart from "./shoppingCartComponents/ShoppingCart";
+import Order from "./orderComponents/Order";
+import AllProductsOrder from "./orderComponents/AllProductsOrder";
 import Logout from "./userComponents/Logout";
+// import PageNotFound from "./common/PageNoFound";
 import * as actions from "./userComponents/usersActions/authActions";
 import { ToastContainer } from "react-toastify";
+import * as authSelectors from "./userComponents/selectors/AuthSelectors";
+
 import "react-toastify/dist/ReactToastify.css";
 
-const App = ({ isAuthenticated, userId, onTryAutoSignup }) => {
+const App = ({ isAuthenticated, onTryAutoSignup }) => {
   let routes;
   useEffect(() => {
     onTryAutoSignup();
@@ -34,13 +39,18 @@ const App = ({ isAuthenticated, userId, onTryAutoSignup }) => {
           <Route exact path="/user/profile" component={UserProfile} />
           <Route exact path="/user/:userId" component={UpdateUserProfile} />
           <Route path="/products" component={AllProducts} />
+          <Route
+            path="/:userId/shoppingCart/summary"
+            component={AllProductsOrder}
+          />
+          <Route path="/:userId/shoppingCart/:pcartId" component={Order} />
           <Route path="/:userId/shoppingCart" component={ShoppingCart} />
           <Route exact path="/:userId/products" component={UserProducts} />
           <Route exact path="/product/new" component={NewProduct} />
           <Route path="/product/:productId" component={UpdateProduct} />
           <Route path="/about" component={AboutPage} />
           <Route path="/logout" component={Logout} />
-          <Redirect to="/" />
+          <Redirect to="/products" />
           {/* <Route component={PageNotFound} /> */}
         </Switch>
         <ToastContainer autoClose={3000} hideProgressBar />
@@ -70,8 +80,8 @@ const App = ({ isAuthenticated, userId, onTryAutoSignup }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.auth.token !== null,
-    userId: state.auth.userId,
+    isAuthenticated: authSelectors.getAuthtoken(state),
+    // userId: state.auth.userId,
   };
 };
 
