@@ -4,7 +4,7 @@ import { updateObject } from "../store/utility";
 const initialState = {
   items: [],
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
 };
 
