@@ -14,6 +14,9 @@ import {
   VALIDATOR_SELECT,
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import * as categoriesSelectors from "../categoriesComponents/categoriesSelectors";
+import * as newProductSelectors from "./selectors/NewProductSelectors";
 import * as categoriesAction from "../categoriesComponents/categoriesActions";
 import * as productsAction from "./productsActions/productsActions";
 import "./productsCss/ProductForm.css";
@@ -189,15 +192,15 @@ const NewProduct = ({
 };
 const mapStateToProps = (state) => {
   return {
-    userId: state.auth.userId,
-    token: state.auth.token,
-    loading: state.categories.loading,
-    productLoading: state.newProduct.loading,
-    categories: state.categories.items,
-    isDone: state.categories.isDone,
-    categoryError: state.categories.error,
-    newProductError: state.newProduct.error,
-    canRedirect: state.newProduct.canRedirect,
+    userId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthtoken(state),
+    loading: categoriesSelectors.getCategoriesLoading(state),
+    productLoading: newProductSelectors.getNewProductLoading(state),
+    categories: categoriesSelectors.getCategories(state),
+    isDone: categoriesSelectors.getCategoriesIsDone(state),
+    categoryError: categoriesSelectors.getCategoriesError(state),
+    newProductError: newProductSelectors.getNewProductError(state),
+    canRedirect: newProductSelectors.getNewProductRedirect(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
