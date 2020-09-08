@@ -3,14 +3,29 @@ import * as actions from "../shoppingCartActions/ShoppingCartActions";
 import * as api from "../../api/cartApi";
 import { toast } from "react-toastify";
 
+// const calcSummary = (data) => {
+//   let sum = 0;
+//   let calcVat;
+//   let total;
+//   let currentVat = 0.17;
+//   let totalPrice = data.map((item) => item.price * item.quantity);
+//   totalPrice.map((item) => (sum += item));
+//   calcVat = (sum * currentVat).toFixed(2);
+//   total = (sum * currentVat + sum).toFixed(2);
+//   return { sum, calcVat, total };
+// };
+
 function* getCartByUserId(action) {
   try {
     const responseData = yield call(api.getCartByUserId, {
       userId: action.userId,
       token: action.token,
     });
+    // const summary = yield calcSummary(responseData.data.cart);
+
     yield put(actions.getCartSuccess(responseData.data.cart));
-    console.log(responseData);
+    // console.log(summary);
+    // console.log(responseData.data.cart);
   } catch (e) {
     yield put(
       actions.getCartFailure({

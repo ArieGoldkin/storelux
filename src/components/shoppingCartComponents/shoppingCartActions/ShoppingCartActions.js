@@ -27,7 +27,7 @@ export const getCartRequest = (userId, token) => ({
 
 export const getCartSuccess = (items) => ({
   type: Types.GET_CART_SUCCESS,
-  cart: items,
+  items: items,
 });
 
 export const getCartFailure = (error) => ({
@@ -68,10 +68,6 @@ export const setProductQuantityFailure = (error) => ({
   type: Types.SET_PRODUCT_QUANTITY_FAILURE,
   error: error,
 });
-
-// export const setTotalPriceSummaryRequest = (totalSum, ) => ({
-//   type: Types.SET_TOTAL_SUMMARY_REQUEST,
-// });
 
 export const deleteProductFromCartRequest = (token, userId, productId) => ({
   type: Types.DELETE_FROM_CART_REQUEST,

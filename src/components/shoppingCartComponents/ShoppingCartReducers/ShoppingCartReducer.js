@@ -1,11 +1,14 @@
 import { Types } from "../shoppingCartActions/ShoppingCartActions";
 import { Types as addToCartActions } from "../../productComponents/productsActions/addToCartActions";
+import { Types as orderActions } from "../../orderComponents/orderActions/OrderActions";
 import { updateObject } from "../../store/utility";
+
+// import produce from "immer";
 
 const initialState = {
   items: [],
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
   product: {
     item: [],
@@ -20,6 +23,18 @@ const initialState = {
   },
 };
 
+const calcSummary = (state) => {
+  let sum = 0;
+  let calcVat;
+  let total;
+  let currentVat = 0.17;
+  let totalPrice = state.items.map((item) => item.price * item.quantity);
+  totalPrice.map((item) => (sum += item));
+  calcVat = (sum * currentVat).toFixed(2);
+  total = (sum * currentVat + sum).toFixed(2);
+  return { sum, calcVat, total };
+};
+
 const getCartStart = (state, action) => {
   return updateObject(state, {
     error: null,
@@ -29,16 +44,9 @@ const getCartStart = (state, action) => {
 };
 
 const getCartSuccess = (state, action) => {
-  let sum = 0;
-  let calcVat;
-  let total;
-  let currentVat = 0.17;
-  let totalPrice = action.cart.map((item) => item.price * item.quantity);
-  totalPrice.map((item) => (sum += item));
-  calcVat = (sum * currentVat).toFixed(2);
-  total = (sum * currentVat + sum).toFixed(2);
+  const { sum, calcVat, total } = calcSummary(action);
   return updateObject(state, {
-    items: action.cart,
+    items: action.items,
     error: null,
     loading: false,
     isDone: true,
@@ -60,13 +68,12 @@ const getCartFailure = (state, action) => {
   });
 };
 
-const addProductQuantity = (state, action) => {
+const removeProductQuantity = (state, action) => {
   const id = action.productId;
   let findProduct = state.items.find((item) => item.id === id);
   let updatedProduct = updateObject(findProduct, {
-    quantity: (findProduct.quantity += 1),
+    quantity: (findProduct.quantity -= 1),
   });
-
   const updatedItems = updateObject(state, {
     product: {
       item: updatedProduct,
@@ -75,11 +82,11 @@ const addProductQuantity = (state, action) => {
   return updateObject(state, updatedItems);
 };
 
-const removeProductQuantity = (state, action) => {
+const addProductQuantity = (state, action) => {
   const id = action.productId;
   let findProduct = state.items.find((item) => item.id === id);
   let updatedProduct = updateObject(findProduct, {
-    quantity: (findProduct.quantity -= 1),
+    quantity: (findProduct.quantity += 1),
   });
   const updatedItems = updateObject(state, {
     product: {
@@ -101,14 +108,16 @@ const updateProductQuantityRequest = (state, action) => {
   });
 };
 const updateProductQuantitySuccess = (state, action) => {
-  console.log(state);
-
+  const { sum, calcVat, total } = calcSummary(state);
   return updateObject(state, {
     product: {
       item: state.product.item,
       productLoading: false,
     },
     cartSummary: {
+      totalPrice: sum,
+      vat: calcVat,
+      totalSum: total,
       loading: false,
     },
   });
@@ -136,7 +145,14 @@ const addingProductsToCart = (state, action) => {
   });
 };
 
-export default function shoppingCartReducer(state = initialState, action) {
+const removeItemFromCart = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+    isDone: false,
+  });
+};
+
+export const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case Types.GET_CART_REQUSET:
       return getCartStart(state, action);
@@ -158,7 +174,59 @@ export default function shoppingCartReducer(state = initialState, action) {
       return deleteProductCartRequest(state, action);
     case addToCartActions.ADD_TO_CART_REQUEST:
       return addingProductsToCart(state, action);
+    case orderActions.REMOVE_ITEMS_FROM_CART_REQUESET:
+      return removeItemFromCart(state, action);
     default:
       return state;
   }
-}
+};
+
+// export const shoppingCartReducer = (state = initialState, action) =>
+//   produce(state, (draft) => {
+//     switch (action.type) {
+//       case Types.GET_CART_REQUSET:
+//         draft.loading = true;
+//         break;
+//       // return getCartStart(state, action);
+//       case Types.GET_CART_SUCCESS:
+//         return getCartSuccess(state, action);
+//       case Types.GET_CART_FAILURE:
+//         return getCartFailure(state, action);
+//       case Types.ADD_PRODUCT_QUANTITY:
+//         draft.quantity += 1;
+//         // draft.product.productLoading = true;
+//         // draft.product.item = state.product.item;
+
+//         break;
+//       case Types.REMOVE_PRODUCT_QUANTITY:
+//         draft.quantity -= 1;
+//         draft.product.productLoading = true;
+//         break;
+//       case Types.SET_PRODUCT_QUANTITY_REQUEST:
+//         return updateProductQuantityRequest(state, action);
+//       case Types.SET_PRODUCT_QUANTITY_SUCCESS:
+//         return updateProductQuantitySuccess(state, action);
+//       case Types.SET_PRODUCT_QUANTITY_FAILURE:
+//         return updateProductQuantityFailure(state, action);
+//       case Types.DELETE_FROM_CART_REQUEST:
+//         return deleteProductCartRequest(state, action);
+//       case addToCartActions.ADD_TO_CART_REQUEST:
+//         return addingProductsToCart(state, action);
+//       case orderActions.REMOVE_ITEMS_FROM_CART_REQUESET:
+//         return removeItemFromCart(state, action);
+//       default:
+//         return state;
+//     }
+//   });
+
+// const updateProductQuantityRequest = (state, action) => {
+//   return updateObject(state, {
+//     product: {
+//       item: state.product.item,
+//       productLoading: true,
+//     },
+//     cartSummary: {
+//       loading: true,
+//     },
+//   });
+// };

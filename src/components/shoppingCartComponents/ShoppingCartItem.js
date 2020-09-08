@@ -5,9 +5,10 @@ import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import * as cartSelectors from "./selectors/CartSelectors";
 import bin from "../../images/bin.png";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
-import "./shoppingCartCss/ShoppingCartItem.css";
 
 const ShoppingCartItem = (props) => {
   const {
@@ -127,10 +128,10 @@ const ShoppingCartItem = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    userId: state.auth.userId,
-    token: state.auth.token,
-    productLoading: state.cart.product.productLoading,
-    productError: state.cart.product.productError,
+    userId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthtoken(state),
+    productLoading: cartSelectors.getCartProductLoading(state),
+    productError: cartSelectors.getCartProductError(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

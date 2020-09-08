@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import ShoppingCartList from "./ShoppingCartList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import * as cartSelecotrs from "./selectors/CartSelectors";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
 import "./shoppingCartCss/ShoppingCartList.css";
 
@@ -40,7 +42,6 @@ const ShoppingCart = ({
     setErrorNessage(null);
   };
 
-
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
@@ -59,12 +60,12 @@ const ShoppingCart = ({
 };
 const mapStateToProps = (state) => {
   return {
-    cart: state.cart.items,
-    loading: state.cart.loading,
-    error: state.cart.error,
-    isDone: state.cart.isDone,
-    userId: state.auth.userId,
-    token: state.auth.token,
+    cart: cartSelecotrs.getCartItems(state),
+    loading: cartSelecotrs.getCartLoading(state),
+    error: cartSelecotrs.getCartError(state),
+    isDone: cartSelecotrs.getCartIsDone(state),
+    userId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthtoken(state),
   };
 };
 

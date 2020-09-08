@@ -5,6 +5,8 @@ import Button from "../common/FormElements/Button";
 import "./shoppingCartCss/ShoppingCartSummary.css";
 
 const ShoppingCartSummary = (props) => {
+  let oneProductOrder = props.item || null;
+
   return (
     <Card className="shopping-cart__sum">
       <h2 className="summary-header">Order Summary</h2>
@@ -13,7 +15,7 @@ const ShoppingCartSummary = (props) => {
         <div>{props.totalPrice + " $"}</div>
       </div>
       <div className="summary-vat">
-        <div>Vat: </div>
+        <div>VAT: </div>
         <div>{props.vat + " $"}</div>
       </div>
       <hr />
@@ -21,9 +23,16 @@ const ShoppingCartSummary = (props) => {
         <div>Total sum:</div>
         <div>{props.summary + " $"}</div>
       </div>
-      <div className="order-btn">
-        <Button buttonClass="order-now">Buy Now</Button>
-      </div>
+      {!oneProductOrder && (
+        <div className="order-btn">
+          <Button
+            to={`/${props.userId}/shoppingCart/summary`}
+            buttonClass="order-now"
+          >
+            Buy Now
+          </Button>
+        </div>
+      )}
     </Card>
   );
 };
