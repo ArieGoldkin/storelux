@@ -1,28 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import HomePage from "./home/HomePage";
 import AboutPage from "./about/AboutPage";
-import MainNavigation from "../components/common/Navigation/MainNavigation";
-import AllProducts from "../components/productComponents/AllProducts";
-import NewProduct from "./productComponents/NewProduct";
-import UpdateProduct from "./productComponents/UpdateProduct";
-import UserProducts from "./productComponents/UserProducts";
-import Auth from "./userComponents/Auth";
-import Users from "./userComponents/Users";
-import UserProfile from "./userComponents/UserProfile";
-import UpdateUserProfile from "./userComponents/UpdateUserProfile";
-import ShoppingCart from "./shoppingCartComponents/ShoppingCart";
-import Order from "./orderComponents/Order";
-import AllProductsOrder from "./orderComponents/AllProductsOrder";
 import Logout from "./userComponents/Logout";
+import MainNavigation from "../components/common/Navigation/MainNavigation";
+import LoadingSpinner from "./common/UIElements/LoadingSpinner";
 // import PageNotFound from "./common/PageNoFound";
 import * as actions from "./userComponents/usersActions/authActions";
 import { ToastContainer } from "react-toastify";
 import * as authSelectors from "./userComponents/selectors/AuthSelectors";
-
 import "react-toastify/dist/ReactToastify.css";
+
+const AllProducts = React.lazy(() =>
+  import("../components/productComponents/AllProducts")
+);
+const NewProduct = React.lazy(() => import("./productComponents/NewProduct"));
+const UpdateProduct = React.lazy(() =>
+  import("./productComponents/UpdateProduct")
+);
+const UserProducts = React.lazy(() =>
+  import("./productComponents/UserProducts")
+);
+const Auth = React.lazy(() => import("./userComponents/Auth"));
+const Users = React.lazy(() => import("./userComponents/Users"));
+const UserProfile = React.lazy(() => import("./userComponents/UserProfile"));
+const UpdateUserProfile = React.lazy(() =>
+  import("./userComponents/UpdateUserProfile")
+);
+const ShoppingCart = React.lazy(() =>
+  import("./shoppingCartComponents/ShoppingCart")
+);
+const Order = React.lazy(() => import("./orderComponents/Order"));
+const AllProductsOrder = React.lazy(() =>
+  import("./orderComponents/AllProductsOrder")
+);
 
 const App = ({ isAuthenticated, onTryAutoSignup }) => {
   let routes;
@@ -74,14 +87,23 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
   return (
     <div className="container-fluid">
       <MainNavigation />
-      <main>{routes}</main>
+      <main>
+        <Suspense
+          fallback={
+            <div className="center">
+              <LoadingSpinner />
+            </div>
+          }
+        >
+          {routes}
+        </Suspense>
+      </main>
     </div>
   );
 };
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: authSelectors.getAuthtoken(state),
-    // userId: state.auth.userId,
   };
 };
 
