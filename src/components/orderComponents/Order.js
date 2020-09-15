@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ErrorModal from "../common/UIElements/ErrorModal";
-import OrderInfo from "./OrderInfo";
+import ProductOrder from "./ProductOrder";
 import ShoppingCartSummary from "../shoppingCartComponents/ShoppingCartSummary";
 import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
 import * as authSelectors from "../userComponents//selectors/AuthSelectors";
@@ -31,8 +31,6 @@ const Order = (props) => {
   const [errorMessage, setErrorNessage] = useState(null);
 
   let product = products.find((product) => product.id === pcartId);
-  // console.log(product);
-  // console.log(products);
 
   useEffect(() => {
     if (!orderIsDone) {
@@ -57,15 +55,10 @@ const Order = (props) => {
   };
 
   useEffect(() => {
-    setOrder(product);
+    let productsArr = [];
+    productsArr.push(product);
+    setOrder(productsArr);
   }, [product, setOrder]);
-
-  // useEffect(() => {
-  //   if (canRemove) {
-  //     debugger;
-  //     onSuccessDeletefromCart(token, userId, product);
-  //   }
-  // }, [canRemove, onSuccessDeletefromCart, product, token, userId]);
 
   return (
     <>
@@ -78,7 +71,7 @@ const Order = (props) => {
         )}
         {!isLoading && (
           <>
-            <OrderInfo product={product} user={user} />
+            <ProductOrder product={product} user={user} />
             <ShoppingCartSummary
               item={product}
               totalPrice={totalPrice}
@@ -108,8 +101,6 @@ const mapStateToProps = (state) => {
 const mapDisptachToProps = (dispatch) => {
   return {
     setOrder: (product) => dispatch(actions.setOrderRequest(product)),
-    // onSuccessDeletefromCart: (token, userId, product) =>
-    //   dispatch(actions.DeleteFromCartAfterOrderRequest(token, userId, product)),
   };
 };
 

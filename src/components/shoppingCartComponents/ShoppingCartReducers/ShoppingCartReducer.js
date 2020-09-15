@@ -152,6 +152,13 @@ const removeItemFromCart = (state, action) => {
   });
 };
 
+const setCartLoading = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+    isDone: false,
+  });
+};
+
 export const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case Types.GET_CART_REQUSET:
@@ -174,6 +181,8 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return deleteProductCartRequest(state, action);
     case addToCartActions.ADD_TO_CART_REQUEST:
       return addingProductsToCart(state, action);
+    case orderActions.ADD_ORDER_SUCCESS:
+      return setCartLoading(state, action);
     case orderActions.REMOVE_ITEMS_FROM_CART_REQUESET:
       return removeItemFromCart(state, action);
     default:

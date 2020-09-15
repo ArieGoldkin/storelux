@@ -49,7 +49,7 @@ export const addProductToCart = ({
   image,
 }) => {
   return axios.post(
-    `/api/products/${userId}/shoppingCart`,
+    `/api/shoppingCart/${userId}`,
     { productId, quantity, title, category, price, units, description, image },
     {
       headers: {

@@ -11,6 +11,8 @@ export const Types = {
   REMOVE_ITEMS_FROM_CART_SUCCESS: "order/REMOVE_ITEMS_FROM_CART_SUCCESS",
   REMOVE_ITEMS_FROM_CART_FAILURE: "order/REMOVE_ITEMS_FROM_CART_FAILURE",
 
+  REMOVE_PRODUCTS_FROM_CART_REQUEST: "order/REMOVE_PRODUCTS_FROM_CART_REQUEST",
+
   SET_ORDER_REDIRECT_PATH: "order/SET_ORDER_REDIRECT_PATH",
 };
 
@@ -32,7 +34,7 @@ export const setOrderFaiulre = (error) => ({
 export const addOrderRequest = (
   userId,
   token,
-  product,
+  products,
   firstName,
   email,
   address,
@@ -42,7 +44,7 @@ export const addOrderRequest = (
   type: Types.ADD_ORDER_REQUEST,
   userId,
   token,
-  product,
+  products,
   firstName,
   email,
   address,
@@ -50,8 +52,9 @@ export const addOrderRequest = (
   orderSummary,
 });
 
-export const addOrderSuccess = () => ({
+export const addOrderSuccess = (order) => ({
   type: Types.ADD_ORDER_SUCCESS,
+  order,
 });
 
 export const addOrderFailure = (error) => ({
@@ -59,11 +62,18 @@ export const addOrderFailure = (error) => ({
   error,
 });
 
-export const DeleteFromCartAfterOrderRequest = (token, userId, productId) => ({
+export const DeleteFromCartAfterOrderRequest = (token, userId, product) => ({
   type: Types.REMOVE_ITEMS_FROM_CART_REQUESET,
   token,
   userId,
-  productId,
+  product: product,
+});
+
+export const DeleteProductsFromCart = (token, userId, products) => ({
+  type: Types.REMOVE_PRODUCTS_FROM_CART_REQUEST,
+  token,
+  userId,
+  products: products,
 });
 
 export const DeleteFromCartAfterOrderSuccess = () => ({

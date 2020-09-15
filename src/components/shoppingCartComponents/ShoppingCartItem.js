@@ -9,6 +9,7 @@ import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as cartSelectors from "./selectors/CartSelectors";
 import bin from "../../images/bin.png";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
+import "../productComponents/productsCss/AllProductsItem.css";
 
 const ShoppingCartItem = (props) => {
   const {
@@ -22,7 +23,6 @@ const ShoppingCartItem = (props) => {
     onDeleteProductCart,
   } = props;
 
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const [quantity, setQuantity] = useState(props.quantity);
@@ -76,12 +76,12 @@ const ShoppingCartItem = (props) => {
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      {isLoading && (
+      {productLoading && (
         <div className="loadingSpinerPosion">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && (
+      {!productLoading && (
         <li className="product-cart__item">
           <Card className="product-cart__content">
             <div className="product-cart__description">

@@ -56,7 +56,7 @@ const ImageUpload = (props) => {
           {!previewUrl &&
             (props.initialValue ? (
               <img
-                src={`http://localhost:5000/${props.initialValue}`}
+                src={`${process.env.REACT_APP_BACKEND_URL}/${props.initialValue}`}
                 alt="preview"
               />
             ) : (

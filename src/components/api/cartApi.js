@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getCartByUserId = ({ userId, token }) => {
-  return axios.get(`/api/products/${userId}/shoppingCart`, {
+  return axios.get(`/api/shoppingCart/${userId}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
@@ -15,7 +15,7 @@ export const updateProductQuantity = ({
   quantity,
 }) => {
   return axios.patch(
-    `/api/products/${userId}/shoppingCart`,
+    `/api/shoppingCart/${userId}`,
     { productId, quantity },
     {
       headers: {
@@ -26,9 +26,19 @@ export const updateProductQuantity = ({
 };
 
 export const deleteProductFromCart = (token, userId, productId) => {
-  return axios.delete(`/api/products/${userId}/shoppingCart/${productId}`, {
+  return axios.delete(`/api/shoppingCart/${userId}/${productId}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
+  });
+};
+
+export const deleteAllProductsFromCart = (token, userId, products) => {
+  debugger;
+  return axios.delete(`/api/shoppingCart/${userId}/summary`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: { products },
   });
 };

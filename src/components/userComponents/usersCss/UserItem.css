@@ -17,11 +17,14 @@
 
 .user-item a:hover,
 .user-item a:active {
-  background: #E9ECEF;
+  background: #e9ecef;
   text-decoration: none;
 }
 
-.user-item__content {
+.card.user-item__content {
+  padding: 0;
+}
+.cardPadding {
   padding: 0;
 }
 
@@ -43,7 +46,6 @@
 .user-item:hover h3,
 .user-item:active h3 {
   color: #292929;
-  
 }
 
 .user-item__info h3 {

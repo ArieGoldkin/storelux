@@ -15,7 +15,7 @@ import rootSaga from "./components/store/rootSaga";
 import "./index.css";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
 const sagaMiddleware = createSagaMiddleware();
 

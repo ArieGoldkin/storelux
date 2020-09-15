@@ -1,0 +1,32 @@
+.all_items_order_form {
+  margin-bottom: 1rem;
+}
+
+.order_shippment_address {
+  display: flex;
+}
+
+.one_item_card {
+  display: flex;
+  justify-content: space-between;
+  background-color: #9cbedf87;
+  margin-top: 1.5rem;
+}
+
+.order_summary {
+  width: 17rem;
+  padding-top: 1.5rem;
+}
+
+.order_button_position {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.order_info_left {
+  width: 25rem;
+  margin-right: 2rem;
+}
+.order_info_right {
+  width: 27rem;
+}

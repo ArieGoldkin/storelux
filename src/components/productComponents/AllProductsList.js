@@ -27,7 +27,7 @@ const AllProductsList = ({ products, users, searchValue }) => {
             <AllProductsItem
               key={product.id}
               id={product.id}
-              image={`http://localhost:5000/${product.image}`}
+              image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
               title={product.title}
               creatorId={users.map((user) =>
                 user.id === product.creator

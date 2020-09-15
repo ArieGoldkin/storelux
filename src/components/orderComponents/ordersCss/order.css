@@ -17,34 +17,14 @@
   display: flex;
 }
 
-.product-modal_image_item {
-  width: 30%;
-  padding: 1rem;
-}
-
-.product-modal_content_item {
-  display: inherit;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30%;
-  padding-bottom: 1rem;
-}
-
 .shippment_address {
   width: 18rem;
 }
 
-.order_info {
-  width: 100%;
-}
 .shippment_info_title {
   margin-bottom: 0;
 }
-.product-modal_qun-orderItem {
-  display: flex;
-  width: 6rem;
-  justify-content: space-between;
-}
+
 .orderItem_summary {
   width: 25%;
 }

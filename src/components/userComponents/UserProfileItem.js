@@ -12,7 +12,7 @@ const UserProfileItem = ({ user }) => {
           <div className="user-profile__profile-name">
             <div className="avatar-size">
               <Avatar
-                image={`http://localhost:5000/${user.image}`}
+                image={`${process.env.REACT_APP_BACKEND_URL}/${user.image}`}
                 alt={user.firstName}
               />
             </div>

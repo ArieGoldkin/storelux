@@ -9,7 +9,6 @@ function* setOrder(action) {
   console.log(action);
   try {
     yield put(actions.setOrderSuccess(action.items));
-    console.log(action);
   } catch (e) {
     yield put(
       actions.setOrderFaiulre({
@@ -32,7 +31,7 @@ function* addNewOrder(action) {
       email: action.email,
       address: action.address,
       phone: action.phone,
-      product: action.product,
+      items: action.products,
       orderSummary: action.orderSummary,
     });
     yield put(actions.addOrderSuccess(responseData.data.order));
@@ -50,37 +49,35 @@ function* watchaddNewOrderRequest() {
   yield takeLatest(actions.Types.ADD_ORDER_REQUEST, addNewOrder);
 }
 
-// function* getCartAfterOrder(action) {
+// function* deleteProductsFromCart({ token, userId, products }) {
+
+//   console.log(products);
 //   try {
-//     const responseData = yield call(cartApi.getCartByUserId, {
-//       userId: action.userId,
-//       token: action.token,
-//     });
-//     yield put(cartActions.getCartSuccess(responseData.data.cart));
-//     console.log(responseData);
+//     debugger;
+//     yield call(cartApi.deleteProductFromCart, token, userId, products);
+//     yield put(actions.DeleteFromCartAfterOrderSuccess(productId));
+//     yield take(cartActions.Types.GET_CART_REQUSET);
+//     yield toast.info("Order removed successfuly from cart.");
 //   } catch (e) {
 //     yield put(
-//       cartActions.getCartFailure({
-//         error:
-//           "An error happend, Could't get cart from server, please try again.",
+//       actions.DeleteFromCartAfterOrderFaiulre({
+//         error: "Could not delete product from cart, please try again.",
 //       })
 //     );
 //   }
 // }
 
-function* deleteFromCart({ token, userId, productId }) {
+function* deleteFromCart({ token, userId, product }) {
+  let productId = product.id;
   try {
-    //delete in porgrass make some logic befor delete
-
     yield call(cartApi.deleteProductFromCart, token, userId, productId);
     yield put(actions.DeleteFromCartAfterOrderSuccess(productId));
-    yield put(cartActions.getCartRequest(userId, token));
-    // yield call(getCartAfterOrder, { userId, token });
+    yield take(cartActions.Types.GET_CART_REQUSET);
     yield toast.info("Order removed successfuly from cart.");
   } catch (e) {
     yield put(
       actions.DeleteFromCartAfterOrderFaiulre({
-        error: "COuld not delete product from cart, please try again.",
+        error: "Could not delete product from cart, please try again.",
       })
     );
   }
@@ -91,10 +88,41 @@ function* watchDeleteFromCartAfterSuccess() {
     const deleteAction = yield take(
       actions.Types.REMOVE_ITEMS_FROM_CART_REQUESET
     );
+    console.log(deleteAction);
     yield call(deleteFromCart, {
       token: deleteAction.token,
       userId: deleteAction.userId,
-      productId: deleteAction.productId,
+      product: deleteAction.product,
+    });
+  }
+}
+
+function* deleteProductsFromCart({ token, userId, products }) {
+  try {
+    debugger;
+    yield call(cartApi.deleteAllProductsFromCart, token, userId, products);
+    yield put(actions.DeleteFromCartAfterOrderSuccess(products));
+    yield take(cartActions.Types.GET_CART_REQUSET);
+    yield toast.info("Order removed successfuly from cart.");
+  } catch (e) {
+    yield put(
+      actions.DeleteFromCartAfterOrderFaiulre({
+        error: "Could not delete product from cart, please try again.",
+      })
+    );
+  }
+}
+
+function* watchDeleteProductsFromCartRequest() {
+  while (true) {
+    const deleteAction = yield take(
+      actions.Types.REMOVE_PRODUCTS_FROM_CART_REQUEST
+    );
+    console.log(deleteAction);
+    yield call(deleteProductsFromCart, {
+      token: deleteAction.token,
+      userId: deleteAction.userId,
+      products: deleteAction.products,
     });
   }
 }
@@ -103,6 +131,7 @@ const orderSagas = [
   fork(watchSetOrderRequest),
   fork(watchaddNewOrderRequest),
   fork(watchDeleteFromCartAfterSuccess),
+  fork(watchDeleteProductsFromCartRequest),
 ];
 
 export default orderSagas;

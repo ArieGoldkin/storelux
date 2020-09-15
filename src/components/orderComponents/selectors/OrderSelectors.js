@@ -12,3 +12,9 @@ export const getOrderRedirect = (state) => state.order.canRedirect;
 export const getOrderCanRemove = (state) => state.order.canRemove;
 
 export const getOrderRedirectPath = (state) => state.order.orderRedirect;
+
+export const getOrderIsDone = (state) => state.order.isDone;
+
+export const getOrderItems = (state) => state.order.items;
+
+export const getOrderIsSet = (state) => state.order.isSet;

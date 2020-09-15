@@ -3,7 +3,7 @@ import axios from "axios";
 export const addOrder = ({
   userId,
   token,
-  product,
+  items,
   firstName,
   email,
   address,
@@ -12,7 +12,7 @@ export const addOrder = ({
 }) => {
   return axios.post(
     `/api/orders/${userId}/neworder`,
-    { product, firstName, email, address, phone, orderSummary },
+    { items, firstName, email, address, phone, orderSummary },
     {
       headers: {
         Authorization: "Bearer " + token,

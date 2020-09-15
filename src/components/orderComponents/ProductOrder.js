@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import Card from "../common/UIElements/Card";
-import Avatar from "../common/UIElements/Avatar";
 import Button from "../common/FormElements/Button";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ErrorModal from "../common/UIElements/ErrorModal";
@@ -23,7 +22,8 @@ import * as usersActions from "../userComponents/usersActions/UserActions";
 import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/order.css";
 
-const OrderInfo = ({
+const ProductOrder = ({
+  orderItems,
   product,
   user,
   orderLoading,
@@ -42,7 +42,6 @@ const OrderInfo = ({
   onSuccessDeletefromCart,
   seller,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const [formState, inputHandler, setFormData] = useForm();
 
@@ -138,7 +137,7 @@ const OrderInfo = ({
     addNewOrder(
       userId,
       token,
-      product,
+      orderItems,
       firstName,
       email,
       address,
@@ -155,12 +154,12 @@ const OrderInfo = ({
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      {isLoading && (
+      {orderLoading && (
         <div className="loadingSpinerOrderPosition">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && (
+      {!orderLoading && (
         <>
           {orderRedirect}
           <Card className="order_item">
@@ -245,6 +244,7 @@ const mapStateToProps = (state) => {
     products: cartSelectors.getCartItems(state),
     orderLoading: orderSelectors.getOrderLoading(state),
     orderError: orderSelectors.getOrderError(state),
+    orderItems: orderSelectors.getOrderItems(state),
     usersIsDone: userSelctors.getUsersIsDone(state),
     orderSummary: orderSelectors.getOrderSummary(state),
     canRedirect: orderSelectors.getOrderRedirect(state),
@@ -291,4 +291,4 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.DeleteFromCartAfterOrderRequest(token, userId, product)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(OrderInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductOrder);
