@@ -1,0 +1,13 @@
+.addCategory_wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.addCategory_content {
+  width: 40%;
+  margin: 1rem auto;
+}
+
+.btnCategorySubmit {
+  margin-top: 1rem;
+}

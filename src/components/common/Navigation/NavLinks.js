@@ -2,12 +2,18 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
+import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
+import AdminOptionDrawer from "../../adminComponents/AdminOptionDrawer";
 import "./NavLinks.css";
 
-const NavLinks = ({ isAuthenticated, userId }) => {
-
+const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
   return (
     <ul className="nav-links">
+      {isAdmin && (
+        <li>
+          <AdminOptionDrawer />
+        </li>
+      )}
       <li>
         <NavLink to="/" exact>
           HOME
@@ -55,8 +61,9 @@ const NavLinks = ({ isAuthenticated, userId }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.auth.token !== null,
-    userId: state.auth.userId,
+    isAuthenticated: authSelectors.getAuthtoken(state),
+    userId: authSelectors.getAuthUserId(state),
+    isAdmin: authSelectors.getAuthAdmin(state),
   };
 };
 

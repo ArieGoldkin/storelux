@@ -7,6 +7,7 @@ import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as cartSelectors from "./selectors/CartSelectors";
+import * as orderSelectors from "../orderComponents/selectors/OrderSelectors";
 import bin from "../../images/bin.png";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
 import "../productComponents/productsCss/AllProductsItem.css";
@@ -18,7 +19,8 @@ const ShoppingCartItem = (props) => {
     addQuantity,
     removeQuantity,
     updateProductInCart,
-    productLoading,
+    // productLoading,
+    orderLoading,
     productError,
     onDeleteProductCart,
   } = props;
@@ -71,17 +73,17 @@ const ShoppingCartItem = (props) => {
     if (productError) {
       setErrorMessage(productError.error);
     }
-  }, [productError, productLoading]);
+  }, [productError]);
 
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      {productLoading && (
+      {orderLoading && (
         <div className="loadingSpinerPosion">
           <LoadingSpinner />
         </div>
       )}
-      {!productLoading && (
+      {!orderLoading && (
         <li className="product-cart__item">
           <Card className="product-cart__content">
             <div className="product-cart__description">
@@ -130,8 +132,9 @@ const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
     token: authSelectors.getAuthtoken(state),
-    productLoading: cartSelectors.getCartProductLoading(state),
+    // productLoading: cartSelectors.getCartProductLoading(state),
     productError: cartSelectors.getCartProductError(state),
+    orderLoading: orderSelectors.getOrderLoading(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

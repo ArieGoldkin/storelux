@@ -88,7 +88,7 @@
 .loadingSpinerPosition {
   display: flex;
   justify-content: center;
-  width: 26%;
+  width: 25%;
   padding-top: 6rem;
   height: 20vh;
 }
