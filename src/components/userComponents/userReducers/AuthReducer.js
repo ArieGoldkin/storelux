@@ -7,10 +7,16 @@ const initialState = {
   error: null,
   loading: false,
   isLogin: false,
+  isAdmin: false,
 };
 
 const authStart = (state, action) => {
-  return updateObject(state, { error: null, loading: true, isLogin: false });
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    isLogin: false,
+    isAdmin: false,
+  });
 };
 
 const authUserSuccess = (state, action) => {
@@ -21,6 +27,7 @@ const authUserSuccess = (state, action) => {
     error: null,
     loading: false,
     isLogin: true,
+    isAdmin: action.admin,
   });
 };
 
@@ -33,7 +40,12 @@ const AuthUserFailure = (state, action) => {
 };
 
 const authLogout = (state, action) => {
-  return updateObject(state, { token: null, userId: null, isLogin: false });
+  return updateObject(state, {
+    token: null,
+    userId: null,
+    isLogin: false,
+    isAdmin: false,
+  });
 };
 
 export default function authReducer(state = initialState, action) {

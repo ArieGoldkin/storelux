@@ -29,11 +29,12 @@ export const Auth = (firstName, lastName, email, password) => ({
   },
 });
 
-export const AuthSuccess = (token, userId) => {
+export const AuthSuccess = (token, userId, admin) => {
   return {
     type: Types.USER_AUTH_SUCCESS,
     token: token,
     userId: userId,
+    admin: admin,
   };
 };
 
@@ -50,11 +51,12 @@ export const LoginAuth = (email, password) => ({
   },
 });
 
-export const LoginSuccess = (token, userId) => {
+export const LoginSuccess = (token, userId, admin) => {
   return {
     type: Types.USER_LOGIN_SUCCESS,
     token: token,
     userId: userId,
+    admin: admin,
   };
 };
 

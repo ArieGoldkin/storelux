@@ -12,6 +12,7 @@ import * as actions from "./userComponents/usersActions/authActions";
 import { ToastContainer } from "react-toastify";
 import * as authSelectors from "./userComponents/selectors/AuthSelectors";
 import "react-toastify/dist/ReactToastify.css";
+import AddCategory from "./adminComponents/addCategory/AddCategory";
 
 const AllProducts = React.lazy(() =>
   import("../components/productComponents/AllProducts")
@@ -37,7 +38,7 @@ const AllProductsOrder = React.lazy(() =>
   import("./orderComponents/AllProductsOrder")
 );
 
-const App = ({ isAuthenticated, onTryAutoSignup }) => {
+const App = ({ isAuthenticated, onTryAutoSignup, isAdmin }) => {
   let routes;
   useEffect(() => {
     onTryAutoSignup();
@@ -63,6 +64,7 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
           <Route path="/product/:productId" component={UpdateProduct} />
           <Route path="/about" component={AboutPage} />
           <Route path="/logout" component={Logout} />
+          {isAdmin && <Route path="/addcategory" component={AddCategory} />}
           <Redirect to="/products" />
           {/* <Route component={PageNotFound} /> */}
         </Switch>
@@ -104,6 +106,7 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: authSelectors.getAuthtoken(state),
+    isAdmin: authSelectors.getAuthAdmin(state),
   };
 };
 

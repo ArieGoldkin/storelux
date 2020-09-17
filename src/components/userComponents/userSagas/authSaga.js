@@ -51,7 +51,10 @@ function* loginUser(action) {
     yield localStorage.setItem("token", user.data.token);
     yield localStorage.setItem("userId", user.data.userId);
     yield localStorage.setItem("expiresIn", tokenExpirationTime);
-    yield put(actions.LoginSuccess(user.data.token, user.data.userId));
+    yield localStorage.setItem("isAdmin", user.data.admin);
+    yield put(
+      actions.LoginSuccess(user.data.token, user.data.userId, user.data.admin)
+    );
     yield put(actions.checkAuthTimeout(getCurrentTime));
   } catch (e) {
     yield put(
@@ -69,6 +72,7 @@ function* logoutUser(action) {
   yield call([localStorage, "removeItem"], "token");
   yield call([localStorage, "removeItem"], "userId");
   yield call([localStorage, "removeItem"], "expiresIn");
+  yield call([localStorage, "removeItem"], "isAdmin");
   yield put(actions.logoutSucceed());
 }
 
@@ -95,7 +99,8 @@ function* authCheckStateSaga(action) {
       yield put(actions.logout());
     } else {
       const userId = yield localStorage.getItem("userId");
-      yield put(actions.AuthSuccess(token, userId));
+      const isAdmin = yield localStorage.getItem("isAdmin");
+      yield put(actions.AuthSuccess(token, userId, isAdmin));
       yield put(
         actions.checkAuthTimeout(
           (expirationDate.getTime() - new Date().getTime()) / 1000
