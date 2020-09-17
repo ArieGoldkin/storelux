@@ -49,24 +49,6 @@ function* watchaddNewOrderRequest() {
   yield takeLatest(actions.Types.ADD_ORDER_REQUEST, addNewOrder);
 }
 
-// function* deleteProductsFromCart({ token, userId, products }) {
-
-//   console.log(products);
-//   try {
-//     debugger;
-//     yield call(cartApi.deleteProductFromCart, token, userId, products);
-//     yield put(actions.DeleteFromCartAfterOrderSuccess(productId));
-//     yield take(cartActions.Types.GET_CART_REQUSET);
-//     yield toast.info("Order removed successfuly from cart.");
-//   } catch (e) {
-//     yield put(
-//       actions.DeleteFromCartAfterOrderFaiulre({
-//         error: "Could not delete product from cart, please try again.",
-//       })
-//     );
-//   }
-// }
-
 function* deleteFromCart({ token, userId, product }) {
   let productId = product.id;
   try {

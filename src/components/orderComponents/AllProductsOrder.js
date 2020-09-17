@@ -54,6 +54,14 @@ export const AllProductsOrder = ({
     if (!user.address || !user.phone) {
       setFormData(
         {
+          firstName: {
+            value: user.firstName,
+            isValid: true,
+          },
+          email: {
+            value: user.email,
+            isValid: true,
+          },
           address: {
             value: "",
             isValid: false,

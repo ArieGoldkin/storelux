@@ -49,6 +49,14 @@ const ProductOrder = ({
     if (!user.address || !user.phone) {
       setFormData(
         {
+          firstName: {
+            value: user.firstName,
+            isValid: true,
+          },
+          email: {
+            value: user.email,
+            isValid: true,
+          },
           address: {
             value: "",
             isValid: false,
@@ -134,6 +142,7 @@ const ProductOrder = ({
     const email = formState.inputs.email.value;
     const address = formState.inputs.address.value;
     const phone = formState.inputs.phone.value;
+
     addNewOrder(
       userId,
       token,
