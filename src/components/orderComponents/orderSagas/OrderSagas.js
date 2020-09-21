@@ -81,7 +81,6 @@ function* watchDeleteFromCartAfterSuccess() {
 
 function* deleteProductsFromCart({ token, userId, products }) {
   try {
-    debugger;
     yield call(cartApi.deleteAllProductsFromCart, token, userId, products);
     yield put(actions.DeleteFromCartAfterOrderSuccess(products));
     yield take(cartActions.Types.GET_CART_REQUSET);

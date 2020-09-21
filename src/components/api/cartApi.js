@@ -34,7 +34,6 @@ export const deleteProductFromCart = (token, userId, productId) => {
 };
 
 export const deleteAllProductsFromCart = (token, userId, products) => {
-  debugger;
   return axios.delete(`/api/shoppingCart/${userId}/summary`, {
     headers: {
       Authorization: "Bearer " + token,
