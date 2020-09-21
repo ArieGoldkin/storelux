@@ -132,7 +132,7 @@ const AllProductsItem = (props) => {
         <td>{props.price + "$"}</td>
         <td>{props.units}</td>
         <td className="btn_td">
-          <Button onClick={openProductHandler}>VIEW</Button>
+          <Button onClick={openProductHandler}>Add to Cart</Button>
         </td>
       </tr>
     </>
