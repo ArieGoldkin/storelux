@@ -7,7 +7,7 @@ const initialState = {
   error: null,
   loading: false,
   isLogin: false,
-  isAdmin: false,
+  isAdmin: null,
 };
 
 const authStart = (state, action) => {
@@ -15,7 +15,7 @@ const authStart = (state, action) => {
     error: null,
     loading: true,
     isLogin: false,
-    isAdmin: false,
+    isAdmin: null,
   });
 };
 
