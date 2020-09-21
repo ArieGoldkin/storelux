@@ -181,7 +181,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return deleteProductCartRequest(state, action);
     case addToCartActions.ADD_TO_CART_REQUEST:
       return addingProductsToCart(state, action);
-    case orderActions.ADD_ORDER_SUCCESS:
+    case orderActions.ADD_ORDER_REQUEST:
       return setCartLoading(state, action);
     case orderActions.REMOVE_ITEMS_FROM_CART_REQUESET:
       return removeItemFromCart(state, action);

@@ -1,6 +1,8 @@
 import { Types } from "../productsActions/productsActions";
 import { updateObject } from "../../store/utility";
 
+import { Types as OrderActions } from "../../orderComponents/orderActions/OrderActions";
+
 const initialState = {
   items: [], //products
   error: null,
@@ -41,6 +43,14 @@ const onCreateOrDeleteProductSuccess = (state, action) => {
   });
 };
 
+
+const updateOrdersQuantityState = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+    isDone: false,
+  });
+};
+
 export default function products(state = initialState, action) {
   switch (action.type) {
     case Types.GET_PRODUCTS_REQUEST:
@@ -53,6 +63,8 @@ export default function products(state = initialState, action) {
       return onCreateOrDeleteProductSuccess(state, action);
     case Types.DELETE_PRODUCT_SUCCESS:
       return onCreateOrDeleteProductSuccess(state, action);
+    case OrderActions.ADD_ORDER_SUCCESS:
+      return updateOrdersQuantityState(state, action);
     default:
       return state;
   }
