@@ -9,7 +9,7 @@ import "./NavLinks.css";
 const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
   return (
     <ul className="nav-links">
-      {isAdmin && (
+      {isAdmin === "admin" && (
         <li>
           <AdminOptionDrawer />
         </li>
