@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -9,6 +10,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
+import * as actions from "../adminActions/adminActions";
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -32,10 +35,20 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected, selectedItems } = props;
+  const {
+    numSelected,
+    selectedItems,
+    isAdmin,
+    adminId,
+    token,
+    onDeleteRequest,
+  } = props;
 
   const deleteHandler = () => {
     console.log(selectedItems);
+    if (isAdmin === "admin") {
+      onDeleteRequest({ selectedItems, adminId, token });
+    }
   };
 
   return (
@@ -66,8 +79,8 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon onClick={deleteHandler} />
+          <IconButton aria-label="delete" onClick={deleteHandler}>
+            <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
@@ -85,4 +98,23 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default EnhancedTableToolbar;
+const mapStateToProps = (state) => {
+  return {
+    isAdmin: authSelectors.getAuthAdmin(state),
+    adminId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthtoken(state),
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDeleteRequest: ({ selectedItems, adminId, token }) =>
+      dispatch(
+        actions.DeleteProductsRequest({ selectedItems, adminId, token })
+      ),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EnhancedTableToolbar);
