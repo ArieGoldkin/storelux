@@ -6,6 +6,7 @@ import authSagas from "../userComponents/userSagas/authSaga";
 import categoriesSagas from "../categoriesComponents/categoriesSaga";
 import cartSagas from "../shoppingCartComponents/shoppingCartSagas/ShoppingCartSaga";
 import orderSagas from "../orderComponents/orderSagas/OrderSagas";
+import adminSagas from "../adminComponents/adminSaga/adminSagas";
 
 const combineSagas = [
   ...productsSagas,
@@ -15,6 +16,7 @@ const combineSagas = [
   ...categoriesSagas,
   ...cartSagas,
   ...orderSagas,
+  ...adminSagas,
 ];
 
 export default function* rootSaga() {
