@@ -1,6 +1,7 @@
 import { Types } from "../productsActions/productsActions";
 import { updateObject } from "../../store/utility";
 
+import { Types as adminActions } from "../../adminComponents/adminActions/adminActions";
 import { Types as OrderActions } from "../../orderComponents/orderActions/OrderActions";
 
 const initialState = {
@@ -9,6 +10,7 @@ const initialState = {
   loading: true,
   isDone: false,
   failure: false,
+  itemLoading: false,
 };
 
 const requestProductsStart = (state, action) => {
@@ -37,17 +39,42 @@ const getProductsFailure = (state, action) => {
   });
 };
 
-const onCreateOrDeleteProductSuccess = (state, action) => {
+const onDeleteProductSuccess = (state, action) => {
   return updateObject(state, {
     isDone: false,
   });
 };
 
+const onCreateProductSuccess = (state, action) => {
+  console.log(action);
+  return updateObject(state, {
+    items: state.items.concat(action.product),
+    isDone: false,
+  });
+};
 
 const updateOrdersQuantityState = (state, action) => {
   return updateObject(state, {
     loading: true,
     isDone: false,
+  });
+};
+
+const requestproductStart = (state, action) => {
+  return updateObject(state, {
+    isDone: false,
+    itemLoading: true,
+  });
+};
+const adminDeleteSuccess = (state, action) => {
+  return updateObject(state, {
+    items: state.items.filter((item) => {
+      return !action.items.includes(item.id);
+    }),
+    error: null,
+    loading: false,
+    isDone: true,
+    itemLoading: false,
   });
 };
 
@@ -60,11 +87,17 @@ export default function products(state = initialState, action) {
     case Types.GET_PRODUCTS_FAILURE:
       return getProductsFailure(state, action);
     case Types.CREATE_PRODUCT_SUCCESS:
-      return onCreateOrDeleteProductSuccess(state, action);
+      return onCreateProductSuccess(state, action);
     case Types.DELETE_PRODUCT_SUCCESS:
-      return onCreateOrDeleteProductSuccess(state, action);
+      return onDeleteProductSuccess(state, action);
     case OrderActions.ADD_ORDER_SUCCESS:
       return updateOrdersQuantityState(state, action);
+    case adminActions.DELETE_PRODUCTS_REQUESET:
+      return requestproductStart(state, action);
+    case adminActions.DELETE_PRODUCTS_SUCCESS:
+      return adminDeleteSuccess(state, action);
+    case adminActions.DELETE_PRODUCTS_FAILURE:
+      return getProductsFailure(state, action);
     default:
       return state;
   }
