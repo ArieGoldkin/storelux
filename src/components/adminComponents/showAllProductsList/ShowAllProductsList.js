@@ -94,6 +94,7 @@ const ShowAllProductsList = ({
   loadUsers,
   productsError,
   usersError,
+  productLoading,
 }) => {
   const classes = useStyles();
 
@@ -104,7 +105,7 @@ const ShowAllProductsList = ({
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("title");
   const [selected, setSelected] = useState([]);
-  console.log(selected);
+  // console.log(selected);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -123,7 +124,7 @@ const ShowAllProductsList = ({
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = products.map((n) => n.name);
+      const newSelecteds = products.map((product) => product.id);
       setSelected(newSelecteds);
       return;
     }
@@ -220,7 +221,7 @@ const ShowAllProductsList = ({
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
-                          key={product.title}
+                          key={product.id}
                           selected={isItemSelected}
                         >
                           <TableCell padding="checkbox">
@@ -230,7 +231,7 @@ const ShowAllProductsList = ({
                             />
                           </TableCell>
                           <ShowAllProductsItem
-                            key={product.title}
+                            key={product.id}
                             title={product.title}
                             owner={users.map((user) =>
                               user.id === product.creator
@@ -271,6 +272,7 @@ const mapStateToProps = (state) => {
     users: userSelectors.getUsers(state),
     usersError: userSelectors.getUsersError(state),
     productsError: productSelectors.getProductsError(state),
+    productLoading: productSelectors.getItemLoading(state),
   };
 };
 
