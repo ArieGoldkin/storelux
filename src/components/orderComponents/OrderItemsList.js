@@ -5,7 +5,7 @@ import ItemSummary from "./ItemSummary";
 import OrderItem from "./OrderItem";
 import "./ordersCss/OrderItemsList.css";
 
-const OrderItemsList = ({ items }) => {
+const OrderItemsList = ({ items, currentVat }) => {
   const imageStyle = {
     width: "12rem",
     height: "11rem",
@@ -34,6 +34,7 @@ const OrderItemsList = ({ items }) => {
             />
             <ItemSummary
               className="order_summary"
+              vatRate={currentVat}
               quantity={product.quantity}
               price={product.price}
             />
