@@ -44,9 +44,8 @@ const AddCategory = ({
 
   const onSubmitCategory = (event) => {
     event.preventDefault();
-    // const category = formState.Input.category.value;
-    console.log(formState.inputs.category.value);
-    onAddCategory(formState.inputs.category.value, adminId, token);
+    const category = formState.inputs.category.value.trim();
+    onAddCategory(category, adminId, token);
   };
 
   const clearError = () => {
@@ -62,29 +61,27 @@ const AddCategory = ({
         </div>
       )}
       {!isLoading && (
-        <div className="addCategory_wrapper">
-          <Card className="addCategory_content">
-            <h3>Add new Category</h3>
-            <form onSubmit={onSubmitCategory}>
-              <Input
-                id="category"
-                type="text"
-                element="input"
-                label="Category"
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText="Please enter a valid title."
-                onInput={inputHandler}
-              />
-              <Button
-                type="submit"
-                buttonClass="btnCategorySubmit"
-                disabled={!formState.isValid}
-              >
-                ADD CATEGORY
-              </Button>
-            </form>
-          </Card>
-        </div>
+        <Card className="addCategory_content">
+          <h3>Add new Category</h3>
+          <form onSubmit={onSubmitCategory}>
+            <Input
+              id="category"
+              type="text"
+              element="input"
+              label="Category"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter a valid title."
+              onInput={inputHandler}
+            />
+            <Button
+              type="submit"
+              buttonClass="btnCategorySubmit"
+              disabled={!formState.isValid}
+            >
+              ADD CATEGORY
+            </Button>
+          </form>
+        </Card>
       )}
     </>
   );
