@@ -14,3 +14,5 @@ export const getCartProductLoading = (state) =>
   state.cart.product.productLoading;
 
 export const getCartProductError = (state) => state.cart.product.productError;
+
+export const getCurrentVatRate = (state) => state.cart.cartSummary.currentVat;
