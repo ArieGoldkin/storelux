@@ -19,15 +19,17 @@ export const Types = {
   SET_TOTAL_SUMMARY_FAILURE: "cart/SET_TOTAL_SUMMARY_FAILURE",
 };
 
-export const getCartRequest = (userId, token) => ({
+export const getCartRequest = (userId, token, vatRate) => ({
   type: Types.GET_CART_REQUSET,
   userId,
   token,
+  vatRate,
 });
 
-export const getCartSuccess = (items) => ({
+export const getCartSuccess = (items, cartSum) => ({
   type: Types.GET_CART_SUCCESS,
   items: items,
+  cartSum: cartSum,
 });
 
 export const getCartFailure = (error) => ({
@@ -49,7 +51,8 @@ export const setProductQuantityRequest = (
   userId,
   token,
   productId,
-  quantity
+  quantity,
+  vatRate
 ) => ({
   type: Types.SET_PRODUCT_QUANTITY_REQUEST,
   payload: {
@@ -57,11 +60,15 @@ export const setProductQuantityRequest = (
     quantity: quantity,
     userId: userId,
     token: token,
+    vatRate,
   },
 });
 
-export const setProductQuantitySuccess = () => ({
+export const setProductQuantitySuccess = (cartSummary) => ({
   type: Types.SET_PRODUCT_QUANTITY_SUCCESS,
+  payload: {
+    cartSummary,
+  },
 });
 
 export const setProductQuantityFailure = (error) => ({
