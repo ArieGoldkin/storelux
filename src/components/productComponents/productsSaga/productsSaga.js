@@ -1,6 +1,7 @@
 import { takeLatest, call, put, fork, take } from "redux-saga/effects";
 import * as actions from "../productsActions/productsActions";
 import * as api from "../../api/productsApi";
+import { toast } from "react-toastify";
 
 function* getProducts() {
   try {
@@ -32,6 +33,7 @@ function* createProduct(action) {
     });
     yield put(actions.createProductSuccess(responseData.data.product));
     console.log(responseData);
+    yield toast.info("Product successfully added.");
   } catch (e) {
     yield put(
       actions.createProductFailure({

@@ -49,7 +49,7 @@ const onCreateProductSuccess = (state, action) => {
   console.log(action);
   return updateObject(state, {
     items: state.items.concat(action.product),
-    isDone: false,
+    isDone: true,
   });
 };
 
