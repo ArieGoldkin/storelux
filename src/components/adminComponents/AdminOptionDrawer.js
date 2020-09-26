@@ -10,6 +10,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import MonetizationOnOutlinedIcon from "@material-ui/icons/MonetizationOnOutlined";
+import ListIcon from "@material-ui/icons/List";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
@@ -54,7 +56,8 @@ const AdminOptionDrawer = (props) => {
   const listOptionObject = [
     { title: "Add new category", linkTo: "/admin/addcategory" },
     { title: "Show all products", linkTo: "/admin/showallProducts" },
-    { title: "Fixed rate changes", linkTo: "/ratechanges" },
+    { title: "Fixed rate changes", linkTo: "/admin/ratechanges" },
+    { title: "All orders", linkTo: "/admin/allorders" },
   ];
 
   const list = (anchor) => (
@@ -75,6 +78,10 @@ const AdminOptionDrawer = (props) => {
                   <AddCircleOutlineRoundedIcon />
                 )}
                 {type.title === "Show all products" && <ViewListIcon />}
+                {type.title === "Fixed rate changes" && (
+                  <MonetizationOnOutlinedIcon />
+                )}
+                {type.title === "All orders" && <ListIcon />}
               </ListItemIcon>
               <ListItemText primary={type.title} />
             </ListItem>
