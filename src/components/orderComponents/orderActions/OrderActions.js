@@ -16,14 +16,20 @@ export const Types = {
   SET_ORDER_REDIRECT_PATH: "order/SET_ORDER_REDIRECT_PATH",
 };
 
-export const setOrderRequest = (items) => ({
+export const setOrderRequest = (items, vatRate) => ({
   type: Types.SET_ORDER_REQUEST,
-  items: items,
+  payload: {
+    items: items,
+    vatRate: vatRate,
+  },
 });
 
-export const setOrderSuccess = (items) => ({
+export const setOrderSuccess = (items, orderSummary) => ({
   type: Types.SET_ORDER_SUCCESS,
-  items: items,
+  payload: {
+    items: items,
+    orderSummary: orderSummary,
+  },
 });
 
 export const setOrderFaiulre = (error) => ({
