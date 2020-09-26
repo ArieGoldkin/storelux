@@ -8,6 +8,7 @@ import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as cartSelectors from "./selectors/CartSelectors";
 import * as orderSelectors from "../orderComponents/selectors/OrderSelectors";
+import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
 import bin from "../../images/bin.png";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
 import "../productComponents/productsCss/AllProductsItem.css";
@@ -23,6 +24,7 @@ const ShoppingCartItem = (props) => {
     orderLoading,
     productError,
     onDeleteProductCart,
+    vatRate,
   } = props;
 
   const [errorMessage, setErrorMessage] = useState(null);
@@ -56,13 +58,21 @@ const ShoppingCartItem = (props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (quantity !== props.quantity) {
-        updateProductInCart(userId, token, productId, quantity);
+        updateProductInCart(userId, token, productId, quantity, vatRate);
       }
     }, 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [productId, props.quantity, quantity, token, updateProductInCart, userId]);
+  }, [
+    productId,
+    props.quantity,
+    quantity,
+    token,
+    updateProductInCart,
+    userId,
+    vatRate,
+  ]);
 
   useEffect(() => {
     // if (productLoading) {
@@ -135,6 +145,7 @@ const mapStateToProps = (state) => {
     // productLoading: cartSelectors.getCartProductLoading(state),
     productError: cartSelectors.getCartProductError(state),
     orderLoading: orderSelectors.getOrderLoading(state),
+    vatRate: adminSelectors.getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -143,13 +154,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionTypes.addProductQuantity(productId)),
     removeQuantity: (productId) =>
       dispatch(actionTypes.removeProductQuantity(productId)),
-    updateProductInCart: (userId, token, productId, quantity) =>
+    updateProductInCart: (userId, token, productId, quantity, vatRate) =>
       dispatch(
         actionTypes.setProductQuantityRequest(
           userId,
           token,
           productId,
-          quantity
+          quantity,
+          vatRate
         )
       ),
     onDeleteProductCart: (token, userId, productId) =>

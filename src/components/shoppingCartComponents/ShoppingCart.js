@@ -7,6 +7,7 @@ import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as cartSelecotrs from "./selectors/CartSelectors";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
+import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
 import "./shoppingCartCss/ShoppingCartList.css";
 
 const ShoppingCart = ({
@@ -17,15 +18,17 @@ const ShoppingCart = ({
   isDone,
   loadCart,
   error,
+  loadVatRate,
+  vatRate,
 }) => {
   const [errorMessage, setErrorNessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!isDone) {
-      loadCart(userId, token);
+      loadCart(userId, token, vatRate);
     }
-  }, [isDone, loadCart, token, userId]);
+  }, [isDone, loadCart, token, userId, loadVatRate, vatRate]);
 
   useEffect(() => {
     if (loading) {
@@ -66,13 +69,14 @@ const mapStateToProps = (state) => {
     isDone: cartSelecotrs.getCartIsDone(state),
     userId: authSelectors.getAuthUserId(state),
     token: authSelectors.getAuthtoken(state),
+    vatRate: adminSelectors.getCurrentVatRate(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCart: (userId, token) =>
-      dispatch(actionTypes.getCartRequest(userId, token)),
+    loadCart: (userId, token, vatRate) =>
+      dispatch(actionTypes.getCartRequest(userId, token, vatRate)),
   };
 };
 
