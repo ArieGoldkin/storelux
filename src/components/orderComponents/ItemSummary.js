@@ -1,8 +1,9 @@
 import React from "react";
 
 const ItemSummary = (props) => {
+  
   const calcPrice = props.quantity * props.price;
-  const calcVat = calcPrice * 0.17;
+  const calcVat = calcPrice * props.vatRate;
   const calcTotalPrice = (calcPrice + calcVat).toFixed(2);
 
   return (

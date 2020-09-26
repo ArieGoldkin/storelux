@@ -10,6 +10,7 @@ import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelector
 import * as authSelectors from "../userComponents//selectors/AuthSelectors";
 import * as userSelectors from "../userComponents/selectors/UserSelectors";
 import * as orderSelecotrs from "./selectors/OrderSelectors";
+import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
 import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/order.css";
 
@@ -22,6 +23,7 @@ const Order = (props) => {
     orderSummaryLoading,
     orderLoading,
     orderIsDone,
+    vatRate,
   } = props;
   const { pcartId } = useParams();
   const [totalPrice, setTotalPrice] = useState();
@@ -57,8 +59,8 @@ const Order = (props) => {
   useEffect(() => {
     let productsArr = [];
     productsArr.push(product);
-    setOrder(productsArr);
-  }, [product, setOrder]);
+    setOrder(productsArr, vatRate);
+  }, [product, setOrder, vatRate]);
 
   return (
     <>
@@ -96,11 +98,13 @@ const mapStateToProps = (state) => {
     orderSummary: orderSelecotrs.getOrderSummary(state),
     canRemove: orderSelecotrs.getOrderCanRemove(state),
     orderIsDone: orderSelecotrs.getOrderIsDone(state),
+    vatRate: adminSelectors.getCurrentVatRate(state),
   };
 };
 const mapDisptachToProps = (dispatch) => {
   return {
-    setOrder: (product) => dispatch(actions.setOrderRequest(product)),
+    setOrder: (product, vatRate) =>
+      dispatch(actions.setOrderRequest(product, vatRate)),
   };
 };
 

@@ -20,6 +20,7 @@ import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelector
 import * as userSelectors from "../userComponents/selectors/UserSelectors";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as orderSelectors from "./selectors/OrderSelectors";
+import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
 import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/AllproductsOrder.css";
 
@@ -40,6 +41,7 @@ export const AllProductsOrder = ({
   isDone,
   orderSet,
   canRemove,
+  vatRate,
 }) => {
   const [formState, inputHandler, setFormData] = useForm();
   const [errorMessage, setErrorMessage] = useState();
@@ -100,7 +102,7 @@ export const AllProductsOrder = ({
 
   useEffect(() => {
     if (!orderSet) {
-      setOrder(cartItems);
+      setOrder(cartItems, vatRate);
     }
 
     if (orderError) {
@@ -110,17 +112,7 @@ export const AllProductsOrder = ({
     if (!canRedirect && orderRedirectPath !== `/${userId}/shoppingcart`) {
       onOrderSuccessRedirectPath(userId);
     }
-  }, [
-    cartItems,
-    orderError,
-    orderLoading,
-    setOrder,
-    orderSet,
-    canRedirect,
-    orderRedirectPath,
-    userId,
-    onOrderSuccessRedirectPath,
-  ]);
+  }, [cartItems, orderError, orderLoading, setOrder, orderSet, canRedirect, orderRedirectPath, userId, onOrderSuccessRedirectPath, vatRate]);
 
   useEffect(() => {
     if (canRemove && isDone) {
@@ -239,7 +231,7 @@ export const AllProductsOrder = ({
                   </Button>
                 </div>
               </form>
-              <OrderItemsList items={cartItems} />
+              <OrderItemsList items={cartItems} currentVat={vatRate} />
             </Card>
             <ShoppingCartSummary
               totalPrice={cartSummary.totalPrice}
@@ -267,11 +259,13 @@ const mapStateToProps = (state) => {
     canRedirect: orderSelectors.getOrderRedirect(state),
     orderSet: orderSelectors.getOrderIsSet(state),
     canRemove: orderSelectors.getOrderCanRemove(state),
+    vatRate: adminSelectors.getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    setOrder: (products) => dispatch(actions.setOrderRequest(products)),
+    setOrder: (products, vatRate) =>
+      dispatch(actions.setOrderRequest(products, vatRate)),
     addNewOrder: (
       userId,
       token,
