@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
+import * as adminActions from "../adminComponents/adminActions/adminActions";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
 import Logout from "../userComponents/Logout";
 import AddCategory from "../adminComponents/addCategory/AddCategory";
 import ShowAllProductsList from "../adminComponents/showAllProductsList/ShowAllProductsList";
+import OrderManage from "../adminComponents/orderManage/OrderManage";
+import AdminRateChange from "../adminComponents/adminRateChange/AdminRateChange";
 import { ToastContainer } from "react-toastify";
 
 const Users = React.lazy(() => import("../userComponents/Users"));
@@ -34,7 +36,10 @@ const UpdateProduct = React.lazy(() =>
   import("../productComponents/UpdateProduct")
 );
 
-const AuthenticatedRoutes = ({ isAdmin }) => {
+const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
+  useEffect(() => {
+    getGlobalData(token);
+  }, [getGlobalData, token]);
   return (
     <>
       <Switch>
@@ -55,13 +60,15 @@ const AuthenticatedRoutes = ({ isAdmin }) => {
         <Route path="/about" component={AboutPage} />
         <Route path="/logout" component={Logout} />
         {isAdmin === "admin" && (
-          <Route path="/admin/addcategory" component={AddCategory} />
-        )}
-        {isAdmin === "admin" && (
-          <Route
-            path="/admin/showallProducts"
-            component={ShowAllProductsList}
-          />
+          <>
+            <Route path="/admin/addcategory" component={AddCategory} />
+            <Route
+              path="/admin/showallProducts"
+              component={ShowAllProductsList}
+            />
+            <Route path="/admin/ratechanges" component={AdminRateChange} />
+            <Route path="/admin/allorders" component={OrderManage} />
+          </>
         )}
         <Redirect to="/products" />
         {/* <Route component={PageNotFound} /> */}
@@ -74,7 +81,18 @@ const AuthenticatedRoutes = ({ isAdmin }) => {
 const mapStateToProps = (state) => {
   return {
     isAdmin: authSelectors.getAuthAdmin(state),
+    token: authSelectors.getAuthtoken(state),
   };
 };
 
-export default connect(mapStateToProps)(AuthenticatedRoutes);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getGlobalData: (token) =>
+      dispatch(adminActions.getGlobalDataRequest(token)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthenticatedRoutes);
