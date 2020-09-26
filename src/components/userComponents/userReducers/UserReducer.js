@@ -33,9 +33,15 @@ const getUsersFailure = (state, action) => {
   });
 };
 
-const onCreateOrDeleteProductSuccess = (state, action) => {
+const onDeleteProductSuccess = (state, action) => {
   return updateObject(state, {
     isDone: false,
+  });
+};
+
+const onCreateProductSuccess = (state, action) => {
+  return updateObject(state, {
+    isDone: true,
   });
 };
 
@@ -48,21 +54,21 @@ export default function usersReducer(state = initialState, action) {
     case Types.GET_USERS_FAILURE:
       return getUsersFailure(state, action);
     case productActions.CREATE_PRODUCT_SUCCESS:
-      return onCreateOrDeleteProductSuccess(state, action);
+      return onCreateProductSuccess(state, action);
     case productActions.DELETE_PRODUCT_SUCCESS:
-      return onCreateOrDeleteProductSuccess(state, action);
+      return onDeleteProductSuccess(state, action);
     default:
       return state;
   }
 }
 
-export const getUsersState = (state, isDone) => {
-  switch (isDone) {
-    case true:
-      return (state.isDone = true);
-    case false:
-      return (state.isDone = false);
-    default:
-      throw new Error(`Unknown isDone result.`);
-  }
-};
+// export const getUsersState = (state, isDone) => {
+//   switch (isDone) {
+//     case true:
+//       return (state.isDone = true);
+//     case false:
+//       return (state.isDone = false);
+//     default:
+//       throw new Error(`Unknown isDone result.`);
+//   }
+// };
