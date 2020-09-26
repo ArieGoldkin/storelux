@@ -1,31 +1,23 @@
 import { takeLatest, call, put, fork, take } from "redux-saga/effects";
 import * as actions from "../shoppingCartActions/ShoppingCartActions";
 import * as api from "../../api/cartApi";
+import { calcSummary } from "../../common/util/calcTotalPrice";
 import { toast } from "react-toastify";
 
-// const calcSummary = (data) => {
-//   let sum = 0;
-//   let calcVat;
-//   let total;
-//   let currentVat = 0.17;
-//   let totalPrice = data.map((item) => item.price * item.quantity);
-//   totalPrice.map((item) => (sum += item));
-//   calcVat = (sum * currentVat).toFixed(2);
-//   total = (sum * currentVat + sum).toFixed(2);
-//   return { sum, calcVat, total };
-// };
-
 function* getCartByUserId(action) {
+  // console.log(action);
   try {
     const responseData = yield call(api.getCartByUserId, {
       userId: action.userId,
       token: action.token,
     });
-    // const summary = yield calcSummary(responseData.data.cart);
+    const cartData = yield responseData.data.cart;
+    const cartSummary = yield calcSummary(cartData, action.vatRate);
 
-    yield put(actions.getCartSuccess(responseData.data.cart));
-    // console.log(summary);
-    // console.log(responseData.data.cart);
+    // console.log(cartData);
+    // console.log(cartSummary);
+
+    yield put(actions.getCartSuccess(responseData.data.cart, cartSummary));
   } catch (e) {
     yield put(
       actions.getCartFailure({
@@ -40,6 +32,7 @@ function* watchGetCartRequest() {
 }
 
 function* updateProductInCart(action) {
+  console.log(action.payload.vatRate);
   try {
     const responseData = yield call(api.updateProductQuantity, {
       userId: action.payload.userId,
@@ -47,8 +40,13 @@ function* updateProductInCart(action) {
       productId: action.payload.productId,
       quantity: action.payload.quantity,
     });
-    yield put(actions.setProductQuantitySuccess());
-    console.log(responseData);
+
+    console.log(responseData.data.cart);
+    const cartData = yield responseData.data.cart;
+    const cartSummary = yield calcSummary(cartData, action.payload.vatRate);
+    // console.log(cartSummary);
+
+    yield put(actions.setProductQuantitySuccess(cartSummary));
   } catch (e) {
     yield put(
       actions.setProductQuantityFailure({

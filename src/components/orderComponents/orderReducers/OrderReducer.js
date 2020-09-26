@@ -14,25 +14,11 @@ const initialState = {
 
   orderSummary: {
     totalPrice: null,
+    currentVat: null,
     vat: null,
     totalSum: null,
     loading: false,
   },
-};
-
-const calcSummary = (action) => {
-  let sum = 0;
-  let calcVat;
-  let total;
-  let currentVat = 0.17;
-  let totalPrice = action.items.map((item) => item.quantity * item.price);
-
-  for (let i = 0; i < totalPrice.length; i++) {
-    sum += totalPrice[i];
-  }
-  calcVat = (sum * currentVat).toFixed(2);
-  total = (sum * currentVat + sum).toFixed(2);
-  return { sum, calcVat, total };
 };
 
 const requestSetOrderRequest = (state, action) => {
@@ -50,19 +36,19 @@ const requestSetOrderRequest = (state, action) => {
 };
 
 const requestSetOrderSuccess = (state, action) => {
-  const { calcVat, total, sum } = calcSummary(action);
-  console.log(action);
+  const summary = action.payload.orderSummary;
+  console.log(summary);
   return updateObject(state, {
-    items: action.items,
+    items: action.payload.items,
     error: null,
     loading: false,
     isDone: true,
     canRemove: false,
     isSet: true,
     orderSummary: {
-      totalPrice: sum,
-      vat: calcVat,
-      totalSum: total,
+      totalPrice: summary.sum,
+      vat: summary.calcVat,
+      totalSum: summary.total,
       loading: false,
     },
   });
