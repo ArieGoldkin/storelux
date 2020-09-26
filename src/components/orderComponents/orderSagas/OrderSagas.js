@@ -1,6 +1,7 @@
 import { takeLatest, call, put, fork, take } from "redux-saga/effects";
 import * as api from "../../api/ordersApi";
 import * as cartApi from "../../api/cartApi";
+import { calcProductOrderSummary } from "../../common/util/calcTotalPrice";
 import * as cartActions from "../../shoppingCartComponents/shoppingCartActions/ShoppingCartActions";
 import * as actions from "../orderActions/OrderActions";
 import { toast } from "react-toastify";
@@ -8,7 +9,12 @@ import { toast } from "react-toastify";
 function* setOrder(action) {
   console.log(action);
   try {
-    yield put(actions.setOrderSuccess(action.items));
+    const orderSummary = yield calcProductOrderSummary(
+      action.payload.items,
+      action.payload.vatRate
+    );
+    console.log(orderSummary);
+    yield put(actions.setOrderSuccess(action.payload.items, orderSummary));
   } catch (e) {
     yield put(
       actions.setOrderFaiulre({
@@ -35,7 +41,7 @@ function* addNewOrder(action) {
       orderSummary: action.orderSummary,
     });
     yield put(actions.addOrderSuccess(responseData.data.order));
-    yield toast.info("Order was successfuly send.");
+    yield toast.info("Order was successfully send.");
     console.log(responseData);
   } catch (e) {
     yield put(

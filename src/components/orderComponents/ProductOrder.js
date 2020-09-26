@@ -246,7 +246,6 @@ const ProductOrder = ({
 };
 
 const mapStateToProps = (state) => {
-  // const id = ownProps.product.productId;
   return {
     userId: authSelectors.getAuthUserId(state),
     token: authSelectors.getAuthtoken(state),
