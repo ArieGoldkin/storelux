@@ -14,7 +14,7 @@ function* getUsers() {
   } catch (e) {
     yield put(
       actions.userError({
-        error: "An error happend when trying to get Users",
+        error: "An error happened when trying to get Users",
       })
     );
   }
@@ -29,12 +29,11 @@ function* getUserData(action) {
     const userData = yield call(api.getUserData, {
       userId: action.userId,
     });
-    // console.log(userData.data.user);
     yield put(actions.getUserDataSuccess(userData.data.user));
   } catch (e) {
     yield put(
       actions.userDataFailure({
-        error: "An error happend when tring to get user data",
+        error: "An error happened when trying to get user data",
       })
     );
   }
@@ -55,7 +54,7 @@ function* updateUser(action) {
   } catch (e) {
     yield put(
       actions.userUpdateFailure({
-        error: "an error happend when tring to update user data.",
+        error: "an error happened when trying to update user data.",
       })
     );
   }
