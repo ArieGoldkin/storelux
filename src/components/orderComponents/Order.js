@@ -9,8 +9,8 @@ import ShoppingCartSummary from "../shoppingCartComponents/ShoppingCartSummary";
 import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
 import * as authSelectors from "../userComponents//selectors/AuthSelectors";
 import * as userSelectors from "../userComponents/selectors/UserSelectors";
-import * as orderSelecotrs from "./selectors/OrderSelectors";
-import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
+import * as orderSelectors from "./selectors/OrderSelectors";
+import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
 import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/order.css";
 
@@ -30,7 +30,7 @@ const Order = (props) => {
   const [vat, setVat] = useState();
   const [totalSum, setTotalSum] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorNessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   let product = products.find((product) => product.id === pcartId);
 
@@ -53,7 +53,7 @@ const Order = (props) => {
   ]);
 
   const clearError = () => {
-    setErrorNessage(null);
+    setErrorMessage(null);
   };
 
   useEffect(() => {
@@ -90,22 +90,22 @@ const Order = (props) => {
 const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
     products: cartSelectors.getCartItems(state),
     user: userSelectors.getUserItem(state),
-    orderSummaryLoading: orderSelecotrs.getOrderSummaryLoading(state),
-    orderLoading: orderSelecotrs.getOrderLoading(state),
-    orderSummary: orderSelecotrs.getOrderSummary(state),
-    canRemove: orderSelecotrs.getOrderCanRemove(state),
-    orderIsDone: orderSelecotrs.getOrderIsDone(state),
-    vatRate: adminSelectors.getCurrentVatRate(state),
+    orderSummaryLoading: orderSelectors.getOrderSummaryLoading(state),
+    orderLoading: orderSelectors.getOrderLoading(state),
+    orderSummary: orderSelectors.getOrderSummary(state),
+    canRemove: orderSelectors.getOrderCanRemove(state),
+    orderIsDone: orderSelectors.getOrderIsDone(state),
+    vatRate: globalSelectors.getCurrentVatRate(state),
   };
 };
-const mapDisptachToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setOrder: (product, vatRate) =>
       dispatch(actions.setOrderRequest(product, vatRate)),
   };
 };
 
-export default connect(mapStateToProps, mapDisptachToProps)(Order);
+export default connect(mapStateToProps, mapDispatchToProps)(Order);

@@ -17,8 +17,8 @@ function* setOrder(action) {
     yield put(actions.setOrderSuccess(action.payload.items, orderSummary));
   } catch (e) {
     yield put(
-      actions.setOrderFaiulre({
-        error: "Could not set order request, pleaes try again.",
+      actions.setOrderFailure({
+        error: "Could not set order request, please try again.",
       })
     );
   }
@@ -60,11 +60,11 @@ function* deleteFromCart({ token, userId, product }) {
   try {
     yield call(cartApi.deleteProductFromCart, token, userId, productId);
     yield put(actions.DeleteFromCartAfterOrderSuccess(productId));
-    yield take(cartActions.Types.GET_CART_REQUSET);
-    yield toast.info("Order removed successfuly from cart.");
+    yield take(cartActions.Types.GET_CART_REQUEST);
+    yield toast.info("Order removed successfully from cart.");
   } catch (e) {
     yield put(
-      actions.DeleteFromCartAfterOrderFaiulre({
+      actions.DeleteFromCartAfterOrderFailure({
         error: "Could not delete product from cart, please try again.",
       })
     );
@@ -74,7 +74,7 @@ function* deleteFromCart({ token, userId, product }) {
 function* watchDeleteFromCartAfterSuccess() {
   while (true) {
     const deleteAction = yield take(
-      actions.Types.REMOVE_ITEMS_FROM_CART_REQUESET
+      actions.Types.REMOVE_ITEMS_FROM_CART_REQUEST
     );
     console.log(deleteAction);
     yield call(deleteFromCart, {
@@ -89,11 +89,11 @@ function* deleteProductsFromCart({ token, userId, products }) {
   try {
     yield call(cartApi.deleteAllProductsFromCart, token, userId, products);
     yield put(actions.DeleteFromCartAfterOrderSuccess(products));
-    yield take(cartActions.Types.GET_CART_REQUSET);
-    yield toast.info("Order removed successfuly from cart.");
+    yield take(cartActions.Types.GET_CART_REQUEST);
+    yield toast.info("Order removed successfully from cart.");
   } catch (e) {
     yield put(
-      actions.DeleteFromCartAfterOrderFaiulre({
+      actions.DeleteFromCartAfterOrderFailure({
         error: "Could not delete product from cart, please try again.",
       })
     );

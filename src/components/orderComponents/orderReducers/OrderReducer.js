@@ -160,13 +160,13 @@ export default function orders(state = initialState, action) {
       return addOrderSuccess(state, action);
     case Types.SET_ORDER_REDIRECT_PATH:
       return setOrderRedirectPath(state, action);
-    case Types.REMOVE_ITEMS_FROM_CART_REQUESET:
+    case Types.REMOVE_ITEMS_FROM_CART_REQUEST:
       return removeItemFromCartRequest(state, action);
     case Types.REMOVE_ITEMS_FROM_CART_SUCCESS:
       return orderRedirect(state, action);
     case Types.REMOVE_ITEMS_FROM_CART_FAILURE:
       return orderFailure(state, action);
-    case cartTypes.GET_CART_REQUSET:
+    case cartTypes.GET_CART_REQUEST:
       return setDefultValues(state, action);
     default:
       return state;

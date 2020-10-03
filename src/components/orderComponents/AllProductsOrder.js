@@ -20,7 +20,7 @@ import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelector
 import * as userSelectors from "../userComponents/selectors/UserSelectors";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as orderSelectors from "./selectors/OrderSelectors";
-import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
+import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
 import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/AllproductsOrder.css";
 
@@ -248,7 +248,7 @@ export const AllProductsOrder = ({
 const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
     cartItems: cartSelectors.getCartItems(state),
     user: userSelectors.getUserItem(state),
     cartSummary: cartSelectors.getCartSummary(state),
@@ -259,7 +259,7 @@ const mapStateToProps = (state) => {
     canRedirect: orderSelectors.getOrderRedirect(state),
     orderSet: orderSelectors.getOrderIsSet(state),
     canRemove: orderSelectors.getOrderCanRemove(state),
-    vatRate: adminSelectors.getCurrentVatRate(state),
+    vatRate: globalSelectors.getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

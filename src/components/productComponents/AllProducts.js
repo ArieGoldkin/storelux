@@ -9,7 +9,7 @@ import Search from "../common/FormElements/Search";
 import * as userSelectors from "../userComponents/selectors/UserSelectors";
 import * as allProductsSelectors from "./selectors/AllProductsSelectors";
 import * as addToCartSelectors from "./selectors/AddToCartSelectors";
-import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
+import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
 import * as productsAction from "./productsActions/productsActions";
 import * as usersAction from "../userComponents/usersActions/UserActions";
 
@@ -114,7 +114,7 @@ const mapStateToProps = (state) => {
     usersError: userSelectors.getUsersError(state),
     productsError: allProductsSelectors.getProductsError(state),
     addToCart: addToCartSelectors.getAddToCartState(state),
-    globalError: adminSelectors.getError(state),
+    globalError: globalSelectors.getError(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

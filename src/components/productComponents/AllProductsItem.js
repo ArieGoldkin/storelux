@@ -142,7 +142,7 @@ const AllProductsItem = (props) => {
 const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

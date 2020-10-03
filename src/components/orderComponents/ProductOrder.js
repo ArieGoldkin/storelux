@@ -15,7 +15,7 @@ import {
   VALIDATOR_EMAIL,
 } from "../common/util/InputValidators";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as userSelctors from "../userComponents/selectors/UserSelectors";
+import * as userSelectors from "../userComponents/selectors/UserSelectors";
 import * as orderSelectors from "./selectors/OrderSelectors";
 import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
 import * as usersActions from "../userComponents/usersActions/UserActions";
@@ -39,7 +39,7 @@ const ProductOrder = ({
   canRemove,
   orderRedirectPath,
   onOrderSuccessRedirectPath,
-  onSuccessDeletefromCart,
+  onSuccessDeleteFromCart,
   seller,
 }) => {
   const [errorMessage, setErrorMessage] = useState();
@@ -121,11 +121,11 @@ const ProductOrder = ({
 
   useEffect(() => {
     if (canRemove && orderLoading) {
-      onSuccessDeletefromCart(token, userId, product);
+      onSuccessDeleteFromCart(token, userId, product);
     }
   }, [
     canRemove,
-    onSuccessDeletefromCart,
+    onSuccessDeleteFromCart,
     orderLoading,
     product,
     token,
@@ -222,7 +222,7 @@ const ProductOrder = ({
                       type="text"
                       validators={[VALIDATOR_MINLENGTH(10)]}
                       onInput={inputHandler}
-                      errorText="Please enter a valid phone Numer"
+                      errorText="Please enter a valid phone Number"
                       initialValue={user.phone}
                     />
                   </div>
@@ -248,12 +248,12 @@ const ProductOrder = ({
 const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
     products: cartSelectors.getCartItems(state),
     orderLoading: orderSelectors.getOrderLoading(state),
     orderError: orderSelectors.getOrderError(state),
     orderItems: orderSelectors.getOrderItems(state),
-    usersIsDone: userSelctors.getUsersIsDone(state),
+    usersIsDone: userSelectors.getUsersIsDone(state),
     orderSummary: orderSelectors.getOrderSummary(state),
     canRedirect: orderSelectors.getOrderRedirect(state),
     canRemove: orderSelectors.getOrderCanRemove(state),
@@ -295,7 +295,7 @@ const mapDispatchToProps = (dispatch) => {
       ),
     onOrderSuccessRedirectPath: (userId) =>
       dispatch(actions.setOrderRedirectPath(userId, `/${userId}/shoppingcart`)),
-    onSuccessDeletefromCart: (token, userId, product) =>
+    onSuccessDeleteFromCart: (token, userId, product) =>
       dispatch(actions.DeleteFromCartAfterOrderRequest(token, userId, product)),
   };
 };
