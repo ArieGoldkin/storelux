@@ -13,6 +13,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
 import * as actions from "../adminActions/adminActions";
 
+
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
@@ -21,8 +22,8 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === "light"
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          color: "#0069D9",
+          backgroundColor: lighten(theme.palette.primary.light, 0.85),
         }
       : {
           color: theme.palette.text.primary,
@@ -64,7 +65,9 @@ const EnhancedTableToolbar = (props) => {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected === 1
+            ? `${numSelected} Selected item`
+            : `${numSelected} Selected items`}
         </Typography>
       ) : (
         <Typography
@@ -102,7 +105,7 @@ const mapStateToProps = (state) => {
   return {
     isAdmin: authSelectors.getAuthAdmin(state),
     adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

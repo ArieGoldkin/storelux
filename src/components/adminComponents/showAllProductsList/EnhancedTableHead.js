@@ -25,6 +25,8 @@ const EnhancedTableHead = (props) => {
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
+            className={classes.checkBox}
+            color="default"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}

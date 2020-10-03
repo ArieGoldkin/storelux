@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import ShowAllProductsItem from "./ShowAllProductsItem";
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHeight: {
     height: "40rem",
+  },
+  checkBox: {
+    color: "#1976D2",
   },
 }));
 
@@ -175,6 +179,22 @@ const ShowAllProductsList = ({
     setErrorMessage(null);
   };
 
+  const getMuiTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MuiTableRow: {
+          root: {
+            "&$selected": {
+              backgroundColor: "#EAECF7",
+            },
+            "&:hover": {
+              backgroundColor: "#EAECF7",
+            },
+          },
+        },
+      },
+    });
+
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
@@ -215,35 +235,42 @@ const ShowAllProductsList = ({
                       const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
-                        <TableRow
-                          hover
-                          onClick={(event) => handleClick(event, product.id)}
-                          role="checkbox"
-                          aria-checked={isItemSelected}
-                          tabIndex={-1}
+                        <MuiThemeProvider
+                          theme={getMuiTheme()}
                           key={product.id}
-                          selected={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              inputProps={{ "aria-labelledby": labelId }}
-                            />
-                          </TableCell>
-                          <ShowAllProductsItem
+                          <TableRow
+                            hover
+                            onClick={(event) => handleClick(event, product.id)}
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
                             key={product.id}
-                            title={product.title}
-                            owner={users.map((user) =>
-                              user.id === product.creator
-                                ? user.firstName + " " + user.lastName
-                                : null
-                            )}
-                            category={product.category}
-                            price={product.price}
-                            units={product.units}
-                            image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
-                          />
-                        </TableRow>
+                            selected={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                className={classes.checkBox}
+                                color="default"
+                                checked={isItemSelected}
+                                inputProps={{ "aria-labelledby": labelId }}
+                              />
+                            </TableCell>
+                            <ShowAllProductsItem
+                              key={product.id}
+                              title={product.title}
+                              owner={users.map((user) =>
+                                user.id === product.creator
+                                  ? user.firstName + " " + user.lastName
+                                  : null
+                              )}
+                              category={product.category}
+                              price={product.price}
+                              units={product.units}
+                              image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
+                            />
+                          </TableRow>
+                        </MuiThemeProvider>
                       );
                     })}
                 </TableBody>
