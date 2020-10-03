@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as adminSelectors from "../../adminComponents/selectors/adminSelectors";
+import * as globalSelectors from "../../adminComponents/selectors/globalSelectors";
 import * as adminActions from "../adminActions/adminActions";
 import { makeStyles } from "@material-ui/core/styles";
 import { VALIDATOR_REQUIRE } from "../../common/util/InputValidators";
@@ -21,9 +21,23 @@ const useStyles = makeStyles({
   btnVat: {
     marginTop: "1rem",
   },
+  currentVatRateWrapper: {
+    display: "flex",
+  },
+  header: {
+    marginRight: "1rem",
+    fontWeight: "bold",
+  },
 });
 
-const AdminRateChange = ({ adminId, token, vatRateChange, loading, error }) => {
+const AdminRateChange = ({
+  adminId,
+  token,
+  vatRateChange,
+  loading,
+  error,
+  currentRate,
+}) => {
   const classes = useStyles();
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +77,10 @@ const AdminRateChange = ({ adminId, token, vatRateChange, loading, error }) => {
       {!isLoading && (
         <Card className={classes.cardWrapper}>
           <h3>Change current vat rate</h3>
+          <div className={classes.currentVatRateWrapper}>
+            <header className={classes.header}>Current vat rate:</header>
+            <div>{`${currentRate * 100} %`}</div>
+          </div>
           <form onSubmit={onSubmitVatRate}>
             <Input
               id="vat"
@@ -90,9 +108,10 @@ const AdminRateChange = ({ adminId, token, vatRateChange, loading, error }) => {
 const mapStateToProps = (state) => {
   return {
     adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
-    loading: adminSelectors.getloading(state),
-    error: adminSelectors.getError(state),
+    token: authSelectors.getAuthToken(state),
+    loading: globalSelectors.getLoading(state),
+    error: globalSelectors.getError(state),
+    currentRate: globalSelectors.getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
