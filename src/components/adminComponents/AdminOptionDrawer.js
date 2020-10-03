@@ -29,14 +29,6 @@ const useStyles = makeStyles({
   },
 });
 
-// const topMenu = {
-//   addCategory: {
-//     title: "Add new category",
-//     link: "/addcategory",
-//   },
-
-// };
-
 const AdminOptionDrawer = (props) => {
   const classes = useStyles();
   const [state, setState] = useState({
@@ -87,21 +79,6 @@ const AdminOptionDrawer = (props) => {
             </ListItem>
           </Link>
         ))}
-        {/* {listOptionTypes.map((text, index) => (
-          <Link className={classes.Link} to="/addcategory" key={text}>
-            {text === "Add new category" && (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {text === "Add new category" && (
-                    <AddCircleOutlineRoundedIcon />
-                  )}
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )}
-          </Link>
-        ))} */}
       </List>
       <Divider />
       <List>

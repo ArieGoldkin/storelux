@@ -89,7 +89,7 @@ const AddCategory = ({
 const mapStateToProps = (state) => {
   return {
     adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
     categoriesIsDone: categorySelectors.getCategoriesIsDone(state),
     loading: categorySelectors.getCategoriesLoading(state),
     error: categorySelectors.getCategoriesError(state),
