@@ -102,7 +102,7 @@ const NewProduct = ({
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("title", formState.inputs.title.value);
+    formData.append("title", formState.inputs.title.value.trim());
     formData.append("category", formState.inputs.category.value);
     formData.append("price", formState.inputs.price.value);
     formData.append("units", formState.inputs.units.value);
@@ -193,7 +193,7 @@ const NewProduct = ({
 const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
     loading: categoriesSelectors.getCategoriesLoading(state),
     productLoading: newProductSelectors.getNewProductLoading(state),
     categories: categoriesSelectors.getCategories(state),
