@@ -1,5 +1,5 @@
 export const Types = {
-  DELETE_PRODUCTS_REQUESET: "admin/DELETE_PRODUCTS_REQUESET",
+  DELETE_PRODUCTS_REQUEST: "admin/DELETE_PRODUCTS_REQUEST",
   DELETE_PRODUCTS_SUCCESS: "admin/DELETE_PRODUCTS_SUCCESS",
   DELETE_PRODUCTS_FAILURE: "admin/DELETE_PRODUCTS_FAILURE",
 
@@ -10,6 +10,10 @@ export const Types = {
   UPDATE_VAT_RATE_REQUEST: "admin/UPDATE_VAT_RATE_REQUEST",
   UPDATE_VAT_RATE_SUCCESS: "admin/UPDATE_VAT_RATE_SUCCESS",
   UPDATE_VAT_RATE_FAILURE: "admin/UPDATE_VAT_RATE_FAILURE",
+
+  GET_ALL_ORDERS_REQUEST: "admin/GET_ALL_ORDERS_REQUEST",
+  GET_ALL_ORDERS_SUCCESS: "admin/GET_ALL_ORDERS_SUCCESS",
+  GET_ALL_ORDERS_FAILURE: "admin/GET_ALL_ORDERS_FAILURE",
 };
 
 export const getGlobalDataRequest = (token) => ({
@@ -33,8 +37,37 @@ export const getGlobalDataFailure = (error) => ({
   },
 });
 
+export const getAllOrdersRequest = ({
+  token,
+  adminId,
+  fromSelectedDate,
+  ToSelectedDate,
+}) => ({
+  type: Types.GET_ALL_ORDERS_REQUEST,
+  payload: {
+    token,
+    adminId,
+    fromSelectedDate,
+    ToSelectedDate,
+  },
+});
+
+export const getAllOrdersSuccess = (orders) => ({
+  type: Types.GET_ALL_ORDERS_SUCCESS,
+  payload: {
+    orders,
+  },
+});
+
+export const getAllOrdersFailure = (error) => ({
+  type: Types.GET_ALL_ORDERS_FAILURE,
+  payload: {
+    error,
+  },
+});
+
 export const DeleteProductsRequest = ({ selectedItems, adminId, token }) => ({
-  type: Types.DELETE_PRODUCTS_REQUESET,
+  type: Types.DELETE_PRODUCTS_REQUEST,
   selectedItems,
   adminId,
   token,
@@ -50,10 +83,6 @@ export const DeleteProductsFailure = (error) => ({
   error: error,
 });
 
-export const getCurrentVatRate = (vatRate) => ({
-  type: Types.SET_CURRENT_VAT_RATE,
-  vatRate: vatRate,
-});
 
 export const updateRateRequest = ({ rate, adminId, token }) => ({
   type: Types.UPDATE_VAT_RATE_REQUEST,
