@@ -61,7 +61,7 @@ const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: authSelectors.getAuthtoken(state),
+    isAuthenticated: authSelectors.getAuthToken(state),
     userId: authSelectors.getAuthUserId(state),
     isAdmin: authSelectors.getAuthAdmin(state),
   };

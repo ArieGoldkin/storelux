@@ -9,7 +9,7 @@ const ImageUpload = (props) => {
   const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
-  // manage the perview file
+  // manage the preview file
   useEffect(() => {
     if (!file) {
       return;
@@ -21,7 +21,7 @@ const ImageUpload = (props) => {
     fileReader.readAsDataURL(file);
   }, [file]);
 
-  const pickedHanler = (event) => {
+  const pickedHandler = (event) => {
     let pickedFile;
     let fileIsValid = isValid;
     if (event.target.files && event.target.files.length === 1) {
@@ -48,7 +48,7 @@ const ImageUpload = (props) => {
         style={{ display: "none" }}
         type="file"
         accept=".jpg,.png,.jpeg"
-        onChange={pickedHanler}
+        onChange={pickedHandler}
       />
       <div className={`image-upload ${props.center && "center"}`}>
         <div className={`image-upload__preview ${props.classImage}`}>
