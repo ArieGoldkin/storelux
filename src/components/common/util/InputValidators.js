@@ -7,6 +7,7 @@ const VALIDATOR_TYPE_MAX = "MAX";
 const VALIDATOR_TYPE_EMAIL = "EMAIL";
 const VALIDATOR_TYPE_FILE = "FILE";
 const VALIDATOR_TYPE_SELECT = "REQUIRE_SELECT";
+const VALIDATOR_PASSWORD = "VALIDATE_PASSWORD";
 
 export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE });
 export const VALIDATOR_FILE = () => ({ type: VALIDATOR_TYPE_FILE });
@@ -29,6 +30,11 @@ export const VALIDATOR_SELECT = (val) => ({
   val: val,
 });
 
+export const PASSWORD_VALIDATE = (val) => ({
+  type: VALIDATOR_PASSWORD,
+  val: val,
+});
+
 export const validate = (value, validators) => {
   let isValid = true;
   for (const validator of validators) {
@@ -41,8 +47,11 @@ export const validate = (value, validators) => {
     if (validator.type === VALIDATOR_TYPE_MINLENGTH) {
       isValid = isValid && value.trim().length >= validator.val;
     }
-    if (validator.type === VALIDATOR_TYPE_MAXLENGTH) {
-      isValid = isValid && value.trim().length <= validator.val;
+    if (validator.type === VALIDATOR_TYPE_MINLENGTH) {
+      isValid = isValid && value.trim().length >= validator.val;
+    }
+    if (validator.type === VALIDATOR_PASSWORD) {
+      isValid = isValid && value.trim() === validator.val;
     }
     if (validator.type === VALIDATOR_TYPE_MIN) {
       isValid = isValid && +value >= validator.val;
