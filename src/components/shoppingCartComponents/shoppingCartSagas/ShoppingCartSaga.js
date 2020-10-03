@@ -22,13 +22,13 @@ function* getCartByUserId(action) {
     yield put(
       actions.getCartFailure({
         error:
-          "An error happend, Could't get cart from server, please try again.",
+          "An error happened, Couldn't get cart from server, please try again.",
       })
     );
   }
 }
 function* watchGetCartRequest() {
-  yield takeLatest(actions.Types.GET_CART_REQUSET, getCartByUserId);
+  yield takeLatest(actions.Types.GET_CART_REQUEST, getCartByUserId);
 }
 
 function* updateProductInCart(action) {
@@ -69,7 +69,7 @@ function* deleteProductCart({ token, userId, productId }) {
     yield put(actions.deleteProductFromCartSuccess(productId));
     yield call(getCartByUserId, { userId, token });
 
-    yield toast.info("Product deleted successfuly from cart.");
+    yield toast.info("Product deleted successfully from cart.");
   } catch (e) {
     yield put(
       actions.deleteProductFromCartFailure({

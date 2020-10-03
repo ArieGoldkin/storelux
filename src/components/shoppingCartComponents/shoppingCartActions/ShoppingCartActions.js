@@ -1,5 +1,5 @@
 export const Types = {
-  GET_CART_REQUSET: "cart/GET_CART_REQUSET",
+  GET_CART_REQUEST: "cart/GET_CART_REQUEST",
   GET_CART_SUCCESS: "cart/GET_CART_SUCCESS",
   GET_CART_FAILURE: "cart/GET_CART_FAILURE",
 
@@ -20,7 +20,7 @@ export const Types = {
 };
 
 export const getCartRequest = (userId, token, vatRate) => ({
-  type: Types.GET_CART_REQUSET,
+  type: Types.GET_CART_REQUEST,
   userId,
   token,
   vatRate,

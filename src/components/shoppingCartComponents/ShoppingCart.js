@@ -5,9 +5,9 @@ import ShoppingCartList from "./ShoppingCartList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as cartSelecotrs from "./selectors/CartSelectors";
+import * as cartSelectors from "./selectors/CartSelectors";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
-import * as adminSelectors from "../adminComponents/selectors/adminSelectors";
+import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
 import "./shoppingCartCss/ShoppingCartList.css";
 
 const ShoppingCart = ({
@@ -21,7 +21,7 @@ const ShoppingCart = ({
   loadVatRate,
   vatRate,
 }) => {
-  const [errorMessage, setErrorNessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -37,12 +37,12 @@ const ShoppingCart = ({
       setIsLoading(false);
     }
     if (error) {
-      setErrorNessage(error);
+      setErrorMessage(error);
     }
   }, [error, loading]);
 
   const clearError = () => {
-    setErrorNessage(null);
+    setErrorMessage(null);
   };
 
   return (
@@ -63,13 +63,13 @@ const ShoppingCart = ({
 };
 const mapStateToProps = (state) => {
   return {
-    cart: cartSelecotrs.getCartItems(state),
-    loading: cartSelecotrs.getCartLoading(state),
-    error: cartSelecotrs.getCartError(state),
-    isDone: cartSelecotrs.getCartIsDone(state),
+    cart: cartSelectors.getCartItems(state),
+    loading: cartSelectors.getCartLoading(state),
+    error: cartSelectors.getCartError(state),
+    isDone: cartSelectors.getCartIsDone(state),
     userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthtoken(state),
-    vatRate: adminSelectors.getCurrentVatRate(state),
+    token: authSelectors.getAuthToken(state),
+    vatRate: globalSelectors.getCurrentVatRate(state),
   };
 };
 

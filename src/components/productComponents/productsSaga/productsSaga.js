@@ -15,7 +15,7 @@ function* getProducts() {
   } catch (e) {
     yield put(
       actions.productError({
-        error: "An error happend when trying to get Products",
+        error: "An error happened when trying to get Products",
       })
     );
   }
@@ -37,7 +37,7 @@ function* createProduct(action) {
   } catch (e) {
     yield put(
       actions.createProductFailure({
-        error: "An error happend when tring to add new product",
+        error: "An error happened when trying to add new product",
       })
     );
   }

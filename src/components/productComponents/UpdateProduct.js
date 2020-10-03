@@ -34,7 +34,7 @@ const UpdateProduct = ({
   productLoading,
   error,
 }) => {
-  const [isLoading, setIsloading] = useState();
+  const [isLoading, setIsLoading] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [formState, inputHandler, setFormData] = useForm();
 
@@ -53,9 +53,9 @@ const UpdateProduct = ({
       getProduct(productId);
     }
     if (productLoading) {
-      setIsloading(true);
+      setIsLoading(true);
     } else {
-      setIsloading(false);
+      setIsLoading(false);
     }
 
     setFormData(
@@ -233,7 +233,7 @@ const mapStateToProps = (state) => {
   return {
     categories: categoriesSelectors.getCategories(state),
     isDone: categoriesSelectors.getCategoriesIsDone(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
     userId: authSelectors.getAuthUserId(state),
     product: updateProductSelectors.getUpdateProduct(state),
     productLoading: updateProductSelectors.getUpdateProductLoading(state),

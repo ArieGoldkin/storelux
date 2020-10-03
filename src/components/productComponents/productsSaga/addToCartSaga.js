@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 function* addProductToCartRequest(action) {
   try {
-    const resposeData = yield call(api.addProductToCart, {
+    const responseData = yield call(api.addProductToCart, {
       token: action.payload.token,
       userId: action.payload.userId,
       productId: action.payload.productId,
@@ -17,10 +17,10 @@ function* addProductToCartRequest(action) {
       description: action.payload.description,
       image: action.payload.image,
     });
-    yield put(actions.addToCartSuccess(resposeData.data));
+    yield put(actions.addToCartSuccess(responseData.data));
 
-    yield toast.info("Product added successfuly to cart.");
-    console.log(resposeData.data);
+    yield toast.info("Product added successfully to cart.");
+    console.log(responseData.data);
   } catch (e) {
     yield put(
       actions.addToCartFailure({
