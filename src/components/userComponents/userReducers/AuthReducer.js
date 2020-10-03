@@ -1,4 +1,5 @@
 import { Types } from "../usersActions/authActions";
+import { Types as ResetPasswordActions } from "../usersActions/ResetUserPasswordActions";
 import { updateObject } from "../../store/utility";
 
 const initialState = {
@@ -6,6 +7,7 @@ const initialState = {
   userId: null,
   error: null,
   loading: false,
+  canRedirect: false,
   isLogin: false,
   isAdmin: null,
 };
@@ -47,6 +49,29 @@ const authLogout = (state, action) => {
     isAdmin: false,
   });
 };
+const ResetPasswordStart = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
+const ResetPasswordSuccess = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+  });
+};
+const ResetPasswordFailure = (state, action) => {
+  return updateObject(state, {
+    error: action.payload.error,
+    loading: false,
+  });
+};
+
+const updatePasswordSuccess = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+    canRedirect: true,
+  });
+};
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
@@ -64,6 +89,16 @@ export default function authReducer(state = initialState, action) {
       return AuthUserFailure(state, action);
     case Types.USER_AUTH_LOGOUT:
       return authLogout(state, action);
+    case ResetPasswordActions.RESET_PASSWORD_REQUEST:
+    case ResetPasswordActions.NEW_PASSWORD_UPDATE_REQUEST:
+      return ResetPasswordStart(state, action);
+    case ResetPasswordActions.RESET_PASSWORD_SUCCESS:
+      return ResetPasswordSuccess(state, action);
+    case ResetPasswordActions.NEW_PASSWORD_UPDATE_SUCCESS:
+      return updatePasswordSuccess(state, action);
+    case ResetPasswordActions.RESET_PASSWORD_FAILURE:
+    case ResetPasswordActions.NEW_PASSWORD_UPDATE_FAILURE:
+      return ResetPasswordFailure(state, action);
     default:
       return state;
   }

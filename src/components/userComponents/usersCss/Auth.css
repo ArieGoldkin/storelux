@@ -8,6 +8,21 @@
   justify-content: center;
   align-items: center;
 }
+
+.forgot_password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_content {
+  text-align: left;
+}
+.forgot_password_text p {
+  margin: 0;
+  color: #888888;
+}
+
 .authentication {
   width: 90%;
   max-width: 25rem;
@@ -21,6 +36,15 @@
   margin-bottom: 1rem;
 }
 
-.btnStyle{
+.resetPassword {
+  margin-bottom: 1rem;
+}
+.resetPassword_link {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #7f7a7a;
+}
+
+.btnStyle {
   margin: 0;
 }

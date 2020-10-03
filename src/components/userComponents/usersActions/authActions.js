@@ -13,11 +13,6 @@ export const Types = {
   USER_LOGIN_FAILURE: "user/USER_LOGIN.FAILURE",
 };
 
-// export const authStart = () => {
-//   return {
-//     type: Types.USER_AUTH_START,
-//   };
-// };
 
 export const Auth = (firstName, lastName, email, password) => ({
   type: Types.USER_AUTH_START,
