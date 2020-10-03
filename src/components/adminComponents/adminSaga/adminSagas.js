@@ -63,7 +63,7 @@ function* deleteProducts({ products, adminId, token }) {
 
 function* watchDeleteRequest() {
   while (true) {
-    const deleteAction = yield take(actions.Types.DELETE_PRODUCTS_REQUESET);
+    const deleteAction = yield take(actions.Types.DELETE_PRODUCTS_REQUEST);
     console.log(deleteAction);
     yield call(deleteProducts, {
       products: deleteAction.selectedItems,
@@ -73,10 +73,34 @@ function* watchDeleteRequest() {
   }
 }
 
+function* getAllOrders(action) {
+  try {
+    const responseData = yield call(api.getAllOrders, {
+      token: action.payload.token,
+      adminId: action.payload.adminId,
+      fromDate: action.payload.fromSelectedDate,
+      toDate: action.payload.ToSelectedDate,
+    });
+    console.log(responseData);
+    yield put(actions.getAllOrdersSuccess(responseData.data.orders));
+  } catch (e) {
+    yield put(
+      actions.getAllOrdersFailure({
+        error: "Could not get all products from server",
+      })
+    );
+  }
+}
+
+function* watchGetAllOrdersRequest() {
+  yield takeLatest(actions.Types.GET_ALL_ORDERS_REQUEST, getAllOrders);
+}
+
 const adminSagas = [
   fork(watchDeleteRequest),
   fork(watchGetGlobalDataRequest),
   fork(watchRateChangeRequest),
+  fork(watchGetAllOrdersRequest),
 ];
 
 export default adminSagas;
