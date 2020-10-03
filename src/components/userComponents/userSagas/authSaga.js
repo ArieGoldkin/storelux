@@ -27,7 +27,7 @@ function* signUpUser(action) {
   } catch (e) {
     yield put(
       actions.AuthFailure({
-        error: "an error happend when trying add new user",
+        error: "an error happened when trying add new user",
       })
     );
   }
@@ -59,13 +59,13 @@ function* loginUser(action) {
   } catch (e) {
     yield put(
       actions.LoginFailure({
-        error: "an error happend when trying login",
+        error: "an error happened when trying login",
       })
     );
   }
 }
 
-function* watchLoginUserReques() {
+function* watchLoginUserRequest() {
   yield takeLatest(actions.Types.USER_LOGIN_START, loginUser);
 }
 function* logoutUser(action) {
@@ -76,7 +76,7 @@ function* logoutUser(action) {
   yield put(actions.logoutSucceed());
 }
 
-function* watchLogoutUserReques() {
+function* watchLogoutUserRequest() {
   yield takeLatest(actions.Types.USER_AUTH_INITIATE_LOGOUT, logoutUser);
 }
 
@@ -85,7 +85,7 @@ function* checkAuthTimeSaga(action) {
   yield put(actions.logout());
 }
 
-function* watchcheckAuthTimeSaga() {
+function* watchCheckAuthTimeSaga() {
   yield takeLatest(actions.Types.USER_AUTH_CHECK_TIMEOUT, checkAuthTimeSaga);
 }
 
@@ -110,16 +110,16 @@ function* authCheckStateSaga(action) {
   }
 }
 
-function* watchauthCheckStateSaga() {
+function* watchAuthCheckStateSaga() {
   yield takeLatest(actions.Types.USER_AUTH_CHECK_STATE, authCheckStateSaga);
 }
 
 const authSagas = [
   fork(watchSignupUserRequest),
-  fork(watchLoginUserReques),
-  fork(watchLogoutUserReques),
-  fork(watchcheckAuthTimeSaga),
-  fork(watchauthCheckStateSaga),
+  fork(watchLoginUserRequest),
+  fork(watchLogoutUserRequest),
+  fork(watchCheckAuthTimeSaga),
+  fork(watchAuthCheckStateSaga),
 ];
 
 export default authSagas;
