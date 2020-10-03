@@ -41,7 +41,7 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: authSelectors.getAuthtoken(state),
+    isAuthenticated: authSelectors.getAuthToken(state),
   };
 };
 
