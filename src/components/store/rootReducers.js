@@ -10,7 +10,8 @@ import updateProductReducer from "../productComponents/productsReducers/UpdatePr
 import addProductToCartReducer from "../productComponents/productsReducers/AddProductToCartReducer";
 import { shoppingCartReducer } from "../shoppingCartComponents/ShoppingCartReducers/ShoppingCartReducer";
 import orderReducer from "../orderComponents/orderReducers/OrderReducer";
-import adminReducer from "../adminComponents/adminReducer/adminReducer";
+import globalReducer from "../adminComponents/adminReducer/globalReducer";
+import adminAllOrdersReducer from "../adminComponents/adminReducer/adminAllOrdersReducer";
 import { Types } from "../userComponents/usersActions/authActions";
 
 const rootReducer = combineReducers({
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   addToCart: addProductToCartReducer,
   cart: shoppingCartReducer,
   order: orderReducer,
-  admin: adminReducer,
+  global: globalReducer,
+  adminAllOrders: adminAllOrdersReducer,
 });
 
 export default (state, action) =>
