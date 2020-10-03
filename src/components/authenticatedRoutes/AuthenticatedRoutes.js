@@ -6,6 +6,7 @@ import * as adminActions from "../adminComponents/adminActions/adminActions";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
+// import PageNotFound from "../common/PageNoFound";
 import Logout from "../userComponents/Logout";
 import AddCategory from "../adminComponents/addCategory/AddCategory";
 import ShowAllProductsList from "../adminComponents/showAllProductsList/ShowAllProductsList";
@@ -37,9 +38,24 @@ const UpdateProduct = React.lazy(() =>
 );
 
 const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
+  let adminRoutes;
+
   useEffect(() => {
     getGlobalData(token);
   }, [getGlobalData, token]);
+
+  if (isAdmin === "admin") {
+    adminRoutes = (
+      <Switch>
+        <Route path="/admin/addcategory" component={AddCategory} />
+        <Route path="/admin/showallProducts" component={ShowAllProductsList} />
+        <Route path="/admin/ratechanges" component={AdminRateChange} />
+        <Route path="/admin/allorders" component={OrderManage} />
+        <Redirect to="/products" />
+      </Switch>
+    );
+  }
+
   return (
     <>
       <Switch>
@@ -59,17 +75,7 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
         <Route path="/product/:productId" component={UpdateProduct} />
         <Route path="/about" component={AboutPage} />
         <Route path="/logout" component={Logout} />
-        {isAdmin === "admin" && (
-          <>
-            <Route path="/admin/addcategory" component={AddCategory} />
-            <Route
-              path="/admin/showallProducts"
-              component={ShowAllProductsList}
-            />
-            <Route path="/admin/ratechanges" component={AdminRateChange} />
-            <Route path="/admin/allorders" component={OrderManage} />
-          </>
-        )}
+        {adminRoutes}
         <Redirect to="/products" />
         {/* <Route component={PageNotFound} /> */}
       </Switch>
@@ -81,7 +87,7 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
 const mapStateToProps = (state) => {
   return {
     isAdmin: authSelectors.getAuthAdmin(state),
-    token: authSelectors.getAuthtoken(state),
+    token: authSelectors.getAuthToken(state),
   };
 };
 
