@@ -1,7 +1,7 @@
 import React from "react";
 
 import Card from "../common/UIElements/Card";
-import Avatar from "../common/UIElements/Avatar";
+import CustomAvatar from "../common/UIElements/CustomAvatar";
 import Button from "../common/FormElements/Button";
 
 const UserProfileItem = ({ user }) => {
@@ -11,7 +11,7 @@ const UserProfileItem = ({ user }) => {
         <div className="info">
           <div className="user-profile__profile-name">
             <div className="avatar-size">
-              <Avatar
+              <CustomAvatar
                 image={`${process.env.REACT_APP_BACKEND_URL}/${user.image}`}
                 alt={user.firstName}
               />

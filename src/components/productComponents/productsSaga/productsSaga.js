@@ -1,5 +1,6 @@
 import { takeLatest, call, put, fork, take } from "redux-saga/effects";
 import * as actions from "../productsActions/productsActions";
+import * as searchActions from "../productsActions/SearchProductsActions";
 import * as api from "../../api/productsApi";
 import { toast } from "react-toastify";
 
@@ -118,8 +119,9 @@ function* deleteProductRequest({ token, productId, userId }) {
   try {
     yield call(api.deleteProduct, token, productId);
     yield put(actions.deleteProductSuccess(productId));
-
-    yield call(getUserProducts, { userId });
+    yield toast.info("Product successfully removed.");
+    debugger;
+    // yield call(getUserProducts, { userId });
   } catch (e) {
     yield put(
       actions.deleteProductFailure({
@@ -140,6 +142,33 @@ function* watchDeleteProductRequest() {
   }
 }
 
+function* getProductsByTitle(action) {
+  // console.log(action);
+  // debugger;
+  try {
+    const responseData = yield call(api.findProductByTitle, {
+      title: action.payload.title,
+    });
+    console.log(responseData.data);
+    yield put(
+      searchActions.searchProductsByTitleSuccess(responseData.data.products)
+    );
+  } catch (e) {
+    yield put(
+      searchActions.searchProductsByTitleFailure({
+        error: "Could not get products from server",
+      })
+    );
+  }
+}
+
+function* watchSearchProductsByTitle() {
+  yield takeLatest(
+    searchActions.Types.FIND_PRODUCTS_BY_TITLE_REQUEST,
+    getProductsByTitle
+  );
+}
+
 const productsSagas = [
   fork(watchGetProductsRequest),
   fork(watchCreateProductRequest),
@@ -147,6 +176,7 @@ const productsSagas = [
   fork(watchDeleteProductRequest),
   fork(watchGetProductRequest),
   fork(watchUpdateProductRequest),
+  fork(watchSearchProductsByTitle),
 ];
 
 export default productsSagas;

@@ -13,7 +13,7 @@ import * as userActions from "../userComponents/usersActions/UserActions";
 const ShoppingCartList = (props) => {
   const {
     cartItems,
-    cartSummaryloading,
+    cartSummaryLoading,
     cartSummary,
     userId,
     loadUser,
@@ -26,7 +26,7 @@ const ShoppingCartList = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    if (cartSummaryloading) {
+    if (cartSummaryLoading) {
       setIsLoading(true);
     } else {
       setIsLoading(false);
@@ -39,7 +39,7 @@ const ShoppingCartList = (props) => {
     cartSummary.totalPrice,
     cartSummary.totalSum,
     cartSummary.vat,
-    cartSummaryloading,
+    cartSummaryLoading,
   ]);
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
     userId: authSelectors.getAuthUserId(state),
     cartItems: cartSelectors.getCartItems(state),
     isDone: cartSelectors.getCartIsDone(state),
-    cartSummaryloading: cartSelectors.getCartSummaryLoading(state),
+    cartSummaryLoading: cartSelectors.getCartSummaryLoading(state),
     cartSummary: cartSelectors.getCartSummary(state),
   };
 };

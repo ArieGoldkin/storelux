@@ -1,82 +1,93 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import AllProductsList from "./AllProductsList";
-import ErrorModal from "../common/UIElements/ErrorModal";
-import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import Card from "../common/UIElements/Card";
-import Search from "../common/FormElements/Search";
-import * as userSelectors from "../userComponents/selectors/UserSelectors";
-import * as allProductsSelectors from "./selectors/AllProductsSelectors";
-import * as addToCartSelectors from "./selectors/AddToCartSelectors";
-import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
+import * as searchActions from "../productComponents/productsActions/SearchProductsActions";
 import * as productsAction from "./productsActions/productsActions";
 import * as usersAction from "../userComponents/usersActions/UserActions";
+import * as allProductsSelectors from "./selectors/AllProductsSelectors";
+import * as userSelectors from "../userComponents/selectors/UserSelectors";
+import { makeStyles } from "@material-ui/core/styles";
+import Search from "../common/FormElements/Search";
+import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import ErrorModal from "../common/UIElements/ErrorModal";
+import AllProductsList from "./AllProductsList";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    width: "80%",
+    margin: "0 auto",
+    "& > *": {
+      margin: "1rem",
+      //   width: theme.spacing(16),
+      //   height: theme.spacing(16),
+    },
+  },
+  spinnerPosition: {
+    textAlign: "center",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+}));
 
 const AllProducts = ({
+  products,
+  users,
+  loadingProducts,
   loadProducts,
   loadUsers,
-  products,
-  productsDone,
-  usersDone,
-  users,
+  loadingUsers,
   usersError,
   productsError,
-  loadingProducts,
-  loadingUsers,
-  addToCart,
-  globalError,
+  loadSearchedProducts,
+  itemLoading,
 }) => {
+  const classes = useStyles();
+
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingItems, setLoadingItems] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
-
   const [searchValue, setSearchValue] = useState("");
-
-  useEffect(() => {
-    if (!usersDone && !productsDone) {
-      loadUsers();
-      loadProducts();
-    } else if (!productsDone) {
-      loadProducts();
-    } else if (!usersDone) {
-      loadUsers();
-    }
-    window.scrollTo({
-      behavior: "smooth",
-      top: 0,
-    });
-  }, [loadProducts, loadUsers, productsDone, usersDone]);
-
-  useEffect(() => {
-    if (loadingProducts || loadingUsers || addToCart.loading) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-    if (usersError) {
-      setErrorMessage(usersError.error);
-    }
-    if (productsError) {
-      setErrorMessage(productsError.error);
-    }
-    if (globalError) {
-      setErrorMessage(globalError.error);
-    }
-    if (addToCart.error) {
-      setErrorMessage(addToCart.error);
-    }
-  }, [
-    addToCart,
-    globalError,
-    loadingProducts,
-    loadingUsers,
-    productsError,
-    usersError,
-  ]);
 
   const clearError = () => {
     setErrorMessage(null);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadSearchedProducts(searchValue);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [loadSearchedProducts, searchValue]);
+
+  useEffect(() => {
+    if (loadingProducts) {
+      setIsLoading(true);
+      loadProducts();
+    } else {
+      setIsLoading(false);
+    }
+    itemLoading ? setLoadingItems(true) : setLoadingItems(false);
+  }, [itemLoading, loadProducts, loadingProducts]);
+
+  useEffect(() => {
+    if (loadingUsers) {
+      setIsLoading(true);
+      loadUsers();
+    } else {
+      setIsLoading(false);
+    }
+  }, [loadUsers, loadingUsers]);
+
+  useEffect(() => {
+    usersError && setErrorMessage(usersError.error);
+    productsError && setErrorMessage(productsError.error);
+  }, [productsError, usersError]);
 
   return (
     <>
@@ -86,41 +97,40 @@ const AllProducts = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && products && (
-        <div className="products-list__table">
-          <Card>
-            <Search searchValue={searchValue} setSearchValue={setSearchValue} />
-            <AllProductsList
-              products={products}
-              searchValue={searchValue}
-              users={users}
-            />
-          </Card>
+      {!isLoading && products && users && (
+        <div className={classes.root}>
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+          {loadingItems && (
+            <div className={classes.spinnerPosition}>
+              <LoadingSpinner />
+            </div>
+          )}
+          {!loadingItems && (
+            <AllProductsList products={products} users={users} />
+          )}
         </div>
       )}
     </>
   );
 };
-
 const mapStateToProps = (state) => {
   return {
-    usersDone: userSelectors.getUsersIsDone(state),
-    productsDone: allProductsSelectors.getProductsIsDone(state),
-    failure: allProductsSelectors.getProductsFailure(state),
     products: allProductsSelectors.getProducts(state),
     loadingProducts: allProductsSelectors.getProductsLoading(state),
+    productsError: allProductsSelectors.getProductsError(state),
     users: userSelectors.getUsers(state),
     loadingUsers: userSelectors.getUsersLoading(state),
     usersError: userSelectors.getUsersError(state),
-    productsError: allProductsSelectors.getProductsError(state),
-    addToCart: addToCartSelectors.getAddToCartState(state),
-    globalError: globalSelectors.getError(state),
+    itemLoading: allProductsSelectors.getItemLoading(state),
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     loadProducts: () => dispatch(productsAction.getProductsRequest()),
     loadUsers: () => dispatch(usersAction.getUsersRequest()),
+    loadSearchedProducts: (searchValue) =>
+      dispatch(searchActions.searchProductsByTitleRequest(searchValue)),
   };
 };
 

@@ -15,20 +15,18 @@ const ShoppingCart = ({
   token,
   loading,
   cart,
-  isDone,
   loadCart,
   error,
-  loadVatRate,
   vatRate,
 }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!isDone) {
+    if (loading) {
       loadCart(userId, token, vatRate);
     }
-  }, [isDone, loadCart, token, userId, loadVatRate, vatRate]);
+  }, [loadCart, loading, token, userId, vatRate]);
 
   useEffect(() => {
     if (loading) {
@@ -53,7 +51,7 @@ const ShoppingCart = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && (
+      {!isLoading && cart && (
         <div className="user-cart__wrapper">
           <ShoppingCartList items={cart} />
         </div>
@@ -66,7 +64,6 @@ const mapStateToProps = (state) => {
     cart: cartSelectors.getCartItems(state),
     loading: cartSelectors.getCartLoading(state),
     error: cartSelectors.getCartError(state),
-    isDone: cartSelectors.getCartIsDone(state),
     userId: authSelectors.getAuthUserId(state),
     token: authSelectors.getAuthToken(state),
     vatRate: globalSelectors.getCurrentVatRate(state),

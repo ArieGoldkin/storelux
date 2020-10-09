@@ -12,6 +12,7 @@ import { shoppingCartReducer } from "../shoppingCartComponents/ShoppingCartReduc
 import orderReducer from "../orderComponents/orderReducers/OrderReducer";
 import globalReducer from "../adminComponents/adminReducer/globalReducer";
 import adminAllOrdersReducer from "../adminComponents/adminReducer/adminAllOrdersReducer";
+import adminAllProductsReducer from "../adminComponents/adminReducer/adminAllProductsReducer";
 import { Types } from "../userComponents/usersActions/authActions";
 
 const rootReducer = combineReducers({
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   global: globalReducer,
   adminAllOrders: adminAllOrdersReducer,
+  adminAllProducts: adminAllProductsReducer,
 });
 
 export default (state, action) =>

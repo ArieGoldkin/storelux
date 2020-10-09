@@ -30,7 +30,12 @@ const UserProducts = ({
     } else {
       setIsLoading(false);
     }
-    if (userId !== currentUserId || !isDone || redirected) {
+    // if (userId !== currentUserId || !isDone || redirected) {
+    //   loadUserProducts(userId);
+    //   setCurrentUserId(userId);
+    // }
+
+    if (!isDone) {
       loadUserProducts(userId);
       setCurrentUserId(userId);
     }

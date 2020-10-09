@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
-import { makeStyles } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import ShowAllProductsItem from "./ShowAllProductsItem";
 import EnhancedTableHead from "./EnhancedTableHead";
@@ -19,86 +18,50 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Checkbox from "@material-ui/core/Checkbox";
 import Paper from "@material-ui/core/Paper";
 
-import * as productSelectors from "../../productComponents/selectors/AllProductsSelectors";
+import { useStyles } from "./tableStyle";
+import { columnsData } from "./tableColumnsData";
+import * as adminProductsSelectors from "../selectors/AllProductsSelectors";
+import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
 import * as userSelectors from "../../userComponents/selectors/UserSelectors";
-import * as productsAction from "../../productComponents/productsActions/productsActions";
+import * as adminActions from "../adminActions/adminActions";
 import * as usersAction from "../../userComponents/usersActions/UserActions";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
+const theme = createMuiTheme({
+  overrides: {
+    MuiTableRow: {
+      root: {
+        "&$selected": {
+          backgroundColor: "#EAECF7",
+        },
+        "&:hover": {
+          backgroundColor: "#EAECF7",
+        },
+      },
+    },
   },
-  paper: {
-    width: "100%",
-    marginBottom: theme.spacing(2),
+  palette: {
+    primary: {
+      light: "#6fbf73",
+      main: "##f44336",
+      dark: "#ba000d",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: "#f44336",
+    },
   },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: "rect(0 0 0 0)",
-    height: 1,
-    margin: -1,
-    overflow: "hidden",
-    padding: 0,
-    position: "absolute",
-    top: 20,
-    width: 1,
-  },
-  tableHead: {
-    fontWeight: "bold",
-    fontSize: "1.7vh",
-  },
-  tableWrapper: {
-    width: "60%",
-    margin: "0 auto",
-    display: "flex",
-    justifyContent: "space-around",
-    marginTop: "1rem",
-  },
-  tableHeight: {
-    height: "40rem",
-  },
-  checkBox: {
-    color: "#1976D2",
-  },
-}));
-
-const columns = [
-  { id: "image", align: "left" },
-  { id: "title", label: "Product Title", minWidth: 170, align: "left" },
-  { id: "owner", label: "Owner", minWidth: 100, align: "left" },
-  {
-    id: "category",
-    label: "Category",
-    minWidth: 100,
-    align: "left",
-  },
-  {
-    id: "price",
-    label: "Price",
-    minWidth: 100,
-    align: "left",
-  },
-  {
-    id: "units",
-    label: "Units",
-    minWidth: 65,
-    align: "left",
-    format: (value) => value.toFixed(2),
-  },
-];
+});
 
 const ShowAllProductsList = ({
   products,
   users,
   loading,
-  loadProducts,
+  loadAllProducts,
   loadUsers,
   productsError,
   usersError,
-  productLoading,
+  adminId,
+  token,
 }) => {
   const classes = useStyles();
 
@@ -128,8 +91,8 @@ const ShowAllProductsList = ({
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = products.map((product) => product.id);
-      setSelected(newSelecteds);
+      const newSelected = products.map((product) => product.id);
+      setSelected(newSelected);
       return;
     }
     setSelected([]);
@@ -159,12 +122,12 @@ const ShowAllProductsList = ({
   useEffect(() => {
     if (loading) {
       setIsLoading(true);
-      loadProducts();
+      loadAllProducts({ adminId, token });
       loadUsers();
     } else {
       setIsLoading(false);
     }
-  }, [loadProducts, loadUsers, loading]);
+  }, [adminId, loadAllProducts, loadUsers, loading, token]);
 
   useEffect(() => {
     if (usersError) {
@@ -179,22 +142,6 @@ const ShowAllProductsList = ({
     setErrorMessage(null);
   };
 
-  const getMuiTheme = () =>
-    createMuiTheme({
-      overrides: {
-        MuiTableRow: {
-          root: {
-            "&$selected": {
-              backgroundColor: "#EAECF7",
-            },
-            "&:hover": {
-              backgroundColor: "#EAECF7",
-            },
-          },
-        },
-      },
-    });
-
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
@@ -205,7 +152,7 @@ const ShowAllProductsList = ({
       )}
       {!isLoading && products && users && (
         <div className={classes.tableWrapper}>
-          <Paper className={classes.root}>
+          <Paper className={classes.root} elevation={3}>
             <EnhancedTableToolbar
               numSelected={selected.length}
               selectedItems={selected}
@@ -225,7 +172,7 @@ const ShowAllProductsList = ({
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
                   rowCount={products.length}
-                  columns={columns}
+                  columns={columnsData}
                 />
                 <TableBody>
                   {stableSort(products, getComparator(order, orderBy))
@@ -235,14 +182,9 @@ const ShowAllProductsList = ({
                       const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
-                        <MuiThemeProvider
-                          theme={getMuiTheme()}
-                          key={product.id}
-                        >
+                        <MuiThemeProvider theme={theme} key={product.id}>
                           <TableRow
                             hover
-                            onClick={(event) => handleClick(event, product.id)}
-                            role="checkbox"
                             aria-checked={isItemSelected}
                             tabIndex={-1}
                             key={product.id}
@@ -251,13 +193,18 @@ const ShowAllProductsList = ({
                             <TableCell padding="checkbox">
                               <Checkbox
                                 className={classes.checkBox}
+                                onClick={(event) =>
+                                  handleClick(event, product.id)
+                                }
                                 color="default"
                                 checked={isItemSelected}
                                 inputProps={{ "aria-labelledby": labelId }}
                               />
                             </TableCell>
                             <ShowAllProductsItem
+                              place={index}
                               key={product.id}
+                              productId={product.id}
                               title={product.title}
                               owner={users.map((user) =>
                                 user.id === product.creator
@@ -267,6 +214,7 @@ const ShowAllProductsList = ({
                               category={product.category}
                               price={product.price}
                               units={product.units}
+                              available={product.active}
                               image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
                             />
                           </TableRow>
@@ -294,18 +242,20 @@ const ShowAllProductsList = ({
 
 const mapStateToProps = (state) => {
   return {
-    products: productSelectors.getProducts(state),
-    loading: productSelectors.getProductsLoading(state),
+    products: adminProductsSelectors.getAllProducts(state),
+    loading: adminProductsSelectors.getLoading(state),
     users: userSelectors.getUsers(state),
     usersError: userSelectors.getUsersError(state),
-    productsError: productSelectors.getProductsError(state),
-    productLoading: productSelectors.getItemLoading(state),
+    productsError: adminProductsSelectors.getError(state),
+    adminId: authSelectors.getAuthUserId(state),
+    token: authSelectors.getAuthToken(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadProducts: () => dispatch(productsAction.getProductsRequest()),
+    loadAllProducts: ({ adminId, token }) =>
+      dispatch(adminActions.getAllProductsRequest({ adminId, token })),
     loadUsers: () => dispatch(usersAction.getUsersRequest()),
   };
 };

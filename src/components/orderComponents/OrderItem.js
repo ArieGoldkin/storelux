@@ -1,5 +1,5 @@
 import React from "react";
-import Avatar from "../common/UIElements/Avatar";
+import CustomAvatar from "../common/UIElements/CustomAvatar";
 import "./ordersCss/OrderItem.css";
 
 const OrderItem = (props) => {
@@ -8,7 +8,7 @@ const OrderItem = (props) => {
     <>
       <div className={`item_wrapper ${props.className}`}>
         <div className="product-modal_image_item" style={props.imageItem}>
-          <Avatar
+          <CustomAvatar
             style={props.style}
             className="image_avatar"
             image={product.image}

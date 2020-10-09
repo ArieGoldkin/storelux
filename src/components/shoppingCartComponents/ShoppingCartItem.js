@@ -47,7 +47,7 @@ const ShoppingCartItem = (props) => {
       removeQuantity(productId);
     }
   };
-  const deleteProductfromCart = () => {
+  const deleteProductFromCart = () => {
     onDeleteProductCart(token, userId, productId);
   };
 
@@ -120,7 +120,7 @@ const ShoppingCartItem = (props) => {
                 </div>
                 <button
                   className="product-cart__delete-item"
-                  onClick={deleteProductfromCart}
+                  onClick={deleteProductFromCart}
                 >
                   <img src={bin} alt="delete" />
                 </button>

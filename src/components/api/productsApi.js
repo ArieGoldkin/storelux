@@ -4,6 +4,12 @@ export const getProducts = () => {
   return axios.get("/api/products");
 };
 
+export const findProductByTitle = ({ title }) => {
+  return axios.post("/api/products/searchByTitle", {
+    title,
+  });
+};
+
 export const createProduct = ({ token, formData }) => {
   return axios.post("/api/products", formData, {
     headers: {

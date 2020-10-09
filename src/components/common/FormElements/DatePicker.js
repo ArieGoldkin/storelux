@@ -37,23 +37,22 @@ const DatePicker = ({
           disableToolbar
           variant="inline"
           margin="normal"
-          label="From"
-          value={fromSelectedDate}
-          onChange={(date) => FromHandleDateChange(date)}
-          maxDate={ToSelectedDate}
-          format="dd/MM/yyyy"
-          autoOk={true}
-        />
-
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          margin="normal"
           label="To"
           value={ToSelectedDate}
           maxDateMessage
           minDate={fromSelectedDate}
           onChange={(date) => ToHandleDateChange(date)}
+          format="dd/MM/yyyy"
+          autoOk={true}
+        />
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          margin="normal"
+          label="From"
+          value={fromSelectedDate}
+          onChange={(date) => FromHandleDateChange(date)}
+          maxDate={ToSelectedDate}
           format="dd/MM/yyyy"
           autoOk={true}
         />

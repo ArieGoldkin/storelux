@@ -25,4 +25,9 @@ export const useStyle = makeStyles((theme) => ({
     fontSize: "1.2rem",
     margin: 0,
   },
+  userNameSearchHeader: {
+    margin: 0,
+    padding: "1rem 1rem 0 1rem",
+    fontSize: "1.2rem",
+  },
 }));

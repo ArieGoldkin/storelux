@@ -10,9 +10,10 @@ import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
 import * as usersSelectors from "../../userComponents/selectors/UserSelectors";
 import Card from "../../common/UIElements/Card";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
+import ErrorModal from "../../common/UIElements/ErrorModal";
 import DatePicker from "../../common/FormElements/DatePicker";
 // import ErrorModal from "../../common/UIElements/ErrorModal";
-import Paper from "@material-ui/core/Paper";
+import { Paper, TextField } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -25,12 +26,14 @@ import OrderListItems from "./OrderListItems";
 const OrderManage = ({
   token,
   adminId,
-  getAllOrders,
+  getOrdersByDate,
   loading,
   orders,
   users,
   getUsers,
   userLoading,
+  getOrdersByUserName,
+  ordersError,
 }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
@@ -38,19 +41,17 @@ const OrderManage = ({
   const [isLoading, setIsLoading] = useState(false);
   const [fromSelectedDate, setFromSelectedDate] = useState(new Date());
   const [ToSelectedDate, setToSelectedDate] = useState(new Date());
-  // console.log(fromSelectedDate);
-  // console.log(ToSelectedDate);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [userName, setUserName] = useState();
 
-  // const filteredOrders = orders
-  //   .filter(
-  //     (order) =>
-  //       new Date(order.createdAt) >= fromSelectedDate &&
-  //       new Date(order.createdAt) <= ToSelectedDate
-  //   )
-  //   .map((order) => order);
-  // const filteredData = orders.map((order) => new Date(order.createdAt));
-  // console.log(filteredOrders);
-
+  const nameChangeHandler = (event) => {
+    event.preventDefault();
+    setUserName(event.target.value);
+    // console.log(event.target.value);
+    // console.log(userName);
+    // console.log(...userName);
+  };
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -60,8 +61,8 @@ const OrderManage = ({
     setPage(0);
   };
   useEffect(() => {
-    getAllOrders({ token, adminId, fromSelectedDate, ToSelectedDate });
-  }, [ToSelectedDate, adminId, fromSelectedDate, getAllOrders, token]);
+    getOrdersByDate({ token, adminId, fromSelectedDate, ToSelectedDate });
+  }, [ToSelectedDate, adminId, fromSelectedDate, getOrdersByDate, token]);
 
   useEffect(() => {
     if (loading) {
@@ -77,27 +78,63 @@ const OrderManage = ({
     }
   }, [getUsers, userLoading]);
 
+  useEffect(() => {
+    ordersError && setErrorMessage(ordersError.error);
+  }, [ordersError]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (userName) {
+        getOrdersByUserName({ token, adminId, userName });
+      } else {
+      }
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [adminId, getOrdersByUserName, token, userName]);
+
+  const clearError = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <>
-      {isLoading && (
-        <div className="center">
-          <LoadingSpinner />
+      <ErrorModal error={errorMessage} onClear={clearError} />
+      <Card className={classes.tableWrapper}>
+        <div className={classes.datePickerWrapper}>
+          <h4 className={classes.datePickerHeader}>
+            Search orders by date range:
+          </h4>
+          <DatePicker
+            fromSelectedDate={fromSelectedDate}
+            setFromSelectedDate={setFromSelectedDate}
+            ToSelectedDate={ToSelectedDate}
+            setToSelectedDate={setToSelectedDate}
+          />
         </div>
-      )}
-      {!isLoading && orders && users && (
-        <Card className={classes.tableWrapper}>
-          <div className={classes.datePickerWrapper}>
-            <h4 className={classes.datePickerHeader}>
-              Select orders date range:
-            </h4>
-            <DatePicker
-              fromSelectedDate={fromSelectedDate}
-              setFromSelectedDate={setFromSelectedDate}
-              ToSelectedDate={ToSelectedDate}
-              setToSelectedDate={setToSelectedDate}
+        <div className={classes.datePickerWrapper}>
+          <h4 className={classes.userNameSearchHeader}>
+            Search orders by User name:
+          </h4>
+          <form>
+            <TextField
+              id="userName"
+              label="User Name"
+              color="primary"
+              onChange={nameChangeHandler}
             />
-          </div>
-          <Paper className={classes.tablePadding}>
+          </form>
+        </div>
+        <Paper className={classes.tablePadding}>
+          {isLoading && (
+            <div className="center">
+              <LoadingSpinner
+                style={{ display: "flex", alignItems: "center" }}
+              />
+            </div>
+          )}
+          {!isLoading && orders && users && (
             <TableContainer className={classes.container}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -129,18 +166,18 @@ const OrderManage = ({
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={orders.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-          </Paper>
-        </Card>
-      )}
+          )}
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={orders.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Card>
     </>
   );
 };
@@ -154,14 +191,15 @@ const mapStateToProps = (state) => {
     loading: allOrdersSelectors.getAllOrdersLoading(state),
     users: usersSelectors.getUsers(state),
     userLoading: usersSelectors.getUsersLoading(state),
+    ordersError: allOrdersSelectors.getAllOrdersError(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllOrders: ({ token, adminId, fromSelectedDate, ToSelectedDate }) =>
+    getOrdersByDate: ({ token, adminId, fromSelectedDate, ToSelectedDate }) =>
       dispatch(
-        adminActions.getAllOrdersRequest({
+        adminActions.getOrdersByDateRequest({
           token,
           adminId,
           fromSelectedDate,
@@ -169,6 +207,10 @@ const mapDispatchToProps = (dispatch) => {
         })
       ),
     getUsers: () => dispatch(usersActions.getUsersRequest()),
+    getOrdersByUserName: ({ token, adminId, userName }) =>
+      dispatch(
+        adminActions.getOrdersByUserNameRequest({ token, adminId, userName })
+      ),
   };
 };
 

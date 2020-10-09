@@ -5,40 +5,24 @@ export const Types = {
   ADD_TO_CART_FAILURE: "cart/ADD_TO_CART_FAILURE",
 };
 
-// export const addToCartStart = () => ({
-//   type: Types.ADD_TO_CART_START,
-// });
-
-export const addToCartRequest = (
+export const addToCartRequest = ({
   userId,
   token,
-  productId,
+  selectedProduct,
   quantity,
-  title,
-  category,
-  price,
-  units,
-  description,
-  image
-) => ({
+}) => ({
   type: Types.ADD_TO_CART_REQUEST,
   payload: {
     userId,
     token,
-    productId,
+    selectedProduct,
     quantity,
-    title,
-    category,
-    price,
-    units,
-    description,
-    image,
   },
 });
 
-export const addToCartSuccess = (item) => ({
+export const addToCartSuccess = (items) => ({
   type: Types.ADD_TO_CART_SUCCESS,
-  payload: item,
+  payload: items,
 });
 
 export const addToCartFailure = ({ error }) => ({

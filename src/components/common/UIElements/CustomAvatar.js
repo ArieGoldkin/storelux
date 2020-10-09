@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Avatar.css";
 
-const Avatar = (props) => {
+const CustomAvatar = (props) => {
   return (
     <div className={`avatar ${props.className}`} style={props.style}>
       <img
@@ -14,4 +14,4 @@ const Avatar = (props) => {
   );
 };
 
-export default Avatar;
+export default CustomAvatar;

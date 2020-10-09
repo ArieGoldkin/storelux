@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Avatar from "../common/UIElements/Avatar";
+import CustomAvatar from "../common/UIElements/CustomAvatar";
 import Card from "../common/UIElements/Card";
 import "./usersCss/UserItem.css";
 
@@ -11,7 +11,7 @@ const UserItem = (props) => {
       <Card className="user-item__content cardPadding">
         <Link to={`/${props.id}/products`}>
           <div className="user-item__image">
-            <Avatar
+            <CustomAvatar
               image={`${process.env.REACT_APP_BACKEND_URL}/${props.image}`}
               alt={props.firstName}
             />

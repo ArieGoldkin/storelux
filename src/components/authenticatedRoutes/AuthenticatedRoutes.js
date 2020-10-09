@@ -7,6 +7,7 @@ import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
 // import PageNotFound from "../common/PageNoFound";
+
 import Logout from "../userComponents/Logout";
 import AddCategory from "../adminComponents/addCategory/AddCategory";
 import ShowAllProductsList from "../adminComponents/showAllProductsList/ShowAllProductsList";
@@ -22,6 +23,7 @@ const UpdateUserProfile = React.lazy(() =>
 const AllProducts = React.lazy(() =>
   import("../productComponents/AllProducts")
 );
+
 const AllProductsOrder = React.lazy(() =>
   import("../orderComponents/AllProductsOrder")
 );
