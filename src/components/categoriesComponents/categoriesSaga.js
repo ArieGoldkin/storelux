@@ -1,6 +1,7 @@
 import { takeLatest, call, put, fork } from "redux-saga/effects";
 import * as actions from "./categoriesActions";
 import * as api from "../api/categoriesApi";
+import * as adminAPI from "../api/adminApi";
 import { toast } from "react-toastify";
 
 function* getCategoriesRequest() {
@@ -14,7 +15,7 @@ function* getCategoriesRequest() {
   } catch (e) {
     yield put(
       actions.getCategoriesFailure({
-        error: "An error happend when trying get all categories",
+        error: "An error happened when trying get all categories",
       })
     );
   }
@@ -26,18 +27,18 @@ function* watchGetCategoriesRequest() {
 
 function* AddNewCategory(action) {
   try {
-    const responseData = yield call(api.addCategory, {
+    const responseData = yield call(adminAPI.addCategory, {
       adminId: action.adminId,
       token: action.token,
       name: action.category,
     });
     console.log(responseData.data);
     yield put(actions.addCategorySuccess(responseData.data));
-    yield toast.info("New Category added successfuly.");
+    yield toast.info("New Category added successfully.");
   } catch (e) {
     yield put(
       actions.addCategoryFailure({
-        error: "Could not add new Category, check connection and try again.",
+        error: "Could not add new Category, Category already exists.",
       })
     );
   }
