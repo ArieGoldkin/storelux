@@ -1,46 +1,86 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import Modal from "../common/UIElements/Modal";
-import Button from "../common/FormElements/Button";
-import Avatar from "../common/UIElements/Avatar";
-import ErrorModal from "../common/UIElements/ErrorModal";
+import * as addToCartSelectors from "./selectors/AddToCartSelectors";
 import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as actionTypes from "./productsActions/addToCartActions";
+
+import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import CustomAvatar from "../common/UIElements/CustomAvatar";
+import ErrorModal from "../common/UIElements/ErrorModal";
+import Modal from "../common/UIElements/Modal";
+import { useStyles } from "./productsCss/AllProductsItemNewStyle";
+import {
+  CardMedia,
+  CardHeader,
+  Button,
+  Menu,
+  MenuItem,
+  Avatar,
+} from "@material-ui/core";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 import "./productsCss/AllProductsItem.css";
 
-const AllProductsItem = (props) => {
-  const [showProduct, setShowProduct] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [productId, setProductId] = useState();
-  const [title, setTitle] = useState();
-  const [category, setCategory] = useState();
-  const [price, setPrice] = useState();
-  const [units, setUnits] = useState();
-  const [description, setDescription] = useState();
-  const [image, setImage] = useState();
+const options = ["user products"];
+const ITEM_HEIGHT = 48;
 
-  const { onAddProductToCart, userId, token } = props;
+const AllProductsItem = (props) => {
+  const classes = useStyles();
+
+  const { onAddProductToCart, userId, token, loading, place } = props;
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [loadingItem, setLoadingItem] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [showProduct, setShowProduct] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const [selectedProduct, setSelectedProduct] = useState({
+    productId: props.id,
+    title: props.title,
+    category: props.category,
+    quantity: 1,
+    price: props.price,
+    units: props.units,
+    description: props.description,
+    image: props.image,
+  });
 
   const openProductHandler = () => {
     setShowProduct(true);
-    setProductId(props.id);
     setQuantity(quantity);
-    setTitle(props.title);
-    setPrice(props.price);
-    setUnits(props.units);
-    setImage(props.image);
-    setDescription(props.description);
-    setCategory(props.category);
+    setSelectedProduct({
+      productId: props.id,
+      title: props.title,
+      category: props.category,
+      price: props.price,
+      units: props.units,
+      description: props.description,
+      image: props.image,
+    });
   };
 
   const closeProductHandler = () => setShowProduct(false);
 
-  // number of available units in current product
+  const addToCart = (event) => {
+    event.preventDefault();
+    setLoadingItem(place);
+    onAddProductToCart({ userId, token, selectedProduct, quantity });
+    setIsLoading(true);
+  };
 
   const addQuantityHandler = () => {
-    if (quantity !== units) {
+    if (quantity !== props.units) {
       setQuantity(quantity + 1);
     }
   };
@@ -51,24 +91,37 @@ const AllProductsItem = (props) => {
     }
   };
 
-  const addProductToCart = async (event) => {
+  const addProductToCart = (event) => {
+    console.log(place);
     event.preventDefault();
+    setLoadingItem(place);
     setShowProduct(false);
-    onAddProductToCart(userId, token, {
-      productId,
-      quantity,
-      title,
-      category,
-      price,
-      units,
-      description,
-      image,
-    });
+    onAddProductToCart({ userId, token, selectedProduct, quantity });
+    setIsLoading(true);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const clearError = () => {
     setErrorMessage(null);
   };
+
+  useEffect(() => {
+    if (loading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+      setLoadingItem(null);
+    }
+  }, [loading]);
+
+  let currentImage = props.userImage.find((image) => image !== false);
 
   return (
     <>
@@ -81,16 +134,14 @@ const AllProductsItem = (props) => {
         footerClass="product-item__modal-actions"
         footer={
           <>
-            <Button danger onClick={closeProductHandler}>
-              CLOSE
-            </Button>
+            <Button onClick={closeProductHandler}>CLOSE</Button>
             <Button onClick={addProductToCart}>ADD TO CART</Button>
           </>
         }
       >
         <div className="info-container">
           <div className="product-modal_image">
-            <Avatar
+            <CustomAvatar
               className="image_radius"
               image={props.image}
               alt={props.title}
@@ -117,54 +168,113 @@ const AllProductsItem = (props) => {
         </div>
       </Modal>
       <ErrorModal error={errorMessage} onClear={clearError} />
-
-      <tr key={props.id}>
-        <td className="td_product_image ">
-          <Avatar
-            className="image_radius"
-            image={props.image}
-            alt={props.title}
-          />
-        </td>
-        <td>{props.title}</td>
-        <td>{props.creatorId}</td>
-        <td>{props.category}</td>
-        <td>{props.price + "$"}</td>
-        <td>{props.units}</td>
-        <td className="btn_td">
-          <Button onClick={openProductHandler}>Add to Cart</Button>
-        </td>
-      </tr>
+      <Grid item className={classes.itemSize} index={place}>
+        {place === loadingItem && isLoading ? (
+          <div className={classes.centerSpinner}>
+            <LoadingSpinner className={classes.spinner} />
+          </div>
+        ) : (
+          <Paper className={props.className}>
+            <div>
+              <CardHeader
+                avatar={<Avatar aria-label="recipe" src={currentImage} />}
+                action={
+                  <>
+                    <IconButton
+                      aria-label="more"
+                      aria-controls="long-menu"
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="long-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={open}
+                      onClose={handleClose}
+                      PaperProps={{
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: "20ch",
+                        },
+                      }}
+                    >
+                      {options.map((option) => (
+                        <MenuItem
+                          key={option}
+                          selected={option === "Pyxis"}
+                          onClick={handleClose}
+                        >
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </>
+                }
+                title={props.creatorId}
+                subheader={new Date(props.uploadDate).toLocaleDateString()}
+              />
+              <div className={classes.imageWrapper}>
+                <CardMedia
+                  component="img"
+                  className={classes.media}
+                  image={props.image}
+                  title={props.title}
+                />
+              </div>
+              <CardContent className={classes.textContent}>
+                <div className={classes.productTitle}>
+                  <Typography align="left" variant="h6" component="h2">
+                    {props.title}
+                  </Typography>
+                  <Typography align="left" variant="h6" component="h2">
+                    {`$${props.price}`}
+                  </Typography>
+                </div>
+                <Typography
+                  align="left"
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                >
+                  {props.description}
+                </Typography>
+              </CardContent>
+            </div>
+            <CardActions>
+              <Button size="small" color="primary" onClick={addToCart}>
+                Add to cart
+              </Button>
+              <Button size="small" color="primary" onClick={openProductHandler}>
+                View more
+              </Button>
+            </CardActions>
+          </Paper>
+        )}
+      </Grid>
     </>
   );
 };
-
 const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
     token: authSelectors.getAuthToken(state),
+    loading: addToCartSelectors.getAddToCartLoading(state),
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddProductToCart: (
-      userId,
-      token,
-      { productId, quantity, title, category, price, units, description, image }
-    ) =>
+    onAddProductToCart: ({ userId, token, selectedProduct, quantity }) =>
       dispatch(
-        actionTypes.addToCartRequest(
+        actionTypes.addToCartRequest({
           userId,
           token,
-          productId,
+          selectedProduct,
           quantity,
-          title,
-          category,
-          price,
-          units,
-          description,
-          image
-        )
+        })
       ),
   };
 };
