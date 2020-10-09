@@ -73,34 +73,109 @@ function* watchDeleteRequest() {
   }
 }
 
-function* getAllOrders(action) {
+function* getOrdersByDate(action) {
   try {
-    const responseData = yield call(api.getAllOrders, {
+    const responseData = yield call(api.getOrdersByDate, {
       token: action.payload.token,
       adminId: action.payload.adminId,
       fromDate: action.payload.fromSelectedDate,
       toDate: action.payload.ToSelectedDate,
     });
     console.log(responseData);
-    yield put(actions.getAllOrdersSuccess(responseData.data.orders));
+    yield put(actions.getOrdersByDateSuccess(responseData.data.orders));
   } catch (e) {
     yield put(
-      actions.getAllOrdersFailure({
-        error: "Could not get all products from server",
+      actions.getOrdersByDateFailure({
+        error: "Could not get orders from server",
       })
     );
   }
 }
 
-function* watchGetAllOrdersRequest() {
-  yield takeLatest(actions.Types.GET_ALL_ORDERS_REQUEST, getAllOrders);
+function* watchGetOrdersByDateRequest() {
+  yield takeLatest(actions.Types.GET_ORDERS_BY_DATE_REQUEST, getOrdersByDate);
+}
+
+function* getAllProducts(action) {
+  try {
+    const responseData = yield call(api.getAllProducts, {
+      token: action.payload.token,
+      adminId: action.payload.adminId,
+    });
+    console.log(responseData);
+    const products = responseData.data.products;
+    yield put(actions.getAllProductsSuccess({ products }));
+  } catch (e) {
+    yield put(
+      actions.getAllProductsFailure({
+        error: "Could not get all products from data base.",
+      })
+    );
+  }
+}
+
+function* watchGetAllProductsRequest() {
+  yield takeLatest(actions.Types.GET_ALL_PRODUCTS_REQUEST, getAllProducts);
+}
+
+function* changeProductStatus(action) {
+  try {
+    const responseData = yield call(api.productStatusChange, {
+      adminId: action.payload.adminId,
+      token: action.payload.token,
+      productId: action.payload.productId,
+    });
+    console.log(responseData);
+    yield put(actions.changeStatusSuccess(responseData.data.product));
+  } catch (e) {
+    yield put(
+      actions.changeStatusFailure({
+        error: "Could not change status, please try again.",
+      })
+    );
+  }
+}
+
+function* watchProductStatusChange() {
+  yield takeLatest(
+    actions.Types.CHANGE_PRODUCT_STATUS_START,
+    changeProductStatus
+  );
+}
+
+function* getOrdersByUserName(action) {
+  try {
+    const responseData = yield call(api.getOrdersByUserName, {
+      token: action.payload.token,
+      adminId: action.payload.adminId,
+      userName: action.payload.userName,
+    });
+    console.log(responseData.data);
+    yield put(actions.getOrdersByUserNameSuccess(responseData.data.orders));
+  } catch (e) {
+    yield put(
+      actions.getOrdersByUserNameFailure({
+        error: "Could not get orders by user name.",
+      })
+    );
+  }
+}
+
+function* watchGetOrdersByUserNameRequest() {
+  yield takeLatest(
+    actions.Types.GET_ORDERS_BY_USER_NAME_REQUEST,
+    getOrdersByUserName
+  );
 }
 
 const adminSagas = [
   fork(watchDeleteRequest),
   fork(watchGetGlobalDataRequest),
   fork(watchRateChangeRequest),
-  fork(watchGetAllOrdersRequest),
+  fork(watchGetOrdersByDateRequest),
+  fork(watchGetAllProductsRequest),
+  fork(watchProductStatusChange),
+  fork(watchGetOrdersByUserNameRequest),
 ];
 
 export default adminSagas;
