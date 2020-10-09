@@ -40,12 +40,33 @@ const onLogOutUser = (state, action) => {
     isDone: false,
   });
 };
+const deleteUserProductSuccess = (state, action) => {
+  console.log(state);
+  console.log(action);
+  debugger;
+  return updateObject(state, {
+    items: state.items.filter((item) => {
+      return !action.productId.includes(item.id);
+    }),
+    loading: false,
+    isDone: true,
+  });
+};
 
 const deleteUserProductError = (state, action) => {
   return updateObject(state, {
     error: action.error,
     loading: false,
     isDone: true,
+  });
+};
+const createUserProductSuccess = (state, action) => {
+  console.log(action);
+  debugger;
+  return updateObject(state, {
+    items: state.items.concat(action.product),
+    loading: false,
+    hasChanged: true,
   });
 };
 
@@ -74,8 +95,10 @@ export default function userProductsReducer(state = initialState, action) {
       return onLogOutUser(state, action);
     case Types.DELETE_PRODUCT_REQUEST:
       return addOrDeleteUserProductRequest(state, action);
+    case Types.DELETE_PRODUCT_SUCCESS:
+      return deleteUserProductSuccess(state, action);
     case Types.CREATE_PRODUCT_SUCCESS:
-      return addOrDeleteUserProductRequest(state, action);
+      return createUserProductSuccess(state, action);
     case userTypes.GET_USERS_SUCCESS:
       return changingHasChangeAfterGetUsers(state, action);
     case Types.DELETE_PRODUCT_FAILURE:
