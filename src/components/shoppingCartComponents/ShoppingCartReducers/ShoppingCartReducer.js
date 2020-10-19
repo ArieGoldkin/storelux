@@ -119,17 +119,35 @@ const updateProductQuantityFailure = (state, action) => {
 };
 
 const addToCartSuccess = (state, action) => {
-  const index = state.items.findIndex(
-    (item) => item.id === action.payload.items.id
-  );
-  let newArray = [ ...state.items ];
-  if (index !== -1) {
-    newArray[index].quantity = action.payload.items.quantity;
-  } else {
-    newArray = action.payload.items;
-  }
+  console.log(state);
+  console.log(action);
+  // const index = state.items.findIndex(
+  //   (item) => item.id === action.payload.items.id
+  // );
+  // debugger;
+  // let newArray = [...state.items]; // need to map instead, in order to create a correct copy of key value pares
+  // if (index !== -1) {
+  //   newArray[index].quantity = action.payload.items.quantity;
+  // } else {
+  //   newArray = action.payload.items;
+  // }
+  // debugger;
   return updateObject(state, {
-    items: newArray,
+    items: action.payload.items,
+    loading: false,
+    cartSummary: {
+      totalPrice: action.payload.cartSum.total,
+      vat: action.payload.cartSum.calcVat,
+      totalSum: action.payload.cartSum.sum,
+      loading: false,
+    },
+  });
+};
+
+const addToCartFailure = (state, action) => {
+  return updateObject(state, {
+    error: action.payload.error,
+    loading: false,
   });
 };
 
@@ -143,6 +161,7 @@ const deleteProductCartRequest = (state, action) => {
 
 const addingProductsToCart = (state, action) => {
   return updateObject(state, {
+    loading: true,
     isDone: false,
   });
 };
@@ -185,6 +204,8 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return addingProductsToCart(state, action);
     case addToCartActions.ADD_TO_CART_SUCCESS:
       return addToCartSuccess(state, action);
+    case addToCartActions.ADD_TO_CART_FAILURE:
+      return addToCartFailure(state, action);
     case orderActions.ADD_ORDER_REQUEST:
     case adminActions.UPDATE_VAT_RATE_SUCCESS:
       return setCartLoading(state, action);

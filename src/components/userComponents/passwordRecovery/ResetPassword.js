@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import * as authSelectors from "./selectors/AuthSelectors";
-import * as actions from "./usersActions/ResetUserPasswordActions";
-import Input from "../common/FormElements/Input";
-import Button from "../common/FormElements/Button";
-import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import ErrorModal from "../common/UIElements/ErrorModal";
-import Card from "../common/UIElements/Card";
-import { useForm } from "../hooks/form-hook";
-import { VALIDATOR_EMAIL } from "../common/util/InputValidators";
+import * as authSelectors from "../selectors/AuthSelectors";
+import * as actions from "../usersActions/ResetUserPasswordActions";
+import Input from "../../common/FormElements/Input";
+import Button from "../../common/FormElements/Button";
+import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
+import ErrorModal from "../../common/UIElements/ErrorModal";
+import Card from "../../common/UIElements/Card";
+import { useForm } from "../../hooks/form-hook";
+import { VALIDATOR_EMAIL } from "../../common/util/InputValidators";
 
-import "./usersCss/Auth.css";
+import "../usersCss/Auth.css";
 
 const ResetPassword = ({ resetPasswordRequest, loading, error }) => {
   const [isLoading, setIsLoading] = useState(false);

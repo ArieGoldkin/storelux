@@ -1,6 +1,6 @@
-import { Types } from "../productsActions/productsActions";
-import { Types as authTypes } from "../../userComponents/usersActions/authActions";
-import { Types as userTypes } from "../../userComponents/usersActions/UserActions";
+import { Types } from "../../productComponents/productsActions/productsActions";
+import { Types as authTypes } from "../usersActions/authActions";
+import { Types as userTypes } from "../usersActions/UserActions";
 import { updateObject } from "../../store/utility";
 
 const initialState = {
@@ -41,9 +41,6 @@ const onLogOutUser = (state, action) => {
   });
 };
 const deleteUserProductSuccess = (state, action) => {
-  console.log(state);
-  console.log(action);
-  debugger;
   return updateObject(state, {
     items: state.items.filter((item) => {
       return !action.productId.includes(item.id);
@@ -61,8 +58,6 @@ const deleteUserProductError = (state, action) => {
   });
 };
 const createUserProductSuccess = (state, action) => {
-  console.log(action);
-  debugger;
   return updateObject(state, {
     items: state.items.concat(action.product),
     loading: false,
@@ -80,6 +75,25 @@ const addOrDeleteUserProductRequest = (state, action) => {
 const changingHasChangeAfterGetUsers = (state, action) => {
   return updateObject(state, {
     hasChanged: false,
+  });
+};
+
+const updateProductRequest = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
+
+const updateProductSuccess = (state, action) => {
+  console.log(state);
+  console.log(action);
+  let updatedProductsArray = state.items.map((item) =>
+    item.id === action.product.id ? action.product : item
+  );
+  return updateObject(state, {
+    items: updatedProductsArray,
+    loading: false,
+    error: null,
   });
 };
 
@@ -103,6 +117,10 @@ export default function userProductsReducer(state = initialState, action) {
       return changingHasChangeAfterGetUsers(state, action);
     case Types.DELETE_PRODUCT_FAILURE:
       return deleteUserProductError(state, action);
+    case Types.UPDATE_PRODUCT_REQUEST:
+      return updateProductRequest(state, action);
+    case Types.UPDATE_PRODUCT_SUCCESS:
+      return updateProductSuccess(state, action);
     default:
       return state;
   }

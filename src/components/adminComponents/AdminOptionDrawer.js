@@ -13,8 +13,7 @@ import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRoun
 import MonetizationOnOutlinedIcon from "@material-ui/icons/MonetizationOnOutlined";
 import ListIcon from "@material-ui/icons/List";
 import ViewListIcon from "@material-ui/icons/ViewList";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import BarChartIcon from "@material-ui/icons/BarChart";
 
 const useStyles = makeStyles({
   list: {
@@ -50,13 +49,11 @@ const AdminOptionDrawer = (props) => {
     { title: "Show all products", linkTo: "/admin/showallProducts" },
     { title: "Fixed rate changes", linkTo: "/admin/ratechanges" },
     { title: "All orders", linkTo: "/admin/allorders" },
+    { title: "Traffic Charts", linkTo: "/admin/trafficChart" },
   ];
 
   const list = (anchor) => (
     <div
-      // className={clsx(classes.list, {
-      //   [classes.fullList]: anchor === "top" || anchor === "bottom",
-      // })}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -74,6 +71,7 @@ const AdminOptionDrawer = (props) => {
                   <MonetizationOnOutlinedIcon />
                 )}
                 {type.title === "All orders" && <ListIcon />}
+                {type.title === "Traffic Charts" && <BarChartIcon />}
               </ListItemIcon>
               <ListItemText primary={type.title} />
             </ListItem>
@@ -81,16 +79,6 @@ const AdminOptionDrawer = (props) => {
         ))}
       </List>
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
     </div>
   );
 

@@ -22,7 +22,10 @@ export const Types = {
   DELETE_PRODUCT_REQUEST: "product/DELETE_PRODUCT.REQUEST",
   DELETE_PRODUCT_SUCCESS: "product/DELETE_PRODUCT.SUCCESS",
   DELETE_PRODUCT_FAILURE: "product/DELETE_PRODUCT.FAILURE",
+
+  ON_CHANGE_INPUT_SEARCH: "products/ON_CHANGE_INPUT_SEARCH",
 };
+
 
 // get products actions
 export const getProductsRequest = () => ({
@@ -120,4 +123,8 @@ export const updateProductSuccess = (item) => ({
 export const updateProductFailure = (error) => ({
   type: Types.UPDATE_PRODUCT_FAILURE,
   error: error,
+});
+
+export const onChangeSearchInput = () => ({
+  type: Types.ON_CHANGE_INPUT_SEARCH,
 });

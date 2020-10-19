@@ -189,3 +189,25 @@ export const getOrdersByUserNameFailure = (error) => ({
     error,
   },
 });
+
+export const getOrdersRequest = ({ adminId, token }) => ({
+  type: Types.GET_ALL_ORDERS_REQUEST,
+  payload: {
+    adminId,
+    token,
+  },
+});
+
+export const getOrdersSuccess = (orders) => ({
+  type: Types.GET_ALL_ORDERS_SUCCESS,
+  payload: {
+    orders,
+  },
+});
+
+export const getOrdersFailure = (error) => ({
+  type: Types.GET_ALL_ORDERS_FAILURE,
+  payload: {
+    error,
+  },
+});

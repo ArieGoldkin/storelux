@@ -150,7 +150,6 @@ function* getOrdersByUserName(action) {
       adminId: action.payload.adminId,
       userName: action.payload.userName,
     });
-    console.log(responseData.data);
     yield put(actions.getOrdersByUserNameSuccess(responseData.data.orders));
   } catch (e) {
     yield put(
@@ -168,6 +167,26 @@ function* watchGetOrdersByUserNameRequest() {
   );
 }
 
+function* getOrders(action) {
+  try {
+    const responseData = yield call(api.getOrders, {
+      adminId: action.payload.adminId,
+      token: action.payload.token,
+    });
+    yield put(actions.getOrdersSuccess(responseData.data.orders));
+  } catch (e) {
+    yield put(
+      actions.getOrdersFailure({
+        error: "Could not get Orders form server.",
+      })
+    );
+  }
+}
+
+function* watchGetOrdersRequest() {
+  yield takeLatest(actions.Types.GET_ALL_ORDERS_REQUEST, getOrders);
+}
+
 const adminSagas = [
   fork(watchDeleteRequest),
   fork(watchGetGlobalDataRequest),
@@ -176,6 +195,7 @@ const adminSagas = [
   fork(watchGetAllProductsRequest),
   fork(watchProductStatusChange),
   fork(watchGetOrdersByUserNameRequest),
+  fork(watchGetOrdersRequest),
 ];
 
 export default adminSagas;

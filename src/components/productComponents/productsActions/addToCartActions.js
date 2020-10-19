@@ -10,6 +10,7 @@ export const addToCartRequest = ({
   token,
   selectedProduct,
   quantity,
+  vatRate,
 }) => ({
   type: Types.ADD_TO_CART_REQUEST,
   payload: {
@@ -17,15 +18,19 @@ export const addToCartRequest = ({
     token,
     selectedProduct,
     quantity,
+    vatRate,
   },
 });
 
-export const addToCartSuccess = (items) => ({
+export const addToCartSuccess = (items, cartSum) => ({
   type: Types.ADD_TO_CART_SUCCESS,
-  payload: items,
+  payload: {
+    items,
+    cartSum,
+  },
 });
 
-export const addToCartFailure = ({ error }) => ({
+export const addToCartFailure = (error) => ({
   type: Types.ADD_TO_CART_FAILURE,
   payload: {
     error,

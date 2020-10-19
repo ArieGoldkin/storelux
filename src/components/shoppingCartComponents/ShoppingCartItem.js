@@ -42,7 +42,7 @@ const ShoppingCartItem = (props) => {
   };
 
   const removeQuantityHandler = () => {
-    if (quantity) {
+    if (quantity > 1) {
       setQuantity(quantity - 1);
       removeQuantity(productId);
     }
@@ -89,7 +89,7 @@ const ShoppingCartItem = (props) => {
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
       {orderLoading && (
-        <div className="loadingSpinerPosion">
+        <div className="loadingSpinnerPosition">
           <LoadingSpinner />
         </div>
       )}

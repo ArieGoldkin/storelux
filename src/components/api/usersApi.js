@@ -41,3 +41,15 @@ export const updateUserPassword = ({ resetToken, password }) => {
     resetToken,
   });
 };
+
+export const getUserOrders = ({ token, userId }) => {
+  return axios.post(
+    `${UsersAPI}/userOrders`,
+    { userId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+};

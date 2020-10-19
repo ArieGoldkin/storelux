@@ -1,7 +1,7 @@
 import { Types } from "../productsActions/productsActions";
 import { updateObject } from "../../store/utility";
 
-// import { Types as adminActions } from "../../adminComponents/adminActions/adminActions";
+import { Types as adminActions } from "../../adminComponents/adminActions/adminActions";
 import { Types as searchActions } from "../productsActions/SearchProductsActions";
 import { Types as OrderActions } from "../../orderComponents/orderActions/OrderActions";
 
@@ -10,7 +10,7 @@ const initialState = {
   error: null,
   loading: true,
   isDone: false,
-  failure: false,
+  failure: false, // need to remove
   itemLoading: false,
 };
 
@@ -41,9 +41,6 @@ const getProductsFailure = (state, action) => {
 };
 
 const onDeleteProductSuccess = (state, action) => {
-  console.log(state);
-  console.log(action);
-  debugger;
   return updateObject(state, {
     items: state.items.filter((item) => {
       return !action.productId.includes(item.id);
@@ -65,11 +62,12 @@ const updateOrdersQuantityState = (state, action) => {
   });
 };
 
-const searchProductsByTitleRequest = (state, action) => {
+const onSearchInputRequest = (state, action) => {
   return updateObject(state, {
     itemLoading: true,
   });
 };
+
 const searchProductsByTitleSuccess = (state, action) => {
   return updateObject(state, {
     items: action.payload.items,
@@ -84,23 +82,11 @@ const searchProductsByTitleFailure = (state, action) => {
   });
 };
 
-// const requestProductStart = (state, action) => {
-//   return updateObject(state, {
-//     isDone: false,
-//     itemLoading: true,
-//   });
-// };
-// const adminDeleteSuccess = (state, action) => {
-//   return updateObject(state, {
-//     items: state.items.filter((item) => {
-//       return !action.items.includes(item.id);
-//     }),
-//     error: null,
-//     loading: false,
-//     isDone: true,
-//     itemLoading: false,
-//   });
-// };
+const productsStatusChanged = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
 
 export default function products(state = initialState, action) {
   switch (action.type) {
@@ -116,18 +102,14 @@ export default function products(state = initialState, action) {
       return onDeleteProductSuccess(state, action);
     case OrderActions.ADD_ORDER_SUCCESS:
       return updateOrdersQuantityState(state, action);
-    case searchActions.FIND_PRODUCTS_BY_TITLE_REQUEST:
-      return searchProductsByTitleRequest(state, action);
+    case Types.ON_CHANGE_INPUT_SEARCH:
+      return onSearchInputRequest(state, action);
     case searchActions.FIND_PRODUCTS_BY_TITLE_SUCCESS:
       return searchProductsByTitleSuccess(state, action);
     case searchActions.FIND_PRODUCTS_BY_TITLE_FAILURE:
       return searchProductsByTitleFailure(state, action);
-    // case adminActions.DELETE_PRODUCTS_REQUEST:
-    //   return requestProductStart(state, action);
-    // case adminActions.DELETE_PRODUCTS_SUCCESS:
-    //   return adminDeleteSuccess(state, action);
-    // case adminActions.DELETE_PRODUCTS_FAILURE:
-    //   return getProductsFailure(state, action);
+    case adminActions.CHANGE_PRODUCT_STATUS_SUCCESS:
+      return productsStatusChanged(state, action);
     default:
       return state;
   }

@@ -7,12 +7,9 @@ import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
 // import PageNotFound from "../common/PageNoFound";
-
+import UserOrders from "../userComponents/userOrders/UserOrders";
 import Logout from "../userComponents/Logout";
-import AddCategory from "../adminComponents/addCategory/AddCategory";
-import ShowAllProductsList from "../adminComponents/showAllProductsList/ShowAllProductsList";
-import OrderManage from "../adminComponents/orderManage/OrderManage";
-import AdminRateChange from "../adminComponents/adminRateChange/AdminRateChange";
+import AdminRoutes from "./AdminRoutes";
 import { ToastContainer } from "react-toastify";
 
 const Users = React.lazy(() => import("../userComponents/Users"));
@@ -47,15 +44,7 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
   }, [getGlobalData, token]);
 
   if (isAdmin === "admin") {
-    adminRoutes = (
-      <Switch>
-        <Route path="/admin/addcategory" component={AddCategory} />
-        <Route path="/admin/showallProducts" component={ShowAllProductsList} />
-        <Route path="/admin/ratechanges" component={AdminRateChange} />
-        <Route path="/admin/allorders" component={OrderManage} />
-        <Redirect to="/products" />
-      </Switch>
-    );
+    adminRoutes = <AdminRoutes />;
   }
 
   return (
@@ -65,6 +54,7 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
         <Route exact path="/users" component={Users} />
         <Route exact path="/user/profile" component={UserProfile} />
         <Route exact path="/user/:userId" component={UpdateUserProfile} />
+        <Route exact path="/user/profile/orders" component={UserOrders} />
         <Route path="/products" component={AllProducts} />
         <Route
           path="/:userId/shoppingCart/summary"
