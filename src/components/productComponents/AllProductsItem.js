@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import * as addToCartSelectors from "./selectors/AddToCartSelectors";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
 import * as actionTypes from "./productsActions/addToCartActions";
+
+import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
+import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import * as shoppingCartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
 
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import CustomAvatar from "../common/UIElements/CustomAvatar";
@@ -32,8 +35,8 @@ const ITEM_HEIGHT = 48;
 
 const AllProductsItem = (props) => {
   const classes = useStyles();
-
-  const { onAddProductToCart, userId, token, loading, place } = props;
+  const history = useHistory();
+  const { onAddProductToCart, userId, token, loading, place, vatRate } = props;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -75,7 +78,13 @@ const AllProductsItem = (props) => {
   const addToCart = (event) => {
     event.preventDefault();
     setLoadingItem(place);
-    onAddProductToCart({ userId, token, selectedProduct, quantity });
+    onAddProductToCart({
+      userId,
+      token,
+      selectedProduct,
+      quantity: 1,
+      vatRate,
+    });
     setIsLoading(true);
   };
 
@@ -86,7 +95,7 @@ const AllProductsItem = (props) => {
   };
 
   const removeQuantityHandler = () => {
-    if (quantity) {
+    if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
@@ -96,7 +105,7 @@ const AllProductsItem = (props) => {
     event.preventDefault();
     setLoadingItem(place);
     setShowProduct(false);
-    onAddProductToCart({ userId, token, selectedProduct, quantity });
+    onAddProductToCart({ userId, token, selectedProduct, quantity, vatRate });
     setIsLoading(true);
   };
 
@@ -120,6 +129,10 @@ const AllProductsItem = (props) => {
       setLoadingItem(null);
     }
   }, [loading]);
+
+  const handleMoveToUserItems = () => {
+    history.push(`/${props.creatorId}/products`);
+  };
 
   let currentImage = props.userImage.find((image) => image !== false);
 
@@ -205,7 +218,7 @@ const AllProductsItem = (props) => {
                         <MenuItem
                           key={option}
                           selected={option === "Pyxis"}
-                          onClick={handleClose}
+                          onClick={handleMoveToUserItems}
                         >
                           {option}
                         </MenuItem>
@@ -213,7 +226,7 @@ const AllProductsItem = (props) => {
                     </Menu>
                   </>
                 }
-                title={props.creatorId}
+                title={props.creatorName}
                 subheader={new Date(props.uploadDate).toLocaleDateString()}
               />
               <div className={classes.imageWrapper}>
@@ -261,19 +274,27 @@ const mapStateToProps = (state) => {
   return {
     userId: authSelectors.getAuthUserId(state),
     token: authSelectors.getAuthToken(state),
-    loading: addToCartSelectors.getAddToCartLoading(state),
+    loading: shoppingCartSelectors.getCartLoading(state),
+    vatRate: globalSelectors.getCurrentVatRate(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddProductToCart: ({ userId, token, selectedProduct, quantity }) =>
+    onAddProductToCart: ({
+      userId,
+      token,
+      selectedProduct,
+      quantity,
+      vatRate,
+    }) =>
       dispatch(
         actionTypes.addToCartRequest({
           userId,
           token,
           selectedProduct,
           quantity,
+          vatRate,
         })
       ),
   };

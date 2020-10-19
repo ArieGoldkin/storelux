@@ -15,11 +15,26 @@ import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ImageUpload from "../common/FormElements/ImageUpload";
 import { useForm } from "../hooks/form-hook";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as updateProductSelectors from "./selectors/UpdateProductSelector";
-import * as categoriesSelectors from "../categoriesComponents/categoriesSelectors";
+
+// IMPORTING SELECTORS
+import {
+  getAuthToken,
+  getAuthUserId,
+} from "../userComponents/selectors/AuthSelectors";
+import {
+  getUpdateProduct,
+  getUpdateProductLoading,
+  getUpdateProductError,
+} from "./selectors/UpdateProductSelector";
+import {
+  getCategories,
+  getCategoriesIsDone,
+} from "../categoriesComponents/categoriesSelectors";
+
+// IMPORTING ACTIONS
 import * as categoriesAction from "../categoriesComponents/categoriesActions";
 import * as productsAction from "./productsActions/productsActions";
+
 import "./productsCss/ProductForm.css";
 
 const UpdateProduct = ({
@@ -34,7 +49,7 @@ const UpdateProduct = ({
   productLoading,
   error,
 }) => {
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState();
   const [formState, inputHandler, setFormData] = useForm();
 
@@ -42,22 +57,26 @@ const UpdateProduct = ({
   const history = useHistory();
 
   let moveToTop = useRef();
+
   useEffect(() => {
     if (!isDone) {
       loadCategories();
     }
+  }, [isDone, loadCategories]);
 
-    if (error) {
-      setErrorMessage(error);
-    } else if (product.id !== productId) {
-      getProduct(productId);
-    }
+  useEffect(() => {
     if (productLoading) {
       setIsLoading(true);
+      getProduct(productId);
     } else {
       setIsLoading(false);
     }
+    if (error) {
+      setErrorMessage(error);
+    }
+  }, [error, getProduct, productId, productLoading]);
 
+  useEffect(() => {
     setFormData(
       {
         title: {
@@ -85,7 +104,6 @@ const UpdateProduct = ({
           isValid: true,
         },
       },
-
       true
     );
     if (moveToTop.current) {
@@ -94,16 +112,7 @@ const UpdateProduct = ({
         top: 0,
       });
     }
-  }, [
-    error,
-    getProduct,
-    isDone,
-    loadCategories,
-    product,
-    productId,
-    productLoading,
-    setFormData,
-  ]);
+  }, [error, product, productLoading, setFormData]);
 
   const clearError = () => {
     setErrorMessage(null);
@@ -231,13 +240,13 @@ const UpdateProduct = ({
 
 const mapStateToProps = (state) => {
   return {
-    categories: categoriesSelectors.getCategories(state),
-    isDone: categoriesSelectors.getCategoriesIsDone(state),
-    token: authSelectors.getAuthToken(state),
-    userId: authSelectors.getAuthUserId(state),
-    product: updateProductSelectors.getUpdateProduct(state),
-    productLoading: updateProductSelectors.getUpdateProductLoading(state),
-    error: updateProductSelectors.getUpdateProductError(state),
+    categories: getCategories(state),
+    isDone: getCategoriesIsDone(state),
+    token: getAuthToken(state),
+    userId: getAuthUserId(state),
+    product: getUpdateProduct(state),
+    productLoading: getUpdateProductLoading(state),
+    error: getUpdateProductError(state),
   };
 };
 

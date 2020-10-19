@@ -7,7 +7,7 @@ import NotAuthenticatedRoutes from "./notAuthenticatedRoutes/NotAuthenticatedRou
 import MainNavigation from "../components/common/Navigation/MainNavigation";
 import LoadingSpinner from "./common/UIElements/LoadingSpinner";
 import * as actions from "./userComponents/usersActions/authActions";
-import * as authSelectors from "./userComponents/selectors/AuthSelectors";
+import { getAuthToken } from "./userComponents/selectors/AuthSelectors";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = ({ isAuthenticated, onTryAutoSignup }) => {
@@ -41,7 +41,7 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: authSelectors.getAuthToken(state),
+    isAuthenticated: getAuthToken(state),
   };
 };
 

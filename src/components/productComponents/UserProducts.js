@@ -5,54 +5,38 @@ import { useParams } from "react-router-dom";
 import ProductList from "./ProductList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import * as userProductsSelectors from "./selectors/UserProductsSelectors";
-import * as newProductsSelector from "./selectors/NewProductSelectors";
+import {
+  getUserProducts,
+  getUserProductsIsDone,
+  getUserProductsLoading,
+  getUserProductsError,
+} from "./selectors/UserProductsSelectors";
+import { getNewProductRedirect } from "./selectors/NewProductSelectors";
 import * as productsAction from "./productsActions/productsActions";
 
 const UserProducts = ({
-  isDone,
   loadUserProducts,
   userProducts,
-  redirected,
   loading,
   error,
 }) => {
-  const [loadedProducts, setLoadedProducts] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const [currentUserId, setCurrentUserId] = useState();
   const { userId } = useParams();
+
 
   useEffect(() => {
     if (loading) {
       setIsLoading(true);
+      loadUserProducts(userId);
     } else {
       setIsLoading(false);
-    }
-    // if (userId !== currentUserId || !isDone || redirected) {
-    //   loadUserProducts(userId);
-    //   setCurrentUserId(userId);
-    // }
-
-    if (!isDone) {
-      loadUserProducts(userId);
-      setCurrentUserId(userId);
     }
     if (error) {
       setErrorMessage(error.error);
     }
-    setLoadedProducts(userProducts);
-  }, [
-    loadUserProducts,
-    userId,
-    userProducts,
-    isDone,
-    redirected,
-    loading,
-    error,
-    currentUserId,
-  ]);
+  }, [error, loadUserProducts, loading, userId]);
 
   const clearError = () => {
     setErrorMessage(null);
@@ -65,18 +49,18 @@ const UserProducts = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && loadedProducts && <ProductList items={loadedProducts} />}
+      {!isLoading && userProducts && <ProductList items={userProducts} />}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    userProducts: userProductsSelectors.getUserProducts(state),
-    isDone: userProductsSelectors.getUserProductsIsDone(state),
-    redirected: newProductsSelector.getNewProductRedirect(state),
-    loading: userProductsSelectors.getUserProductsLoading(state),
-    error: userProductsSelectors.getUserProductsError(state),
+    userProducts: getUserProducts(state),
+    isDone: getUserProductsIsDone(state),
+    redirected: getNewProductRedirect(state),
+    loading: getUserProductsLoading(state),
+    error: getUserProductsError(state),
   };
 };
 

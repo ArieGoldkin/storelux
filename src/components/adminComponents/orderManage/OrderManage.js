@@ -5,14 +5,25 @@ import { columnsTable } from "./TableColumns";
 import { useStyle } from "./OrderManageStyle";
 import * as adminActions from "../adminActions/adminActions";
 import * as usersActions from "../../userComponents/usersActions/UserActions";
-import * as allOrdersSelectors from "../selectors/AllOrdersSelectors";
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as usersSelectors from "../../userComponents/selectors/UserSelectors";
+import {
+  getAllOrders,
+  getIsDone,
+  getAllOrdersLoading,
+  getAllOrdersError,
+} from "../selectors/AllOrdersSelectors";
+import {
+  getAuthToken,
+  getAuthUserId,
+} from "../../userComponents/selectors/AuthSelectors";
+import {
+  getUsers,
+  getUsersLoading,
+} from "../../userComponents/selectors/UserSelectors";
+
 import Card from "../../common/UIElements/Card";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import DatePicker from "../../common/FormElements/DatePicker";
-// import ErrorModal from "../../common/UIElements/ErrorModal";
 import { Paper, TextField } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -51,7 +62,7 @@ const OrderManage = ({
     // console.log(userName);
     // console.log(...userName);
   };
-  
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -84,10 +95,7 @@ const OrderManage = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (userName) {
-        getOrdersByUserName({ token, adminId, userName });
-      } else {
-      }
+      getOrdersByUserName({ token, adminId, userName });
     }, 500);
     return () => {
       clearTimeout(timer);
@@ -184,14 +192,14 @@ const OrderManage = ({
 
 const mapStateToProps = (state) => {
   return {
-    token: authSelectors.getAuthToken(state),
-    adminId: authSelectors.getAuthUserId(state),
-    orders: allOrdersSelectors.getAllOrders(state),
-    orderIsDone: allOrdersSelectors.getIsDone(state),
-    loading: allOrdersSelectors.getAllOrdersLoading(state),
-    users: usersSelectors.getUsers(state),
-    userLoading: usersSelectors.getUsersLoading(state),
-    ordersError: allOrdersSelectors.getAllOrdersError(state),
+    token: getAuthToken(state),
+    adminId: getAuthUserId(state),
+    orders: getAllOrders(state),
+    orderIsDone: getIsDone(state),
+    loading: getAllOrdersLoading(state),
+    ordersError: getAllOrdersError(state),
+    users: getUsers(state),
+    userLoading: getUsersLoading(state),
   };
 };
 
