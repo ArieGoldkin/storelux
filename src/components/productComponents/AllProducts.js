@@ -4,12 +4,16 @@ import { connect } from "react-redux";
 import * as searchActions from "../productComponents/productsActions/SearchProductsActions";
 import * as productsAction from "./productsActions/productsActions";
 import * as usersAction from "../userComponents/usersActions/UserActions";
+
+import * as shoppingCartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
 import * as allProductsSelectors from "./selectors/AllProductsSelectors";
 import * as userSelectors from "../userComponents/selectors/UserSelectors";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Search from "../common/FormElements/Search";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ErrorModal from "../common/UIElements/ErrorModal";
+
 import AllProductsList from "./AllProductsList";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +48,7 @@ const AllProducts = ({
   productsError,
   loadSearchedProducts,
   itemLoading,
+  shoppingCartError,
 }) => {
   const classes = useStyles();
 
@@ -57,13 +62,15 @@ const AllProducts = ({
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      loadSearchedProducts(searchValue);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [loadSearchedProducts, searchValue]);
+    if (itemLoading) {
+      const timer = setTimeout(() => {
+        loadSearchedProducts(searchValue);
+      }, 500);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [itemLoading, loadSearchedProducts, searchValue]);
 
   useEffect(() => {
     if (loadingProducts) {
@@ -87,7 +94,8 @@ const AllProducts = ({
   useEffect(() => {
     usersError && setErrorMessage(usersError.error);
     productsError && setErrorMessage(productsError.error);
-  }, [productsError, usersError]);
+    shoppingCartError && setErrorMessage(shoppingCartError);
+  }, [shoppingCartError, productsError, usersError]);
 
   return (
     <>
@@ -122,6 +130,7 @@ const mapStateToProps = (state) => {
     loadingUsers: userSelectors.getUsersLoading(state),
     usersError: userSelectors.getUsersError(state),
     itemLoading: allProductsSelectors.getItemLoading(state),
+    shoppingCartError: shoppingCartSelectors.getCartError(state),
   };
 };
 

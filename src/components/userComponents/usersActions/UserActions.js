@@ -12,6 +12,10 @@ export const Types = {
   USER_UPDATE_REQUEST: "user/USER_UPDATE.REQUEST",
   USER_UPDATE_SUCCESS: "user/USER_UPDATE.SUCCESS",
   USER_UPDATE_FAILURE: "user/USER_UPDATE.FAILURE",
+
+  GET_USER_ORDERS_REQUEST: "user/GET_USER_ORDERS_REQUEST",
+  GET_USER_ORDERS_SUCCESS: "user/GET_USER_ORDERS_SUCCESS",
+  GET_USER_ORDERS_FAILURE: "user/GET_USER_ORDERS_FAILURE",
 };
 
 export const getUsersRequest = () => ({
@@ -27,7 +31,6 @@ export const userError = (error) => ({
   type: Types.GET_USERS_FAILURE,
   error: error,
 });
-
 
 export const userDataStart = (userId) => ({
   type: Types.USER_PROFILE_REQUEST,
@@ -61,3 +64,25 @@ export const userUpdateFailure = (error) => {
     error: error,
   };
 };
+
+export const getUserOrdersRequest = ({ userId, token }) => ({
+  type: Types.GET_USER_ORDERS_REQUEST,
+  payload: {
+    userId,
+    token,
+  },
+});
+
+export const getUserOrderSuccess = (items) => ({
+  type: Types.GET_USER_ORDERS_SUCCESS,
+  payload: {
+    items,
+  },
+});
+
+export const getUserOrderFailure = (error) => ({
+  type: Types.GET_USER_ORDERS_FAILURE,
+  payload: {
+    error,
+  },
+});

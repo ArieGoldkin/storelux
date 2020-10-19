@@ -5,7 +5,13 @@ import UsersList from "./UsersList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as actionTypes from "./usersActions/UserActions";
-import * as userSelectors from "./selectors/UserSelectors";
+import {
+  getUsers,
+  getUsersLoading,
+  getUsersError,
+  getUsersIsDone,
+  getUserProductsChange,
+} from "./selectors/UserSelectors";
 
 const Users = ({
   loadUsers,
@@ -24,6 +30,7 @@ const Users = ({
     }
     if (loading) {
       setIsLoading(true);
+      loadUsers();
     } else {
       setIsLoading(false);
     }
@@ -55,11 +62,11 @@ const Users = ({
 
 const mapStateToProps = (state) => {
   return {
-    users: userSelectors.getUsers(state),
-    loading: userSelectors.getUsersLoading(state),
-    error: userSelectors.getUsersError(state),
-    UsersIsDone: userSelectors.getUsersIsDone(state),
-    userProductsChange: userSelectors.getUserProductsChange(state),
+    users: getUsers(state),
+    loading: getUsersLoading(state),
+    error: getUsersError(state),
+    UsersIsDone: getUsersIsDone(state),
+    userProductsChange: getUserProductsChange(state),
   };
 };
 

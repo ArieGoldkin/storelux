@@ -1,6 +1,7 @@
 import { takeLatest, call, put, fork } from "redux-saga/effects";
 import * as actions from "../productsActions/addToCartActions";
 import * as api from "../../api/productsApi";
+import { calcSummary } from "../../common/util/calcTotalPrice";
 import { toast } from "react-toastify";
 
 function* addProductToCartRequest(action) {
@@ -17,7 +18,9 @@ function* addProductToCartRequest(action) {
       description: action.payload.selectedProduct.description,
       image: action.payload.selectedProduct.image,
     });
-    yield put(actions.addToCartSuccess(responseData.data));
+    const cartData = yield responseData.data.items;
+    const cartSummary = yield calcSummary(cartData, action.payload.vatRate);
+    yield put(actions.addToCartSuccess(responseData.data.items, cartSummary));
     yield toast.info("Product added successfully to cart.");
   } catch (e) {
     yield put(

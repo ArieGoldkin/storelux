@@ -3,8 +3,8 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
-import ResetPassword from "../userComponents/ResetPassword";
-import ResetPasswordPage from "../userComponents/RestPasswordPage";
+import ResetPassword from "../userComponents/passwordRecovery/ResetPassword";
+import ResetPasswordPage from "../userComponents/passwordRecovery/RestPasswordPage";
 import { ToastContainer } from "react-toastify";
 // import PageNotFound from "../common/PageNoFound";
 

@@ -38,7 +38,8 @@ function* AddNewCategory(action) {
   } catch (e) {
     yield put(
       actions.addCategoryFailure({
-        error: "Could not add new Category, Category already exists.",
+        error:
+          "Could not add new Category, Category already exists or please log in as admin.",
       })
     );
   }

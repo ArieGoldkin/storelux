@@ -6,8 +6,8 @@ export const calcSummary = (cart, vatRate) => {
   let totalPrice = cart.map((item) => item.price * item.quantity);
   totalPrice.map((item) => (newSum += item));
   calcVat = (newSum * vatRate).toFixed(2);
-  total = (newSum * vatRate + newSum).toFixed(2);
-  sum = newSum.toFixed(2);
+  total = newSum.toFixed(2);
+  sum = (parseFloat(calcVat) + newSum).toFixed(2);
   return { sum, calcVat, total };
 };
 
@@ -22,7 +22,7 @@ export const calcProductOrderSummary = (items, vatRate) => {
     newSum += totalPrice[i];
   }
   calcVat = (newSum * vatRate).toFixed(2);
-  total = (newSum * vatRate + newSum).toFixed(2);
-  sum = newSum.toFixed(2);
+  total = newSum.toFixed(2);
+  sum = (parseFloat(calcVat) + newSum).toFixed(2);
   return { sum, calcVat, total };
 };

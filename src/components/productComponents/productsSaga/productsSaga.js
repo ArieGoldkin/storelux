@@ -33,7 +33,6 @@ function* createProduct(action) {
       formData: action.formData,
     });
     yield put(actions.createProductSuccess(responseData.data.product));
-    console.log(responseData);
     yield toast.info("Product successfully added.");
   } catch (e) {
     yield put(
@@ -56,7 +55,6 @@ function* updateProduct(action) {
       formData: action.formData,
     });
     yield put(actions.updateProductSuccess(responseData.data.product));
-    console.log(responseData);
   } catch (e) {
     yield put(
       actions.updateProductFailure({
@@ -77,7 +75,6 @@ function* getProductRequest(action) {
       productId: action.productId,
     });
     yield put(actions.getProductSuccess(responseData.data.product));
-    console.log(responseData);
   } catch (e) {
     yield put(
       actions.getProductFailure({
@@ -101,7 +98,6 @@ function* getUserProducts(action) {
         items: responseData.data.products,
       })
     );
-    console.log(responseData);
   } catch (e) {
     yield put(
       actions.getUserProductsFailure({
@@ -115,13 +111,13 @@ function* watchGetUserProductsRequest() {
   yield takeLatest(actions.Types.GET_USER_PRODUCTS_REQUEST, getUserProducts);
 }
 
+
+// NEED TO CLEAN UP NO NEED FOR USER ID HERE
 function* deleteProductRequest({ token, productId, userId }) {
   try {
     yield call(api.deleteProduct, token, productId);
     yield put(actions.deleteProductSuccess(productId));
     yield toast.info("Product successfully removed.");
-    debugger;
-    // yield call(getUserProducts, { userId });
   } catch (e) {
     yield put(
       actions.deleteProductFailure({
@@ -143,13 +139,10 @@ function* watchDeleteProductRequest() {
 }
 
 function* getProductsByTitle(action) {
-  // console.log(action);
-  // debugger;
   try {
     const responseData = yield call(api.findProductByTitle, {
       title: action.payload.title,
     });
-    console.log(responseData.data);
     yield put(
       searchActions.searchProductsByTitleSuccess(responseData.data.products)
     );

@@ -4,10 +4,17 @@ import { connect } from "react-redux";
 import ShoppingCartList from "./ShoppingCartList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as cartSelectors from "./selectors/CartSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../userComponents/selectors/AuthSelectors";
+import {
+  getCartItems,
+  getCartLoading,
+  getCartError,
+} from "./selectors/CartSelectors";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
-import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
+import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
 import "./shoppingCartCss/ShoppingCartList.css";
 
 const ShoppingCart = ({
@@ -61,12 +68,12 @@ const ShoppingCart = ({
 };
 const mapStateToProps = (state) => {
   return {
-    cart: cartSelectors.getCartItems(state),
-    loading: cartSelectors.getCartLoading(state),
-    error: cartSelectors.getCartError(state),
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    vatRate: globalSelectors.getCurrentVatRate(state),
+    cart: getCartItems(state),
+    loading: getCartLoading(state),
+    error: getCartError(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
+    vatRate: getCurrentVatRate(state),
   };
 };
 

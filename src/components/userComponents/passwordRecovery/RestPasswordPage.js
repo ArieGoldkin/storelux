@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams, Redirect } from "react-router-dom";
 
-import * as actions from "../userComponents/usersActions/ResetUserPasswordActions";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import ErrorModal from "../common/UIElements/ErrorModal";
-import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import Input from "../common/FormElements/Input";
-import Button from "../common/FormElements/Button";
-import Card from "../common/UIElements/Card";
+import * as actions from "../usersActions/ResetUserPasswordActions";
+import * as authSelectors from "../selectors/AuthSelectors";
+import ErrorModal from "../../common/UIElements/ErrorModal";
+import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
+import Input from "../../common/FormElements/Input";
+import Button from "../../common/FormElements/Button";
+import Card from "../../common/UIElements/Card";
 import {
   VALIDATOR_MINLENGTH,
   PASSWORD_VALIDATE,
-} from "../common/util/InputValidators";
-import { useForm } from "../hooks/form-hook";
+} from "../../common/util/InputValidators";
+import { useForm } from "../../hooks/form-hook";
 
-import "./usersCss/Auth.css";
+import "../usersCss/Auth.css";
 
 const ResetPasswordPage = ({
   loading,

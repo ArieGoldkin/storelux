@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from "react";
+import { connect } from "react-redux";
 
+import * as productActions from "../../productComponents/productsActions/productsActions";
 import "./Search.css";
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = ({ searchValue, setSearchValue, onChangeInput }) => {
   const inputRef = useRef();
-
 
   useEffect(() => {
     inputRef.current.focus();
@@ -12,6 +13,7 @@ const Search = ({ searchValue, setSearchValue }) => {
 
   const handleChange = (event) => {
     setSearchValue(event.target.value);
+    onChangeInput();
   };
 
   return (
@@ -27,4 +29,10 @@ const Search = ({ searchValue, setSearchValue }) => {
   );
 };
 
-export default Search;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChangeInput: () => dispatch(productActions.onChangeSearchInput()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Search);

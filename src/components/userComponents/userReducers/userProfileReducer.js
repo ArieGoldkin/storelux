@@ -4,8 +4,13 @@ import { updateObject } from "../../store/utility";
 const initialState = {
   item: [],
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
+  userOrders: {
+    items: [],
+    userOrdersLoading: true,
+    ordersError: null,
+  },
 };
 
 const getUserDataStart = (state, action) => {
@@ -28,6 +33,31 @@ const getUserDataFailure = (state, action) => {
     isDone: true,
   });
 };
+const getOrdersRequest = (state, action) => {
+  return updateObject(state, {
+    userOrders: {
+      userOrdersLoading: true,
+    },
+  });
+};
+const getOrdersSuccess = (state, action) => {
+  return updateObject(state, {
+    userOrders: {
+      items: action.payload.items,
+      userOrdersLoading: false,
+      ordersError: null,
+    },
+  });
+};
+
+const getOrdersFailure = (state, action) => {
+  return updateObject(state, {
+    userOrders: {
+      ordersError: action.payload.error,
+      userOrdersLoading: false,
+    },
+  });
+};
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
@@ -43,18 +73,13 @@ export default function userReducer(state = initialState, action) {
       return getUserDataSuccess(state, action);
     case Types.USER_UPDATE_FAILURE:
       return getUserDataFailure(state, action);
+    case Types.GET_USER_ORDERS_REQUEST:
+      return getOrdersRequest(state, action);
+    case Types.GET_USER_ORDERS_SUCCESS:
+      return getOrdersSuccess(state, action);
+    case Types.GET_USER_ORDERS_FAILURE:
+      return getOrdersFailure(state, action);
     default:
       return state;
   }
 }
-
-// export const checkUserState = (state, isDone) => {
-//   switch (isDone) {
-//     case true:
-//       return state;
-//     case false:
-//       return (state.isDone = false);
-//     default:
-//       throw new Error(`Unknown isDone result.`);
-//   }
-// };

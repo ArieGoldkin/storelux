@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import "./HomePage.css";
 
 const HomePage = ({ isAuthenticated }) => {
-
   return (
     <>
       <div className="home-container">

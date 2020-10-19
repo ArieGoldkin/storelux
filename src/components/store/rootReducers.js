@@ -4,10 +4,9 @@ import usersReducer from "../userComponents/userReducers/UserReducer";
 import authReducer from "../userComponents/userReducers/AuthReducer";
 import userReducer from "../userComponents/userReducers/userProfileReducer";
 import categoriesReducer from "../categoriesComponents/categoriesReducer";
-import userProductsReducer from "../productComponents/productsReducers/UserProductsReducer";
+import userProductsReducer from "../userComponents/userReducers/UserProductsReducer";
 import createProductReducer from "../productComponents/productsReducers/NewProductReducer";
 import updateProductReducer from "../productComponents/productsReducers/UpdateProductReducer";
-import addProductToCartReducer from "../productComponents/productsReducers/AddProductToCartReducer";
 import { shoppingCartReducer } from "../shoppingCartComponents/ShoppingCartReducers/ShoppingCartReducer";
 import orderReducer from "../orderComponents/orderReducers/OrderReducer";
 import globalReducer from "../adminComponents/adminReducer/globalReducer";
@@ -24,7 +23,6 @@ const rootReducer = combineReducers({
   userProducts: userProductsReducer,
   newProduct: createProductReducer,
   updateProduct: updateProductReducer,
-  addToCart: addProductToCartReducer,
   cart: shoppingCartReducer,
   order: orderReducer,
   global: globalReducer,

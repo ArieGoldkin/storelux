@@ -14,9 +14,22 @@ import {
   VALIDATOR_SELECT,
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as categoriesSelectors from "../categoriesComponents/categoriesSelectors";
-import * as newProductSelectors from "./selectors/NewProductSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../userComponents/selectors/AuthSelectors";
+import {
+  getCategoriesLoading,
+  getCategories,
+  getCategoriesIsDone,
+  getCategoriesError,
+} from "../categoriesComponents/categoriesSelectors";
+import {
+  getNewProductLoading,
+  getNewProductError,
+  getNewProductRedirect,
+} from "./selectors/NewProductSelectors";
+
 import * as categoriesAction from "../categoriesComponents/categoriesActions";
 import * as productsAction from "./productsActions/productsActions";
 import "./productsCss/ProductForm.css";
@@ -192,15 +205,15 @@ const NewProduct = ({
 };
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    loading: categoriesSelectors.getCategoriesLoading(state),
-    productLoading: newProductSelectors.getNewProductLoading(state),
-    categories: categoriesSelectors.getCategories(state),
-    isDone: categoriesSelectors.getCategoriesIsDone(state),
-    categoryError: categoriesSelectors.getCategoriesError(state),
-    newProductError: newProductSelectors.getNewProductError(state),
-    canRedirect: newProductSelectors.getNewProductRedirect(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
+    loading: getCategoriesLoading(state),
+    productLoading: getNewProductLoading(state),
+    categories: getCategories(state),
+    isDone: getCategoriesIsDone(state),
+    categoryError: getCategoriesError(state),
+    newProductError: getNewProductError(state),
+    canRedirect: getNewProductRedirect(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

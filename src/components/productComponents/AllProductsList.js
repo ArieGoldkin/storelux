@@ -46,10 +46,11 @@ const AllProductsList = ({ products, users }) => {
             place={index}
             key={product.id}
             id={product.id}
+            creatorId={product.creator}
             active={product.active}
             image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
             title={product.title}
-            creatorId={users.map((user) =>
+            creatorName={users.map((user) =>
               user.id === product.creator
                 ? user.firstName + " " + user.lastName
                 : null

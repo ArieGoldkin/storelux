@@ -29,7 +29,6 @@ const createNewProductSuccess = (state, action) => {
 };
 
 const createNewProductFailure = (state, action) => {
-  debugger;
   return updateObject(state, {
     error: action.error.error,
     loading: false,

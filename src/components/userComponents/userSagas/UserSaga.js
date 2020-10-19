@@ -64,10 +64,33 @@ function* watchUpdateUserRequest() {
   yield takeLatest(actions.Types.USER_UPDATE_REQUEST, updateUser);
 }
 
+function* getUserOrders(action) {
+  try {
+    const responseData = yield call(api.getUserOrders, {
+      token: action.payload.token,
+      userId: action.payload.userId,
+    });
+    console.log(responseData);
+    yield put(actions.getUserOrderSuccess(responseData.data.orders));
+  } catch (e) {
+    const errorMessage = e.response.data.message;
+    yield put(
+      actions.getUserOrderFailure({
+        error: errorMessage,
+      })
+    );
+  }
+}
+
+function* watchUserOrdersRequest() {
+  yield takeLatest(actions.Types.GET_USER_ORDERS_REQUEST, getUserOrders);
+}
+
 const userSagas = [
   fork(watchGetUsersRequest),
   fork(watchGetUserDataRequest),
   fork(watchUpdateUserRequest),
+  fork(watchUserOrdersRequest),
 ];
 
 export default userSagas;

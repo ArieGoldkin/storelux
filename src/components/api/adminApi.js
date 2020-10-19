@@ -46,6 +46,18 @@ export const getOrdersByUserName = ({ token, adminId, userName }) => {
   );
 };
 
+export const getOrders = ({ adminId, token }) => {
+  return axios.post(
+    `${adminAPI}/getOrders`,
+    { adminId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+};
+
 export const updateRate = ({ vatRate, adminId, token }) => {
   return axios.patch(
     `${adminAPI}/updaterate`,

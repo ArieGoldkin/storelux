@@ -4,9 +4,8 @@ import { updateObject } from "../../store/utility";
 const initialState = {
   item: [],
   error: null,
-  loading: false,
+  loading: true,
   isDone: false,
-  canRedirect: false,
 };
 
 const productRequest = (state, action) => {
@@ -14,7 +13,6 @@ const productRequest = (state, action) => {
     error: null,
     loading: true,
     isDone: false,
-    canRedirect: false,
   });
 };
 
@@ -24,7 +22,6 @@ const productSuccess = (state, action) => {
     error: null,
     loading: false,
     isDone: true,
-    canRedirect: false,
   });
 };
 
@@ -33,7 +30,12 @@ const productFailure = (state, action) => {
     error: action.error.error,
     loading: false,
     isDone: true,
-    canRedirect: false,
+  });
+};
+
+const updateLoadingAfterSuccess = (state, action) => {
+  return updateObject(state, {
+    loading: true,
   });
 };
 
@@ -45,6 +47,8 @@ export default function updateProductReducer(state = initialState, action) {
       return productSuccess(state, action);
     case Types.GET_PRODUCT_FAILURE:
       return productFailure(state, action);
+    case Types.UPDATE_PRODUCT_SUCCESS:
+      return updateLoadingAfterSuccess(state, action);
 
     default:
       return state;

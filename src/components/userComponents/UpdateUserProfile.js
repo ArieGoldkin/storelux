@@ -6,7 +6,7 @@ import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ErrorModal from "../common/UIElements/ErrorModal";
-import UserManagment from "./UserManagmet";
+import UserManagement from "./UserManagement";
 import ImageUpload from "../common/FormElements/ImageUpload";
 import Input from "../common/FormElements/Input";
 import {
@@ -16,17 +16,16 @@ import {
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
 import * as actionTypes from "./usersActions/UserActions";
-import * as authSelectors from "./selectors/AuthSelectors";
-import * as userSelectors from "./selectors/UserSelectors";
+import { getAuthUserId } from "./selectors/AuthSelectors";
+import {
+  getUserItem,
+  getUserIsDone,
+  getUserLoading,
+  getUsersError,
+} from "./selectors/UserSelectors";
 import "./usersCss/UserForm.css";
 
-const UpdateUserProfile = ({
-  user,
-  userId,
-  onUpdate,
-  loading,
-  error,
-}) => {
+const UpdateUserProfile = ({ user, userId, onUpdate, loading, error }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState(null);
   const [formState, inputHandler, setFormData] = useForm();
@@ -108,9 +107,9 @@ const UpdateUserProfile = ({
     <>
       <ErrorModal error={ErrorMessage} onClear={clearError} />
       <div className="user-profile__wrapper">
-        <UserManagment />
+        <UserManagement />
         {isLoading && (
-          <div className="loadingSpinerPosion">
+          <div className="loadingSpinnerPosition">
             <LoadingSpinner />
           </div>
         )}
@@ -186,7 +185,7 @@ const UpdateUserProfile = ({
                         type="text"
                         validators={[VALIDATOR_MINLENGTH(10)]}
                         onInput={inputHandler}
-                        errorText="Please enter a valid phone Numer"
+                        errorText="Please enter a valid phone Number"
                         initialValue={user.phone}
                         initialValid={true}
                       />
@@ -208,11 +207,11 @@ const UpdateUserProfile = ({
 };
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    user: userSelectors.getUserItem(state),
-    isDone: userSelectors.getUserIsDone(state),
-    loading: userSelectors.getUserLoading(state),
-    error: userSelectors.getUsersError(state),
+    userId: getAuthUserId(state),
+    user: getUserItem(state),
+    isDone: getUserIsDone(state),
+    loading: getUserLoading(state),
+    error: getUsersError(state),
   };
 };
 
