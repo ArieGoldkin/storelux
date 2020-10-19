@@ -1,9 +1,6 @@
-// import produce from "immer";
-
 import { Types } from "../usersActions/UserActions";
-// import { Types as productActions } from "../../productComponents/productsActions/productsActions";
+import { Types as adminActions } from "../../adminComponents/adminActions/adminActions";
 import { updateObject } from "../../store/utility";
-
 
 const initialState = {
   items: [], //users
@@ -33,17 +30,11 @@ const getUsersFailure = (state, action) => {
   });
 };
 
-// const onDeleteProductSuccess = (state, action) => {
-//   return updateObject(state, {
-//     isDone: true,
-//   });
-// };
-
-// const onCreateProductSuccess = (state, action) => {
-//   return updateObject(state, {
-//     isDone: false,
-//   });
-// };
+const changeProductStatus = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
 
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
@@ -53,10 +44,8 @@ export default function usersReducer(state = initialState, action) {
       return requestUsersSuccess(state, action);
     case Types.GET_USERS_FAILURE:
       return getUsersFailure(state, action);
-    // case productActions.CREATE_PRODUCT_SUCCESS:
-    //   return onCreateProductSuccess(state, action);
-    // case productActions.DELETE_PRODUCT_SUCCESS:
-    //   return onDeleteProductSuccess(state, action);
+    case adminActions.CHANGE_PRODUCT_STATUS_SUCCESS:
+      return changeProductStatus(state, action);
     default:
       return state;
   }
