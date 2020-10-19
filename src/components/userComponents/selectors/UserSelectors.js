@@ -15,3 +15,10 @@ export const getUserIsDone = (state) => state.user.isDone;
 export const getUserError = (state) => state.user.error;
 
 export const getUserLoading = (state) => state.user.loading;
+
+export const getUserOrdersItems = (state) => state.user.userOrders.items;
+
+export const getUserOrdersLoading = (state) =>
+  state.user.userOrders.userOrdersLoading;
+
+export const getUserOrdersError = (state) => state.user.userOrders.ordersError;
