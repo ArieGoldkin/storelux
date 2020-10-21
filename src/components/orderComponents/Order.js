@@ -75,6 +75,7 @@ const Order = (props) => {
           <>
             <ProductOrder product={product} user={user} />
             <ShoppingCartSummary
+              orderPage={true}
               item={product}
               totalPrice={totalPrice}
               vat={vat}
