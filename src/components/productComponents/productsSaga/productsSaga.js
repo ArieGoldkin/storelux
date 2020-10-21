@@ -12,7 +12,6 @@ function* getProducts() {
         items: result.data.products,
       })
     );
-    console.log(result);
   } catch (e) {
     yield put(
       actions.productError({
@@ -110,7 +109,6 @@ function* getUserProducts(action) {
 function* watchGetUserProductsRequest() {
   yield takeLatest(actions.Types.GET_USER_PRODUCTS_REQUEST, getUserProducts);
 }
-
 
 // NEED TO CLEAN UP NO NEED FOR USER ID HERE
 function* deleteProductRequest({ token, productId, userId }) {

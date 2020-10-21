@@ -25,7 +25,6 @@ const UserProducts = ({
 
   const { userId } = useParams();
 
-
   useEffect(() => {
     if (loading) {
       setIsLoading(true);

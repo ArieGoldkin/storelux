@@ -107,7 +107,7 @@ const ProductItem = (props) => {
             <div className="product-item__info">
               <h4>Category: {props.category}</h4>
               <h4>Price:</h4>
-              <p>{`${props.price} $`}</p>
+              <p>{`$${props.price}`}</p>
               <h4>Units Available:</h4>
               <p>
                 {`${props.units}`} {props.units === 1 ? "unit" : "units"}
