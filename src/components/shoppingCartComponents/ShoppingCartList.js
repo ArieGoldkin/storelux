@@ -4,8 +4,13 @@ import { connect } from "react-redux";
 import Card from "../common/UIElements/Card";
 import ShoppingCartItem from "./ShoppingCartItem";
 import ShoppingCartSummary from "./ShoppingCartSummary";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as cartSelectors from "./selectors/CartSelectors";
+import { getAuthUserId } from "../userComponents/selectors/AuthSelectors";
+import {
+  getCartItems,
+  getCartIsDone,
+  getCartSummaryLoading,
+  getCartSummary,
+} from "./selectors/CartSelectors";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as userActions from "../userComponents/usersActions/UserActions";
@@ -87,6 +92,7 @@ const ShoppingCartList = (props) => {
       )}
       {!isLoading && (
         <ShoppingCartSummary
+          orderPage={false}
           userId={userId}
           totalPrice={totalSum}
           vat={vat}
@@ -99,11 +105,11 @@ const ShoppingCartList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    cartItems: cartSelectors.getCartItems(state),
-    isDone: cartSelectors.getCartIsDone(state),
-    cartSummaryLoading: cartSelectors.getCartSummaryLoading(state),
-    cartSummary: cartSelectors.getCartSummary(state),
+    userId: getAuthUserId(state),
+    cartItems: getCartItems(state),
+    isDone: getCartIsDone(state),
+    cartSummaryLoading: getCartSummaryLoading(state),
+    cartSummary: getCartSummary(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
