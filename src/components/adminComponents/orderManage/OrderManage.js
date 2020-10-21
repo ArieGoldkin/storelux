@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 
 import { columnsTable } from "./TableColumns";
 import { useStyle } from "./OrderManageStyle";
-import * as adminActions from "../adminActions/adminActions";
+import {
+  getOrdersByDateRequest,
+  getOrdersByUserNameRequest,
+} from "../adminActions/adminActions";
 import * as usersActions from "../../userComponents/usersActions/UserActions";
 import {
   getAllOrders,
@@ -207,7 +210,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getOrdersByDate: ({ token, adminId, fromSelectedDate, ToSelectedDate }) =>
       dispatch(
-        adminActions.getOrdersByDateRequest({
+        getOrdersByDateRequest({
           token,
           adminId,
           fromSelectedDate,
@@ -217,7 +220,7 @@ const mapDispatchToProps = (dispatch) => {
     getUsers: () => dispatch(usersActions.getUsersRequest()),
     getOrdersByUserName: ({ token, adminId, userName }) =>
       dispatch(
-        adminActions.getOrdersByUserNameRequest({ token, adminId, userName })
+        getOrdersByUserNameRequest({ token, adminId, userName })
       ),
   };
 };
