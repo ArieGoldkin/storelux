@@ -16,7 +16,17 @@ export const Types = {
   GET_USER_ORDERS_REQUEST: "user/GET_USER_ORDERS_REQUEST",
   GET_USER_ORDERS_SUCCESS: "user/GET_USER_ORDERS_SUCCESS",
   GET_USER_ORDERS_FAILURE: "user/GET_USER_ORDERS_FAILURE",
+
+  USER_ORDERS_BY_DATE_REQUEST: "user/USER_ORDERS_BY_DATE_REQUEST",
+  USER_ORDERS_BY_DATE_SUCCESS: "user/USER_ORDERS_BY_DATE_SUCCESS",
+  USER_ORDERS_BY_DATE_FAILURE: "user/USER_ORDERS_BY_DATE_FAILURE",
+
+  CHANGE_USER_PRODUCTS: "user/CHANGE_USER_PRODUCTS",
 };
+
+export const changeUserProducts = () => ({
+  type: Types.CHANGE_USER_PRODUCTS,
+});
 
 export const getUsersRequest = () => ({
   type: Types.GET_USERS_REQUEST,
@@ -82,6 +92,35 @@ export const getUserOrderSuccess = (items) => ({
 
 export const getUserOrderFailure = (error) => ({
   type: Types.GET_USER_ORDERS_FAILURE,
+  payload: {
+    error,
+  },
+});
+
+export const getUserOrdersByDateRequest = ({
+  token,
+  userId,
+  fromSelectedDate,
+  ToSelectedDate,
+}) => ({
+  type: Types.USER_ORDERS_BY_DATE_REQUEST,
+  payload: {
+    token,
+    userId,
+    fromSelectedDate,
+    ToSelectedDate,
+  },
+});
+
+export const getUserOrdersByDateSuccess = (items) => ({
+  type: Types.USER_ORDERS_BY_DATE_SUCCESS,
+  payload: {
+    items,
+  },
+});
+
+export const getUserOrdersByDateFailure = (error) => ({
+  type: Types.USER_ORDERS_BY_DATE_SUCCESS,
   payload: {
     error,
   },
