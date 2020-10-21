@@ -36,7 +36,7 @@ const onLogOutUser = (state, action) => {
   return updateObject(state, {
     items: [],
     error: null,
-    loading: false,
+    loading: true,
     isDone: false,
   });
 };
@@ -97,6 +97,12 @@ const updateProductSuccess = (state, action) => {
   });
 };
 
+const changeWatchUserProducts = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
+
 export default function userProductsReducer(state = initialState, action) {
   switch (action.type) {
     case Types.GET_USER_PRODUCTS_REQUEST:
@@ -121,6 +127,8 @@ export default function userProductsReducer(state = initialState, action) {
       return updateProductRequest(state, action);
     case Types.UPDATE_PRODUCT_SUCCESS:
       return updateProductSuccess(state, action);
+    case userTypes.CHANGE_USER_PRODUCTS:
+      return changeWatchUserProducts(state, action);
     default:
       return state;
   }

@@ -27,7 +27,7 @@ const ShoppingCart = ({
   vatRate,
 }) => {
   const [errorMessage, setErrorMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (loading) {

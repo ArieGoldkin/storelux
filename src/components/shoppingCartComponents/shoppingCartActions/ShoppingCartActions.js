@@ -76,16 +76,25 @@ export const setProductQuantityFailure = (error) => ({
   error: error,
 });
 
-export const deleteProductFromCartRequest = (token, userId, productId) => ({
+export const deleteProductFromCartRequest = (
+  token,
+  userId,
+  productId,
+  vatRate
+) => ({
   type: Types.DELETE_FROM_CART_REQUEST,
   token,
   userId,
   productId,
+  vatRate,
 });
 
-export const deleteProductFromCartSuccess = (productId) => ({
+export const deleteProductFromCartSuccess = (items, newCartSummary) => ({
   type: Types.DELETE_FROM_CART_SUCCESS,
-  productId: productId,
+  payload: {
+    newCartSummary,
+    items,
+  },
 });
 
 export const deleteProductFromCartFailure = (error) => ({

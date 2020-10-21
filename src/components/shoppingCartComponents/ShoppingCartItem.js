@@ -5,10 +5,13 @@ import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as cartSelectors from "./selectors/CartSelectors";
-import * as orderSelectors from "../orderComponents/selectors/OrderSelectors";
-import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../userComponents/selectors/AuthSelectors";
+import { getCartProductError } from "./selectors/CartSelectors";
+import { getOrderLoading } from "../orderComponents/selectors/OrderSelectors";
+import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
 import bin from "../../images/bin.png";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
 import "../productComponents/productsCss/AllProductsItem.css";
@@ -48,7 +51,7 @@ const ShoppingCartItem = (props) => {
     }
   };
   const deleteProductFromCart = () => {
-    onDeleteProductCart(token, userId, productId);
+    onDeleteProductCart(token, userId, productId, vatRate);
   };
 
   const clearError = () => {
@@ -104,7 +107,7 @@ const ShoppingCartItem = (props) => {
                 <h4>{props.title}</h4>
                 <p>Category: {props.category}</p>
                 <p>{props.description}</p>
-                <h3>Price: {`${props.price} $`}</h3>
+                <h3>Price: {`$${props.price}`}</h3>
               </div>
             </div>
             <div className="product-cart__sum">
@@ -140,12 +143,12 @@ const ShoppingCartItem = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
     // productLoading: cartSelectors.getCartProductLoading(state),
-    productError: cartSelectors.getCartProductError(state),
-    orderLoading: orderSelectors.getOrderLoading(state),
-    vatRate: globalSelectors.getCurrentVatRate(state),
+    productError: getCartProductError(state),
+    orderLoading: getOrderLoading(state),
+    vatRate: getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -164,9 +167,14 @@ const mapDispatchToProps = (dispatch) => {
           vatRate
         )
       ),
-    onDeleteProductCart: (token, userId, productId) =>
+    onDeleteProductCart: (token, userId, productId, vatRate) =>
       dispatch(
-        actionTypes.deleteProductFromCartRequest(token, userId, productId)
+        actionTypes.deleteProductFromCartRequest(
+          token,
+          userId,
+          productId,
+          vatRate
+        )
       ),
   };
 };

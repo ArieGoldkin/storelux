@@ -24,7 +24,7 @@ const OrderItem = (props) => {
           <div className="product-info_box">
             <div className="order_info">
               <p>seller: {}</p>
-              <h3>Price: {product.price + "$"}</h3>
+              <h3>Price: {`$${product.price}`}</h3>
               <div className="product-modal_qun-orderItem">
                 <div>Quantity:</div>
                 <div>{product.quantity}</div>

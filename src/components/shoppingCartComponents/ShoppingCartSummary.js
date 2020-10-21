@@ -5,25 +5,25 @@ import Button from "../common/FormElements/Button";
 import "./shoppingCartCss/ShoppingCartSummary.css";
 
 const ShoppingCartSummary = (props) => {
-  let oneProductOrder = props.item || null;
+  let inOrderPage = props.orderPage;
 
   return (
     <Card className="shopping-cart__sum">
       <h2 className="summary-header">Order Summary</h2>
       <div className="summary-subtotal">
         <div>Subtotal Price: </div>
-        <div>{props.totalPrice + " $"}</div>
+        <div>{`$${props.totalPrice}`}</div>
       </div>
       <div className="summary-vat">
         <div>VAT: </div>
-        <div>{props.vat + " $"}</div>
+        <div>{`$${props.vat}`}</div>
       </div>
       <hr />
       <div className="summary-total__sum">
         <div>Total sum:</div>
-        <div>{props.summary + " $"}</div>
+        <div>{`$${props.summary}`}</div>
       </div>
-      {!oneProductOrder && (
+      {!inOrderPage && (
         <div className="order-btn">
           <Button
             to={`/${props.userId}/shoppingCart/summary`}

@@ -63,14 +63,22 @@ function* watchUpdateProductCartRequest() {
   );
 }
 
-function* deleteProductCart({ token, userId, productId }) {
+function* deleteProductCart({ token, userId, productId, vatRate }) {
   try {
-    yield call(api.deleteProductFromCart, token, userId, productId);
-    yield put(actions.deleteProductFromCartSuccess(productId));
-    yield call(getCartByUserId, { userId, token });
+    const responseData = yield call(
+      api.deleteProductFromCart,
+      token,
+      userId,
+      productId
+    );
+    console.log(responseData.data.cart);
+    const cartData = yield responseData.data.cart;
+    const newCartSummary = yield calcSummary(cartData, vatRate);
+    yield put(actions.deleteProductFromCartSuccess(cartData,newCartSummary));
 
     yield toast.info("Product deleted successfully from cart.");
   } catch (e) {
+    console.log(e.response.data.message);
     yield put(
       actions.deleteProductFromCartFailure({
         error: "Could not delete product from cart, please try again.",
@@ -86,6 +94,7 @@ function* watchDeleteProductFromCartRequest() {
       token: deleteAction.token,
       userId: deleteAction.userId,
       productId: deleteAction.productId,
+      vatRate: deleteAction.vatRate,
     });
   }
 }

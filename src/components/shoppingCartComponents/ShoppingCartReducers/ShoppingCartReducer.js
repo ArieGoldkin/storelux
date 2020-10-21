@@ -156,17 +156,28 @@ const deleteProductCartRequest = (state, action) => {
     product: {
       productLoading: true,
     },
+    cartSummary: {
+      loading: true,
+    },
+  });
+};
+
+const updateCartSummary = (state, action) => {
+  return updateObject(state, {
+    items: action.payload.items,
+    product: {
+      productLoading: false,
+    },
+    cartSummary: {
+      totalPrice: action.payload.newCartSummary.total,
+      vat: action.payload.newCartSummary.calcVat,
+      totalSum: action.payload.newCartSummary.sum,
+      loading: false,
+    },
   });
 };
 
 const addingProductsToCart = (state, action) => {
-  return updateObject(state, {
-    loading: true,
-    isDone: false,
-  });
-};
-
-const removeItemFromCart = (state, action) => {
   return updateObject(state, {
     loading: true,
     isDone: false,
@@ -200,6 +211,8 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return updateProductQuantityFailure(state, action);
     case Types.DELETE_FROM_CART_REQUEST:
       return deleteProductCartRequest(state, action);
+    case Types.DELETE_FROM_CART_SUCCESS:
+      return updateCartSummary(state, action);
     case addToCartActions.ADD_TO_CART_REQUEST:
       return addingProductsToCart(state, action);
     case addToCartActions.ADD_TO_CART_SUCCESS:
@@ -209,8 +222,6 @@ export const shoppingCartReducer = (state = initialState, action) => {
     case orderActions.ADD_ORDER_REQUEST:
     case adminActions.UPDATE_VAT_RATE_SUCCESS:
       return setCartLoading(state, action);
-    case orderActions.REMOVE_ITEMS_FROM_CART_REQUEST:
-      return removeItemFromCart(state, action);
     default:
       return state;
   }

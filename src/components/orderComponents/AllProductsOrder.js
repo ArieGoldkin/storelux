@@ -16,11 +16,27 @@ import {
   VALIDATOR_EMAIL,
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
-import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
-import * as userSelectors from "../userComponents/selectors/UserSelectors";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as orderSelectors from "./selectors/OrderSelectors";
-import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
+
+import {
+  getCartItems,
+  getCartSummary,
+} from "../shoppingCartComponents/selectors/CartSelectors";
+import { getUserItem } from "../userComponents/selectors/UserSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../userComponents/selectors/AuthSelectors";
+import {
+  getOrderLoading,
+  getOrderError,
+  getOrderRedirectPath,
+  getOrderIsDone,
+  getOrderRedirect,
+  getOrderIsSet,
+  getOrderCanRemove,
+} from "./selectors/OrderSelectors";
+import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
+
 import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/AllproductsOrder.css";
 
@@ -112,7 +128,18 @@ export const AllProductsOrder = ({
     if (!canRedirect && orderRedirectPath !== `/${userId}/shoppingcart`) {
       onOrderSuccessRedirectPath(userId);
     }
-  }, [cartItems, orderError, orderLoading, setOrder, orderSet, canRedirect, orderRedirectPath, userId, onOrderSuccessRedirectPath, vatRate]);
+  }, [
+    cartItems,
+    orderError,
+    orderLoading,
+    setOrder,
+    orderSet,
+    canRedirect,
+    orderRedirectPath,
+    userId,
+    onOrderSuccessRedirectPath,
+    vatRate,
+  ]);
 
   useEffect(() => {
     if (canRemove && isDone) {
@@ -234,6 +261,7 @@ export const AllProductsOrder = ({
               <OrderItemsList items={cartItems} currentVat={vatRate} />
             </Card>
             <ShoppingCartSummary
+              orderPage={true}
               totalPrice={cartSummary.totalPrice}
               vat={cartSummary.vat}
               summary={cartSummary.totalSum}
@@ -247,19 +275,19 @@ export const AllProductsOrder = ({
 
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    cartItems: cartSelectors.getCartItems(state),
-    user: userSelectors.getUserItem(state),
-    cartSummary: cartSelectors.getCartSummary(state),
-    orderLoading: orderSelectors.getOrderLoading(state),
-    orderError: orderSelectors.getOrderError(state),
-    orderRedirectPath: orderSelectors.getOrderRedirectPath(state),
-    isDone: orderSelectors.getOrderIsDone(state),
-    canRedirect: orderSelectors.getOrderRedirect(state),
-    orderSet: orderSelectors.getOrderIsSet(state),
-    canRemove: orderSelectors.getOrderCanRemove(state),
-    vatRate: globalSelectors.getCurrentVatRate(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
+    cartItems: getCartItems(state),
+    user: getUserItem(state),
+    cartSummary: getCartSummary(state),
+    orderLoading: getOrderLoading(state),
+    orderError: getOrderError(state),
+    orderRedirectPath: getOrderRedirectPath(state),
+    isDone: getOrderIsDone(state),
+    canRedirect: getOrderRedirect(state),
+    orderSet: getOrderIsSet(state),
+    canRemove: getOrderCanRemove(state),
+    vatRate: getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

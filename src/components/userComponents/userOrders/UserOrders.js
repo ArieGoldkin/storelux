@@ -8,7 +8,10 @@ import {
   getUserOrdersLoading,
   getUserOrdersError,
 } from "../selectors/UserSelectors";
-import { getUserOrdersRequest } from "../usersActions/UserActions";
+import {
+  getUserOrdersRequest,
+  getUserOrdersByDateRequest,
+} from "../usersActions/UserActions";
 
 import Button from "../../common/FormElements/Button";
 import Card from "../../common/UIElements/Card";
@@ -24,6 +27,7 @@ import TableRow from "@material-ui/core/TableRow";
 
 import { columnsTable } from "./columnsTableData";
 import UserOrdersList from "./UserOrdersList";
+import DatePicker from "../../common/FormElements/DatePicker";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     marginTop: "1rem",
     padding: 0,
+    [theme.breakpoints.down("lg")]: {
+      width: "83%",
+    },
   },
   container: {
     maxHeight: "45rem",
@@ -47,12 +54,37 @@ const useStyles = makeStyles((theme) => ({
   btnStyle: {
     width: "60%",
     margin: "1rem auto",
+    [theme.breakpoints.down("lg")]: {
+      width: "83%",
+    },
+  },
+  searchWrapper: {
+    alignItems: "center",
+    display: "flex",
+    margin: "1rem 0 0 0",
+    justifyContent: "space-around",
+  },
+  searchHeader: {
+    margin: "1rem 1rem 0",
+    fontSize: "1.1rem",
+  },
+  getAllOrdersBtn: {
+    margin: "1rem 1rem 0 0",
   },
 }));
 
-const UserOrders = ({ userId, token, getOrders, orders, loading }) => {
+const UserOrders = ({
+  userId,
+  token,
+  getOrders,
+  orders,
+  loading,
+  getOrdersByDate,
+}) => {
   const classes = useStyles();
   const history = useHistory();
+  const [fromSelectedDate, setFromSelectedDate] = useState(new Date());
+  const [ToSelectedDate, setToSelectedDate] = useState(new Date());
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,14 +97,18 @@ const UserOrders = ({ userId, token, getOrders, orders, loading }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   useEffect(() => {
-    if (loading) {
-      setIsLoading(true);
-      getOrders({ token, userId });
-    } else {
-      setIsLoading(false);
-    }
-  }, [getOrders, loading, token, userId]);
+    loading ? setIsLoading(true) : setIsLoading(false);
+  }, [loading]);
+
+  const getAllOrdersHandler = () => {
+    getOrders({ token, userId });
+  };
+
+  useEffect(() => {
+    getOrdersByDate({ token, userId, fromSelectedDate, ToSelectedDate });
+  }, [ToSelectedDate, fromSelectedDate, getOrdersByDate, token, userId]);
 
   return (
     <>
@@ -82,6 +118,21 @@ const UserOrders = ({ userId, token, getOrders, orders, loading }) => {
         </Button>
       </div>
       <Card className={classes.tableWrapper}>
+        <div className={classes.searchWrapper}>
+          <h4 className={classes.searchHeader}>Search orders by date range:</h4>
+          <DatePicker
+            fromSelectedDate={fromSelectedDate}
+            setFromSelectedDate={setFromSelectedDate}
+            ToSelectedDate={ToSelectedDate}
+            setToSelectedDate={setToSelectedDate}
+          />
+          <Button
+            onClick={getAllOrdersHandler}
+            className={classes.getAllOrdersBtn}
+          >
+            Show all orders
+          </Button>
+        </div>
         {isLoading && (
           <div className="center">
             <LoadingSpinner style={{ display: "flex", alignItems: "center" }} />
@@ -145,6 +196,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getOrders: ({ token, userId }) =>
       dispatch(getUserOrdersRequest({ token, userId })),
+    getOrdersByDate: ({ token, userId, fromSelectedDate, ToSelectedDate }) =>
+      dispatch(
+        getUserOrdersByDateRequest({
+          token,
+          userId,
+          fromSelectedDate,
+          ToSelectedDate,
+        })
+      ),
   };
 };
 

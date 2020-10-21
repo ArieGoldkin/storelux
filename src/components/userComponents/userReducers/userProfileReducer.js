@@ -74,10 +74,13 @@ export default function userReducer(state = initialState, action) {
     case Types.USER_UPDATE_FAILURE:
       return getUserDataFailure(state, action);
     case Types.GET_USER_ORDERS_REQUEST:
+    case Types.USER_ORDERS_BY_DATE_REQUEST:
       return getOrdersRequest(state, action);
     case Types.GET_USER_ORDERS_SUCCESS:
+    case Types.USER_ORDERS_BY_DATE_SUCCESS:
       return getOrdersSuccess(state, action);
     case Types.GET_USER_ORDERS_FAILURE:
+    case Types.USER_ORDERS_BY_DATE_FAILURE:
       return getOrdersFailure(state, action);
     default:
       return state;
