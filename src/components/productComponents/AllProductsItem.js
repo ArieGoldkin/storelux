@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import * as actionTypes from "./productsActions/addToCartActions";
+import { addToCartRequest } from "./productsActions/addToCartActions";
+import { changeUserProducts } from "../userComponents/usersActions/UserActions";
 
-import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as shoppingCartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
+import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../userComponents/selectors/AuthSelectors";
+import { getCartLoading } from "../shoppingCartComponents/selectors/CartSelectors";
 
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import CustomAvatar from "../common/UIElements/CustomAvatar";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import Modal from "../common/UIElements/Modal";
+import AllProductsItemContent from "./AllProductsItemContent";
+
 import { useStyles } from "./productsCss/AllProductsItemNewStyle";
 import {
   CardMedia,
@@ -21,10 +27,8 @@ import {
   MenuItem,
   Avatar,
 } from "@material-ui/core";
-import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -36,7 +40,15 @@ const ITEM_HEIGHT = 48;
 const AllProductsItem = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const { onAddProductToCart, userId, token, loading, place, vatRate } = props;
+  const {
+    onAddProductToCart,
+    userId,
+    token,
+    loading,
+    place,
+    vatRate,
+    productsUserChange,
+  } = props;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -131,6 +143,7 @@ const AllProductsItem = (props) => {
   }, [loading]);
 
   const handleMoveToUserItems = () => {
+    productsUserChange();
     history.push(`/${props.creatorId}/products`);
   };
 
@@ -237,24 +250,12 @@ const AllProductsItem = (props) => {
                   title={props.title}
                 />
               </div>
-              <CardContent className={classes.textContent}>
-                <div className={classes.productTitle}>
-                  <Typography align="left" variant="h6" component="h2">
-                    {props.title}
-                  </Typography>
-                  <Typography align="left" variant="h6" component="h2">
-                    {`$${props.price}`}
-                  </Typography>
-                </div>
-                <Typography
-                  align="left"
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                >
-                  {props.description}
-                </Typography>
-              </CardContent>
+              <AllProductsItemContent
+                price={props.price}
+                title={props.title}
+                classes={classes}
+                description={props.description}
+              />
             </div>
             <CardActions>
               <Button size="small" color="primary" onClick={addToCart}>
@@ -272,10 +273,10 @@ const AllProductsItem = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    loading: shoppingCartSelectors.getCartLoading(state),
-    vatRate: globalSelectors.getCurrentVatRate(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
+    loading: getCartLoading(state),
+    vatRate: getCurrentVatRate(state),
   };
 };
 
@@ -289,7 +290,7 @@ const mapDispatchToProps = (dispatch) => {
       vatRate,
     }) =>
       dispatch(
-        actionTypes.addToCartRequest({
+        addToCartRequest({
           userId,
           token,
           selectedProduct,
@@ -297,6 +298,7 @@ const mapDispatchToProps = (dispatch) => {
           vatRate,
         })
       ),
+    productsUserChange: () => dispatch(changeUserProducts()),
   };
 };
 
