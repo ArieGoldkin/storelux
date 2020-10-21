@@ -8,7 +8,6 @@ function* getGlobalData(action) {
     const responseData = yield call(api.getData, {
       token: action.payload.token,
     });
-    console.log(responseData.data.global);
     yield put(actions.getGlobalDataSuccess(responseData.data.global));
   } catch (err) {
     yield put(

@@ -8,7 +8,6 @@ const initialState = {
 };
 
 const globalDataSuccess = (state, action) => {
-  console.log(action);
   return updateObject(state, {
     vat: action.payload.data.vatRate,
     error: null,
