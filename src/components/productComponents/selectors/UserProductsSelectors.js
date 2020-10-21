@@ -5,3 +5,6 @@ export const getUserProductsError = (state) => state.userProducts.error;
 export const getUserProducts = (state) => state.userProducts.items;
 
 export const getUserProductsIsDone = (state) => state.userProducts.isDone;
+
+export const getCurrentUserProducts = (state) =>
+  state.userProducts.userProductId;
