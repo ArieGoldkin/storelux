@@ -10,7 +10,6 @@ function* getUsers() {
         items: resultUsers.data.users,
       })
     );
-    console.log(resultUsers);
   } catch (e) {
     yield put(
       actions.userError({
@@ -86,11 +85,36 @@ function* watchUserOrdersRequest() {
   yield takeLatest(actions.Types.GET_USER_ORDERS_REQUEST, getUserOrders);
 }
 
+function* getOrdersByDate(action) {
+  try {
+    const responseData = yield call(api.getOrdersByDate, {
+      token: action.payload.token,
+      userId: action.payload.userId,
+      fromDate: action.payload.fromSelectedDate,
+      toDate: action.payload.ToSelectedDate,
+    });
+    console.log(responseData);
+    yield put(actions.getUserOrdersByDateSuccess(responseData.data.orders));
+  } catch (e) {
+    console.log(e.response);
+    yield put(
+      actions.getUserOrderFailure({
+        error: e.response.data.message,
+      })
+    );
+  }
+}
+
+function* watchGetOrdersByDateRequest() {
+  yield takeLatest(actions.Types.USER_ORDERS_BY_DATE_REQUEST, getOrdersByDate);
+}
+
 const userSagas = [
   fork(watchGetUsersRequest),
   fork(watchGetUserDataRequest),
   fork(watchUpdateUserRequest),
   fork(watchUserOrdersRequest),
+  fork(watchGetOrdersByDateRequest),
 ];
 
 export default userSagas;
