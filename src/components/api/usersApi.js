@@ -53,3 +53,15 @@ export const getUserOrders = ({ token, userId }) => {
     }
   );
 };
+
+export const getOrdersByDate = ({ token, userId, fromDate, toDate }) => {
+  return axios.post(
+    `${UsersAPI}/userOrdersByDate`,
+    { userId, fromDate, toDate },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+};
