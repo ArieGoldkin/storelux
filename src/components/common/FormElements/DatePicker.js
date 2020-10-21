@@ -41,6 +41,7 @@ const DatePicker = ({
           value={ToSelectedDate}
           maxDateMessage
           minDate={fromSelectedDate}
+          maxDate={new Date()}
           onChange={(date) => ToHandleDateChange(date)}
           format="dd/MM/yyyy"
           autoOk={true}
