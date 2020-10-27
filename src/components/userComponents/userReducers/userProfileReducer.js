@@ -1,7 +1,8 @@
 import { Types } from "../usersActions/UserActions";
+import { Types as soldItemsActions } from "../usersActions/UserSoldProductsActions";
 import { updateObject } from "../../store/utility";
 
-const initialState = {
+export const initialState = {
   item: [],
   error: null,
   loading: true,
@@ -10,6 +11,11 @@ const initialState = {
     items: [],
     userOrdersLoading: true,
     ordersError: null,
+  },
+  userSoldItems: {
+    items: [],
+    soldItemsLoading: true,
+    soldItemsError: null,
   },
 };
 
@@ -59,6 +65,33 @@ const getOrdersFailure = (state, action) => {
   });
 };
 
+const getSoldItemsRequest = (state, action) => {
+  return updateObject(state, {
+    userSoldItems: {
+      soldItemsLoading: true,
+    },
+  });
+};
+
+const getSoldItemsSuccess = (state, action) => {
+  return updateObject(state, {
+    userSoldItems: {
+      items: action.payload.items,
+      soldItemsLoading: false,
+      soldItemsError: null,
+    },
+  });
+};
+
+const getSoldItemsFailure = (state, action) => {
+  return {
+    userSoldItems: {
+      soldItemsError: action.payload.error,
+      soldItemsLoading: false,
+    },
+  };
+};
+
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case Types.USER_PROFILE_REQUEST:
@@ -82,6 +115,12 @@ export default function userReducer(state = initialState, action) {
     case Types.GET_USER_ORDERS_FAILURE:
     case Types.USER_ORDERS_BY_DATE_FAILURE:
       return getOrdersFailure(state, action);
+    case soldItemsActions.GET_USER_SOLD_ITEMS_REQUEST:
+      return getSoldItemsRequest(state, action);
+    case soldItemsActions.GET_USER_SOLD_ITEMS_SUCCESS:
+      return getSoldItemsSuccess(state, action);
+    case soldItemsActions.GET_USER_SOLD_ITEMS_FAILURE:
+      return getSoldItemsFailure(state, action);
     default:
       return state;
   }
