@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
-    marginTop: "1rem",
+    marginTop: "0.5rem",
     padding: 0,
     [theme.breakpoints.down("lg")]: {
       width: "83%",
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   btnStyle: {
     width: "60%",
-    margin: "1rem auto",
+    margin: "0 auto",
     [theme.breakpoints.down("lg")]: {
       width: "83%",
     },

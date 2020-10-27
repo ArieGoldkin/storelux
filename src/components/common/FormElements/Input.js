@@ -94,9 +94,13 @@ const Input = (props) => {
         !inputState.isValid && inputState.isTouched && "form-box--invalid"
       }`}
     >
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={props.id} className={`${props.labelStyle}`}>
+        {props.label}
+      </label>
       {element}
-      {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
+      {!inputState.isValid && inputState.isTouched && (
+        <p className={props.errorStyle}>{props.errorText}</p>
+      )}
     </div>
   );
 };

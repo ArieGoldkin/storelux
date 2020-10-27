@@ -2,7 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
+import {
+  getAuthToken,
+  getAuthUserId,
+  getAuthAdmin,
+} from "../../userComponents/selectors/AuthSelectors";
 import AdminOptionDrawer from "../../adminComponents/AdminOptionDrawer";
 import "./NavLinks.css";
 
@@ -61,9 +65,9 @@ const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: authSelectors.getAuthToken(state),
-    userId: authSelectors.getAuthUserId(state),
-    isAdmin: authSelectors.getAuthAdmin(state),
+    isAuthenticated: getAuthToken(state),
+    userId: getAuthUserId(state),
+    isAdmin: getAuthAdmin(state),
   };
 };
 

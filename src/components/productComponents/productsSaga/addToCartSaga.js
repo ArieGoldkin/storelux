@@ -23,9 +23,10 @@ function* addProductToCartRequest(action) {
     yield put(actions.addToCartSuccess(responseData.data.items, cartSummary));
     yield toast.info("Product added successfully to cart.");
   } catch (e) {
+    console.log(e.response.data);
     yield put(
       actions.addToCartFailure({
-        error: "Could not add product to cart, please try again",
+        error: e.response.data.message,
       })
     );
   }

@@ -9,3 +9,5 @@ export const getProductsLoading = (state) => state.products.loading;
 export const getProductsError = (state) => state.products.error;
 
 export const getItemLoading = (state) => state.products.itemLoading;
+
+export const getCategoryLoading = (state) => state.products.categoryLoading;

@@ -7,7 +7,7 @@ import { Doughnut } from "react-chartjs-2";
 require("./RoundedBars.js");
 
 const ProductInventory = ({ categories, products, data }) => {
-  const [chartData, setChartData] = useState(data);
+  const [chartData, setChartData] = useState();
 
   const categoriesArray = categories.map((category) => category.name);
 
@@ -37,10 +37,19 @@ const ProductInventory = ({ categories, products, data }) => {
   }, [data]);
 
   const options = {
+    legend: {
+      display: true,
+      position: "left",
+      align: "start",
+      labels: {
+        boxWidth: 60,
+        fontSize: 16,
+      },
+    },
     title: {
       display: true,
       text: "Product inventory by categories",
-      fontSize: 18,
+      fontSize: 25,
       fontColor: "#1E1E1E",
     },
     maintainAspectRatio: false,

@@ -23,3 +23,10 @@ export const getUserOrdersLoading = (state) =>
 
 export const getUserOrdersError = (state) => state.user.userOrders.ordersError;
 
+export const getUserSoldItems = (state) => state.user.userSoldItems.items;
+
+export const getUserSoldLoading = (state) =>
+  state.user.userSoldItems.soldItemsLoading;
+
+export const getUserSoldError = (state) =>
+  state.user.userSoldItems.soldItemsError;

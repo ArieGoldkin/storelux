@@ -7,7 +7,7 @@ import {
   getOrdersByDateRequest,
   getOrdersByUserNameRequest,
 } from "../adminActions/adminActions";
-import * as usersActions from "../../userComponents/usersActions/UserActions";
+import { getUsersRequest } from "../../userComponents/usersActions/UserActions";
 import {
   getAllOrders,
   getIsDone,
@@ -61,9 +61,6 @@ const OrderManage = ({
   const nameChangeHandler = (event) => {
     event.preventDefault();
     setUserName(event.target.value);
-    // console.log(event.target.value);
-    // console.log(userName);
-    // console.log(...userName);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -217,11 +214,9 @@ const mapDispatchToProps = (dispatch) => {
           ToSelectedDate,
         })
       ),
-    getUsers: () => dispatch(usersActions.getUsersRequest()),
+    getUsers: () => dispatch(getUsersRequest()),
     getOrdersByUserName: ({ token, adminId, userName }) =>
-      dispatch(
-        getOrdersByUserNameRequest({ token, adminId, userName })
-      ),
+      dispatch(getOrdersByUserNameRequest({ token, adminId, userName })),
   };
 };
 

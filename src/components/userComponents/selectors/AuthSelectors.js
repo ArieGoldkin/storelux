@@ -9,3 +9,5 @@ export const getAuthLoading = (state) => state.auth.loading;
 export const getAuthError = (state) => state.auth.error;
 
 export const getCanRedirect = (state) => state.auth.CanRedirect;
+
+export const getLogOutMessage = (state) => state.auth.logOutMessage;

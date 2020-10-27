@@ -8,6 +8,7 @@ import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
 // import PageNotFound from "../common/PageNoFound";
 import UserOrders from "../userComponents/userOrders/UserOrders";
+import ProductsSales from "../userComponents/productsSales/ProductsSales";
 import Logout from "../userComponents/Logout";
 import AdminRoutes from "./AdminRoutes";
 import { ToastContainer } from "react-toastify";
@@ -29,7 +30,7 @@ const ShoppingCart = React.lazy(() =>
   import("../shoppingCartComponents/ShoppingCart")
 );
 const UserProducts = React.lazy(() =>
-  import("../productComponents/UserProducts")
+  import("../userComponents/UserProducts")
 );
 const NewProduct = React.lazy(() => import("../productComponents/NewProduct"));
 const UpdateProduct = React.lazy(() =>
@@ -55,6 +56,11 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
         <Route exact path="/user/profile" component={UserProfile} />
         <Route exact path="/user/:userId" component={UpdateUserProfile} />
         <Route exact path="/user/profile/orders" component={UserOrders} />
+        <Route
+          exact
+          path="/user/profile/productsSales"
+          component={ProductsSales}
+        />
         <Route path="/products" component={AllProducts} />
         <Route
           path="/:userId/shoppingCart/summary"

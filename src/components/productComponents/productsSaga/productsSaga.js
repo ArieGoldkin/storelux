@@ -160,6 +160,31 @@ function* watchSearchProductsByTitle() {
   );
 }
 
+function* getProductsByCategory(action) {
+  try {
+    const responseData = yield call(api.findProductsByCategory, {
+      category: action.payload.category,
+    });
+    yield put(
+      searchActions.searchProductsByCategorySuccess(responseData.data.products)
+    );
+  } catch (e) {
+    console.log(e.response.data);
+    yield put(
+      searchActions.searchProductsByCategoryFailure({
+        error: e.response.data.message,
+      })
+    );
+  }
+}
+
+function* watchSearchProductsByCategory() {
+  yield takeLatest(
+    searchActions.Types.FIND_PRODUCT_BY_CATEGORY_REQUEST,
+    getProductsByCategory
+  );
+}
+
 const productsSagas = [
   fork(watchGetProductsRequest),
   fork(watchCreateProductRequest),
@@ -168,6 +193,7 @@ const productsSagas = [
   fork(watchGetProductRequest),
   fork(watchUpdateProductRequest),
   fork(watchSearchProductsByTitle),
+  fork(watchSearchProductsByCategory),
 ];
 
 export default productsSagas;

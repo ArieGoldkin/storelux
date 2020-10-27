@@ -1,41 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import * as searchActions from "../productComponents/productsActions/SearchProductsActions";
-import * as productsAction from "./productsActions/productsActions";
-import * as usersAction from "../userComponents/usersActions/UserActions";
+import {
+  searchProductsByTitleRequest,
+  searchProductsByCategoryRequest,
+} from "../productComponents/productsActions/SearchProductsActions";
+import { getProductsRequest } from "./productsActions/productsActions";
+import { getUsersRequest } from "../userComponents/usersActions/UserActions";
+import { getCategoriesRequest } from "../categoriesComponents/categoriesActions";
+import {
+  getCartError,
+  getCartProductError,
+} from "../shoppingCartComponents/selectors/CartSelectors";
+import {
+  getProducts,
+  getProductsLoading,
+  getProductsError,
+  getItemLoading,
+  getCategoryLoading,
+} from "./selectors/AllProductsSelectors";
+import {
+  getUsers,
+  getUsersLoading,
+  getUsersError,
+} from "../userComponents/selectors/UserSelectors";
+import { getCategories } from "../categoriesComponents/categoriesSelectors";
 
-import * as shoppingCartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
-import * as allProductsSelectors from "./selectors/AllProductsSelectors";
-import * as userSelectors from "../userComponents/selectors/UserSelectors";
-
-import { makeStyles } from "@material-ui/core/styles";
+import { useStyles } from "./productsCss/AllProductsStyle";
+import SearchByCategory from "../common/FormElements/SearchByCategory";
 import Search from "../common/FormElements/Search";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import Button from "../common/FormElements/Button";
 import ErrorModal from "../common/UIElements/ErrorModal";
 
 import AllProductsList from "./AllProductsList";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    width: "80%",
-    margin: "0 auto",
-    "& > *": {
-      margin: "1rem",
-      //   width: theme.spacing(16),
-      //   height: theme.spacing(16),
-    },
-  },
-  spinnerPosition: {
-    textAlign: "center",
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-}));
 
 const AllProducts = ({
   products,
@@ -49,6 +47,11 @@ const AllProducts = ({
   loadSearchedProducts,
   itemLoading,
   shoppingCartError,
+  productError,
+  categories,
+  loadCategories,
+  findProductByCategory,
+  findByCategoryLoading,
 }) => {
   const classes = useStyles();
 
@@ -56,9 +59,14 @@ const AllProducts = ({
   const [loadingItems, setLoadingItems] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState();
 
   const clearError = () => {
     setErrorMessage(null);
+  };
+
+  const getAllProducts = () => {
+    loadProducts();
   };
 
   useEffect(() => {
@@ -86,16 +94,27 @@ const AllProducts = ({
     if (loadingUsers) {
       setIsLoading(true);
       loadUsers();
+      loadCategories();
     } else {
       setIsLoading(false);
     }
-  }, [loadUsers, loadingUsers]);
+  }, [category, loadCategories, loadUsers, loadingUsers]);
+
+  useEffect(() => {
+    if (findByCategoryLoading) {
+      setLoadingItems(true);
+      findProductByCategory(category);
+    } else {
+      setLoadingItems(false);
+    }
+  }, [category, findByCategoryLoading, findProductByCategory]);
 
   useEffect(() => {
     usersError && setErrorMessage(usersError.error);
     productsError && setErrorMessage(productsError.error);
     shoppingCartError && setErrorMessage(shoppingCartError);
-  }, [shoppingCartError, productsError, usersError]);
+    productError && setErrorMessage(productError);
+  }, [shoppingCartError, productsError, usersError, productError]);
 
   return (
     <>
@@ -105,17 +124,32 @@ const AllProducts = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && products && users && (
+      {!isLoading && products && users && categories && (
         <div className={classes.root}>
-          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
-          {loadingItems && (
-            <div className={classes.spinnerPosition}>
-              <LoadingSpinner />
+          <div className={classes.contentWrapper}>
+            <div className={classes.searchWrapper}>
+              <Search
+                inputStyle={classes.searchBar}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+              />
+              <SearchByCategory
+                categories={categories}
+                setCategory={setCategory}
+              />
+              <Button buttonClass={classes.getAllBtn} onClick={getAllProducts}>
+                All products
+              </Button>
             </div>
-          )}
-          {!loadingItems && (
-            <AllProductsList products={products} users={users} />
-          )}
+            {loadingItems && (
+              <div className={classes.spinnerPosition}>
+                <LoadingSpinner />
+              </div>
+            )}
+            {!loadingItems && (
+              <AllProductsList products={products} users={users} />
+            )}
+          </div>
         </div>
       )}
     </>
@@ -123,23 +157,29 @@ const AllProducts = ({
 };
 const mapStateToProps = (state) => {
   return {
-    products: allProductsSelectors.getProducts(state),
-    loadingProducts: allProductsSelectors.getProductsLoading(state),
-    productsError: allProductsSelectors.getProductsError(state),
-    users: userSelectors.getUsers(state),
-    loadingUsers: userSelectors.getUsersLoading(state),
-    usersError: userSelectors.getUsersError(state),
-    itemLoading: allProductsSelectors.getItemLoading(state),
-    shoppingCartError: shoppingCartSelectors.getCartError(state),
+    products: getProducts(state),
+    loadingProducts: getProductsLoading(state),
+    productsError: getProductsError(state),
+    itemLoading: getItemLoading(state),
+    users: getUsers(state),
+    loadingUsers: getUsersLoading(state),
+    usersError: getUsersError(state),
+    shoppingCartError: getCartError(state),
+    productError: getCartProductError(state),
+    categories: getCategories(state),
+    findByCategoryLoading: getCategoryLoading(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadProducts: () => dispatch(productsAction.getProductsRequest()),
-    loadUsers: () => dispatch(usersAction.getUsersRequest()),
+    loadProducts: () => dispatch(getProductsRequest()),
+    loadUsers: () => dispatch(getUsersRequest()),
     loadSearchedProducts: (searchValue) =>
-      dispatch(searchActions.searchProductsByTitleRequest(searchValue)),
+      dispatch(searchProductsByTitleRequest(searchValue)),
+    loadCategories: () => dispatch(getCategoriesRequest()),
+    findProductByCategory: (category) =>
+      dispatch(searchProductsByCategoryRequest(category)),
   };
 };
 

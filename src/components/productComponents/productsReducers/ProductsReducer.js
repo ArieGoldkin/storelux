@@ -10,8 +10,8 @@ const initialState = {
   error: null,
   loading: true,
   isDone: false,
-  failure: false, // need to remove
   itemLoading: false,
+  categoryLoading: false,
 };
 
 const requestProductsStart = (state, action) => {
@@ -36,7 +36,6 @@ const getProductsFailure = (state, action) => {
     error: action.error,
     loading: false,
     isDone: true,
-    failure: true,
   });
 };
 
@@ -88,6 +87,28 @@ const productsStatusChanged = (state, action) => {
   });
 };
 
+const onSearchCategoryRequest = (state, action) => {
+  return updateObject(state, {
+    categoryLoading: true,
+    error: null,
+  });
+};
+
+const onSearchCategorySuccess = (state, action) => {
+  return updateObject(state, {
+    items: action.payload.items,
+    categoryLoading: false,
+    error: null,
+  });
+};
+
+const onSearchCategoryFailure = (state, action) => {
+  return updateObject(state, {
+    error: action.payload.error,
+    categoryLoading: false,
+  });
+};
+
 export default function products(state = initialState, action) {
   switch (action.type) {
     case Types.GET_PRODUCTS_REQUEST:
@@ -110,6 +131,12 @@ export default function products(state = initialState, action) {
       return searchProductsByTitleFailure(state, action);
     case adminActions.CHANGE_PRODUCT_STATUS_SUCCESS:
       return productsStatusChanged(state, action);
+    case searchActions.ON_CHANGE_CATEGORY_SEARCH:
+      return onSearchCategoryRequest(state, action);
+    case searchActions.FIND_PRODUCT_BY_CATEGORY_SUCCESS:
+      return onSearchCategorySuccess(state, action);
+    case searchActions.FIND_PRODUCT_BY_CATEGORY_FAILURE:
+      return onSearchCategoryFailure(state, action);
     default:
       return state;
   }

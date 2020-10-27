@@ -6,12 +6,21 @@ import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import ProductOrder from "./ProductOrder";
 import ShoppingCartSummary from "../shoppingCartComponents/ShoppingCartSummary";
-import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
-import * as authSelectors from "../userComponents//selectors/AuthSelectors";
-import * as userSelectors from "../userComponents/selectors/UserSelectors";
-import * as orderSelectors from "./selectors/OrderSelectors";
-import * as globalSelectors from "../adminComponents/selectors/globalSelectors";
-import * as actions from "./orderActions/OrderActions";
+import { getCartItems } from "../shoppingCartComponents/selectors/CartSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../userComponents//selectors/AuthSelectors";
+import { getUserItem } from "../userComponents/selectors/UserSelectors";
+import {
+  getOrderSummaryLoading,
+  getOrderLoading,
+  getOrderSummary,
+  getOrderCanRemove,
+  getOrderIsDone,
+} from "./selectors/OrderSelectors";
+import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
+import { setOrderRequest } from "./orderActions/OrderActions";
 import "./ordersCss/order.css";
 
 const Order = (props) => {
@@ -77,9 +86,9 @@ const Order = (props) => {
             <ShoppingCartSummary
               orderPage={true}
               item={product}
-              totalPrice={totalPrice}
+              totalPrice={totalSum}
               vat={vat}
-              summary={totalSum}
+              summary={totalPrice}
             />
           </>
         )}
@@ -90,22 +99,21 @@ const Order = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    products: cartSelectors.getCartItems(state),
-    user: userSelectors.getUserItem(state),
-    orderSummaryLoading: orderSelectors.getOrderSummaryLoading(state),
-    orderLoading: orderSelectors.getOrderLoading(state),
-    orderSummary: orderSelectors.getOrderSummary(state),
-    canRemove: orderSelectors.getOrderCanRemove(state),
-    orderIsDone: orderSelectors.getOrderIsDone(state),
-    vatRate: globalSelectors.getCurrentVatRate(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
+    products: getCartItems(state),
+    user: getUserItem(state),
+    orderSummaryLoading: getOrderSummaryLoading(state),
+    orderLoading: getOrderLoading(state),
+    orderSummary: getOrderSummary(state),
+    canRemove: getOrderCanRemove(state),
+    orderIsDone: getOrderIsDone(state),
+    vatRate: getCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    setOrder: (product, vatRate) =>
-      dispatch(actions.setOrderRequest(product, vatRate)),
+    setOrder: (product, vatRate) => dispatch(setOrderRequest(product, vatRate)),
   };
 };
 
