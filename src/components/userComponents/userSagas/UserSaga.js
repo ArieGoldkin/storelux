@@ -1,6 +1,7 @@
 import { takeLatest, call, fork, put } from "redux-saga/effects";
 import * as api from "../../api/usersApi";
 import * as actions from "../usersActions/UserActions";
+import * as soldItemsActions from "../usersActions/UserSoldProductsActions";
 
 function* getUsers() {
   try {
@@ -109,12 +110,65 @@ function* watchGetOrdersByDateRequest() {
   yield takeLatest(actions.Types.USER_ORDERS_BY_DATE_REQUEST, getOrdersByDate);
 }
 
+function* getSoldItems(action) {
+  try {
+    const responseData = yield call(api.getUserSoldItems, {
+      token: action.payload.token,
+      userId: action.payload.userId,
+    });
+    yield put(
+      soldItemsActions.getUserSoldItemsSuccess(responseData.data.items)
+    );
+  } catch (e) {
+    console.log(e.response.data);
+    yield put(
+      soldItemsActions.getUserSoldItemsFailure({
+        error: e.response.data.message,
+      })
+    );
+  }
+}
+
+function* watchGetUserSoldItemsRequest() {
+  yield takeLatest(
+    soldItemsActions.Types.GET_USER_SOLD_ITEMS_REQUEST,
+    getSoldItems
+  );
+}
+
+// function* getPersonalProducts(action) {
+//   try {
+//     const responseData = yield call(api.getUserPersonalProducts, {
+//       token: action.payload.token,
+//       userId: action.payload.loggedUserId,
+//     });
+//     console.log(responseData);
+//     yield put(actions.getPersonalProductsSuccess(responseData.data.items));
+//     debugger;
+//   } catch (e) {
+//     yield put(
+//       actions.getPersonalProductsFailure({
+//         error: e.response.data.message,
+//       })
+//     );
+//   }
+// }
+
+// function* watchGetPersonalProductsRequest() {
+//   yield takeLatest(
+//     actions.Types.GET_USERS_PERSONAL_PRODUCTS_REQUEST,
+//     getPersonalProducts
+//   );
+// }
+
 const userSagas = [
   fork(watchGetUsersRequest),
   fork(watchGetUserDataRequest),
   fork(watchUpdateUserRequest),
   fork(watchUserOrdersRequest),
   fork(watchGetOrdersByDateRequest),
+  fork(watchGetUserSoldItemsRequest),
+  // fork(watchGetPersonalProductsRequest),
 ];
 
 export default userSagas;

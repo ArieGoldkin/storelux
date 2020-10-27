@@ -25,7 +25,7 @@ const UserManagement = (props) => {
       <Button to="/user/profile/orders" buttonClass={classes.btnSize}>
         Orders history
       </Button>
-      <Button to="/user/profile/sales" buttonClass={classes.btnSize}>
+      <Button to="/user/profile/productsSales" buttonClass={classes.btnSize}>
         Products Sales
       </Button>
     </Card>
