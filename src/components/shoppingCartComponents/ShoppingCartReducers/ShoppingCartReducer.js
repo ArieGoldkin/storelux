@@ -135,6 +135,9 @@ const addToCartSuccess = (state, action) => {
   return updateObject(state, {
     items: action.payload.items,
     loading: false,
+    product: {
+      productLoading: false,
+    },
     cartSummary: {
       totalPrice: action.payload.cartSum.total,
       vat: action.payload.cartSum.calcVat,
@@ -146,8 +149,11 @@ const addToCartSuccess = (state, action) => {
 
 const addToCartFailure = (state, action) => {
   return updateObject(state, {
-    error: action.payload.error,
-    loading: false,
+    loading: true,
+    product: {
+      productError: action.payload.error.error,
+      productLoading: false,
+    },
   });
 };
 
@@ -181,6 +187,9 @@ const addingProductsToCart = (state, action) => {
   return updateObject(state, {
     loading: true,
     isDone: false,
+    product: {
+      productLoading: true,
+    },
   });
 };
 
