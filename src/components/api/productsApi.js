@@ -10,6 +10,10 @@ export const findProductByTitle = ({ title }) => {
   });
 };
 
+export const findProductsByCategory = ({ category }) => {
+  return axios.post(`/api/products/searchByCategory`, { category });
+};
+
 export const createProduct = ({ token, formData }) => {
   return axios.post("/api/products", formData, {
     headers: {
