@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
 
-import * as productActions from "../../productComponents/productsActions/productsActions";
+import { onChangeSearchInput } from "../../productComponents/productsActions/productsActions";
 import "./Search.css";
 
-const Search = ({ searchValue, setSearchValue, onChangeInput }) => {
+const Search = ({ searchValue, setSearchValue, onChangeInput, inputStyle }) => {
   const inputRef = useRef();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Search = ({ searchValue, setSearchValue, onChangeInput }) => {
   };
 
   return (
-    <div className="search_input">
+    <div className={`search_input ${inputStyle}`}>
       <input
         ref={inputRef}
         type="text"
@@ -31,7 +31,7 @@ const Search = ({ searchValue, setSearchValue, onChangeInput }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangeInput: () => dispatch(productActions.onChangeSearchInput()),
+    onChangeInput: () => dispatch(onChangeSearchInput()),
   };
 };
 
