@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -10,15 +10,14 @@ import {
   getAuthUserId,
   getAuthToken,
 } from "../userComponents/selectors/AuthSelectors";
-import { getCartLoading } from "../shoppingCartComponents/selectors/CartSelectors";
+import { getCartProductLoading } from "../shoppingCartComponents/selectors/CartSelectors";
 
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import CustomAvatar from "../common/UIElements/CustomAvatar";
-import ErrorModal from "../common/UIElements/ErrorModal";
 import Modal from "../common/UIElements/Modal";
 import AllProductsItemContent from "./AllProductsItemContent";
 
-import { useStyles } from "./productsCss/AllProductsItemNewStyle";
+import { useStyles } from "./productsCss/AllProductsItemStyle";
 import {
   CardMedia,
   CardHeader,
@@ -55,10 +54,10 @@ const AllProductsItem = (props) => {
   const [loadingItem, setLoadingItem] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [showProduct, setShowProduct] = useState(false);
-
-  const [errorMessage, setErrorMessage] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const modalRef = createRef();
 
   const [selectedProduct, setSelectedProduct] = useState({
     productId: props.id,
@@ -113,7 +112,6 @@ const AllProductsItem = (props) => {
   };
 
   const addProductToCart = (event) => {
-    console.log(place);
     event.preventDefault();
     setLoadingItem(place);
     setShowProduct(false);
@@ -127,10 +125,6 @@ const AllProductsItem = (props) => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const clearError = () => {
-    setErrorMessage(null);
   };
 
   useEffect(() => {
@@ -155,6 +149,7 @@ const AllProductsItem = (props) => {
         show={showProduct}
         onCancel={closeProductHandler}
         header={props.title}
+        ref={modalRef}
         headerClass="product-modal_header"
         contentClass="product-item__modal-content"
         footerClass="product-item__modal-actions"
@@ -193,7 +188,6 @@ const AllProductsItem = (props) => {
           </div>
         </div>
       </Modal>
-      <ErrorModal error={errorMessage} onClear={clearError} />
       <Grid item className={classes.itemSize} index={place}>
         {place === loadingItem && isLoading ? (
           <div className={classes.centerSpinner}>
@@ -275,7 +269,7 @@ const mapStateToProps = (state) => {
   return {
     userId: getAuthUserId(state),
     token: getAuthToken(state),
-    loading: getCartLoading(state),
+    loading: getCartProductLoading(state),
     vatRate: getCurrentVatRate(state),
   };
 };

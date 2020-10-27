@@ -25,16 +25,24 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     marginBottom: theme.spacing(1),
   },
+  noItemsWrapper: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 const AllProductsList = ({ products, users }) => {
   const classes = useStyles();
 
-  // const filteredProducts = products.filter((entity) =>
-  //   entity.title.toLowerCase().includes(searchValue.toLowerCase())
-  // );
   if (products.length === 0) {
-    return <Card>No Products for this search</Card>;
+    return (
+      <div className={classes.noItemsWrapper}>
+        <Card>
+          <h3>Could not find Products for this search</h3>
+        </Card>
+      </div>
+    );
   }
 
   return (

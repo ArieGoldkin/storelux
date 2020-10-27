@@ -19,14 +19,15 @@ export const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
-  //   avatar: {
-  //     backgroundColor: red[500],
-  //   },
   itemSize: {
     flexGrow: 0,
-    // max-width: '33.333333%';
     width: "20rem",
-    // flexBasis: "25%",
+    [theme.breakpoints.down(1200)]: {
+      width: "16rem",
+    },
+    [theme.breakpoints.down("md")]: {
+      width: "17rem",
+    },
   },
   imageWrapper: {
     width: "100%",
