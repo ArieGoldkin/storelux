@@ -51,7 +51,7 @@ function* addNewOrder(action) {
     );
   }
 }
-function* watchaddNewOrderRequest() {
+function* watchAddNewOrderRequest() {
   yield takeLatest(actions.Types.ADD_ORDER_REQUEST, addNewOrder);
 }
 
@@ -116,7 +116,7 @@ function* watchDeleteProductsFromCartRequest() {
 
 const orderSagas = [
   fork(watchSetOrderRequest),
-  fork(watchaddNewOrderRequest),
+  fork(watchAddNewOrderRequest),
   fork(watchDeleteFromCartAfterSuccess),
   fork(watchDeleteProductsFromCartRequest),
 ];

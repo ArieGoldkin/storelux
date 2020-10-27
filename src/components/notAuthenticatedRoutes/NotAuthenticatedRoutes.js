@@ -12,9 +12,7 @@ const Users = React.lazy(() => import("../userComponents/Users"));
 const AllProducts = React.lazy(() =>
   import("../productComponents/AllProducts")
 );
-const UserProducts = React.lazy(() =>
-  import("../productComponents/UserProducts")
-);
+const UserProducts = React.lazy(() => import("../userComponents/UserProducts"));
 const Auth = React.lazy(() => import("../userComponents/Auth"));
 
 const notAuthenticatedRoutes = () => {
