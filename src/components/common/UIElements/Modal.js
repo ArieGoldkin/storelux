@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
@@ -29,12 +29,13 @@ const ModalOverlay = (props) => {
   return ReactDOM.createPortal(content, document.getElementById("modal-hook"));
 };
 
-const Modal = (props) => {
+const Modal = (props,ref) => {
   return (
     <>
       {props.show && <Backdrop onClick={props.onCancel} />}
       <CSSTransition
         in={props.show}
+        ref={ref}
         mountOnEnter
         unmountOnExit
         timeout={200}
@@ -46,4 +47,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default forwardRef(Modal);
