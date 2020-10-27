@@ -39,7 +39,6 @@ const DatePicker = ({
           margin="normal"
           label="To"
           value={ToSelectedDate}
-          maxDateMessage
           minDate={fromSelectedDate}
           maxDate={new Date()}
           onChange={(date) => ToHandleDateChange(date)}
