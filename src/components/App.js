@@ -1,16 +1,21 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import { connect } from "react-redux";
 
 import AuthenticatedRoutes from "./authenticatedRoutes/AuthenticatedRoutes";
 import NotAuthenticatedRoutes from "./notAuthenticatedRoutes/NotAuthenticatedRoutes";
 
+import ErrorModal from "./common/UIElements/ErrorModal";
 import MainNavigation from "../components/common/Navigation/MainNavigation";
 import LoadingSpinner from "./common/UIElements/LoadingSpinner";
 import * as actions from "./userComponents/usersActions/authActions";
-import { getAuthToken } from "./userComponents/selectors/AuthSelectors";
+import {
+  getAuthToken,
+  getLogOutMessage,
+} from "./userComponents/selectors/AuthSelectors";
 import "react-toastify/dist/ReactToastify.css";
 
-const App = ({ isAuthenticated, onTryAutoSignup }) => {
+const App = ({ isAuthenticated, onTryAutoSignup, logOutMessage }) => {
+  const [errorMessage, setErrorMessage] = useState(null);
   let routes;
   useEffect(() => {
     onTryAutoSignup();
@@ -22,8 +27,17 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
     routes = <NotAuthenticatedRoutes />;
   }
 
+  useEffect(() => {
+    logOutMessage && setErrorMessage(logOutMessage.message);
+  }, [logOutMessage]);
+
+  const clearError = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <div className="container-fluid">
+      <ErrorModal error={errorMessage} onClear={clearError} />
       <MainNavigation />
       <main>
         <Suspense
@@ -42,6 +56,7 @@ const App = ({ isAuthenticated, onTryAutoSignup }) => {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: getAuthToken(state),
+    logOutMessage: getLogOutMessage(state),
   };
 };
 

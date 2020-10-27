@@ -10,6 +10,7 @@ const initialState = {
   canRedirect: false,
   isLogin: false,
   isAdmin: null,
+  logOutMessage: null,
 };
 
 const authStart = (state, action) => {
@@ -18,6 +19,7 @@ const authStart = (state, action) => {
     loading: true,
     isLogin: false,
     isAdmin: null,
+    logOutMessage: null,
   });
 };
 
@@ -73,6 +75,12 @@ const updatePasswordSuccess = (state, action) => {
   });
 };
 
+const onLogOutMessage = (state, action) => {
+  return updateObject(state, {
+    logOutMessage: action.payload.message,
+  });
+};
+
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case Types.USER_AUTH_START:
@@ -89,6 +97,8 @@ export default function authReducer(state = initialState, action) {
       return AuthUserFailure(state, action);
     case Types.USER_AUTH_LOGOUT:
       return authLogout(state, action);
+    case Types.USER_LOG_OUT_MESSAGE:
+      return onLogOutMessage(state, action);
     case ResetPasswordActions.RESET_PASSWORD_REQUEST:
     case ResetPasswordActions.NEW_PASSWORD_UPDATE_REQUEST:
       return ResetPasswordStart(state, action);

@@ -11,8 +11,9 @@ export const Types = {
   USER_LOGIN_START: "user/USER_LOGIN.START",
   USER_LOGIN_SUCCESS: "user/USER_LOGIN.SUCCESS",
   USER_LOGIN_FAILURE: "user/USER_LOGIN.FAILURE",
-};
 
+  USER_LOG_OUT_MESSAGE: "user/USER_LOG_OUT_MESSAGE",
+};
 
 export const Auth = (firstName, lastName, email, password) => ({
   type: Types.USER_AUTH_START,
@@ -71,6 +72,13 @@ export const logoutSucceed = () => {
     type: Types.USER_AUTH_LOGOUT,
   };
 };
+
+export const onLogOutMessage = (message) => ({
+  type: Types.USER_LOG_OUT_MESSAGE,
+  payload: {
+    message,
+  },
+});
 
 export const checkAuthTimeout = (expirationTime) => {
   return {
