@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as productsSelectors from "../../productComponents/selectors/AllProductsSelectors";
-import * as categoriesSelectors from "../../categoriesComponents/categoriesSelectors";
-import * as orderSelectors from "../selectors/AllOrdersSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../../userComponents/selectors/AuthSelectors";
+import { getProducts } from "../../productComponents/selectors/AllProductsSelectors";
+import {
+  getCategoriesLoading,
+  getCategories,
+} from "../../categoriesComponents/categoriesSelectors";
+import {
+  getAllOrdersLoading,
+  getAllOrdersError,
+  getAllOrders,
+} from "../selectors/AllOrdersSelectors";
 import * as adminActions from "../adminActions/adminActions";
 import * as categoriesActions from "../../categoriesComponents/categoriesActions";
 
@@ -99,14 +109,14 @@ const TrafficChartsList = ({
 };
 const mapStateToProps = (state) => {
   return {
-    adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    categoryLoading: categoriesSelectors.getCategoriesLoading(state),
-    categories: categoriesSelectors.getCategories(state),
-    products: productsSelectors.getProducts(state),
-    orderLoading: orderSelectors.getAllOrdersLoading(state),
-    orderError: orderSelectors.getAllOrdersError(state),
-    orders: orderSelectors.getAllOrders(state).map((order, index) => {
+    adminId: getAuthUserId(state),
+    token: getAuthToken(state),
+    categoryLoading: getCategoriesLoading(state),
+    categories: getCategories(state),
+    products: getProducts(state),
+    orderLoading: getAllOrdersLoading(state),
+    orderError: getAllOrdersError(state),
+    orders: getAllOrders(state).map((order, index) => {
       return {
         month: new Date(order.createdAt).getMonth(),
       };

@@ -1,29 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
-// import * as orderSelectors from "../selectors/AllOrdersSelectors";
 import { Bar as BarChart } from "react-chartjs-2";
-
-// import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
-// import ErrorModal from "../../common/UIElements/ErrorModal";
-// import { makeStyles } from "@material-ui/core/styles";
-
-// import Card from "../../common/UIElements/Card";
 
 require("./RoundedBars.js");
 
-// const styles = makeStyles({
-//   root: {
-//     width: "80%",
-//     margin: "1rem auto",
-//   },
-// });
-
 const MonthlyOrders = ({ datasets, orders }) => {
-  // const classes = styles();
-  const [chartData, setChartData] = useState(datasets);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [errorMessage, setErrorMessage] = useState(null);
+  const [chartData, setChartData] = useState();
 
   let monthsArray = new Array(12).fill(0);
 
@@ -51,7 +33,7 @@ const MonthlyOrders = ({ datasets, orders }) => {
     title: {
       display: true,
       text: "Orders chart for year 2020",
-      fontSize: 18,
+      fontSize: 25,
       fontColor: "#1E1E1E",
     },
     maintainAspectRatio: false,
@@ -59,9 +41,7 @@ const MonthlyOrders = ({ datasets, orders }) => {
   };
 
   return (
-    // <Card>
     <BarChart data={chartData} width={600} height={400} options={options} />
-    // </Card>
   );
 };
 
