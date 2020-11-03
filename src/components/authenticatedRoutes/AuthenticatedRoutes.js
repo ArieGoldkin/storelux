@@ -2,13 +2,19 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import * as adminActions from "../adminComponents/adminActions/adminActions";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import { getGlobalDataRequest } from "../adminComponents/adminActions/adminActions";
+import { userMessagesRequest } from "../userComponents/usersActions/UserMessagesAction";
+import {
+  getAuthAdmin,
+  getAuthToken,
+  getAuthUserId,
+} from "../userComponents/selectors/AuthSelectors";
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
 // import PageNotFound from "../common/PageNoFound";
 import UserOrders from "../userComponents/userOrders/UserOrders";
 import ProductsSales from "../userComponents/productsSales/ProductsSales";
+import InboxMessages from "../userComponents/inBoxMessages/InboxMessages";
 import Logout from "../userComponents/Logout";
 import AdminRoutes from "./AdminRoutes";
 import { ToastContainer } from "react-toastify";
@@ -29,20 +35,25 @@ const Order = React.lazy(() => import("../orderComponents/Order"));
 const ShoppingCart = React.lazy(() =>
   import("../shoppingCartComponents/ShoppingCart")
 );
-const UserProducts = React.lazy(() =>
-  import("../userComponents/UserProducts")
-);
+const UserProducts = React.lazy(() => import("../userComponents/UserProducts"));
 const NewProduct = React.lazy(() => import("../productComponents/NewProduct"));
 const UpdateProduct = React.lazy(() =>
   import("../productComponents/UpdateProduct")
 );
 
-const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
+const AuthenticatedRoutes = ({
+  isAdmin,
+  token,
+  userId,
+  getGlobalData,
+  getUserMessages,
+}) => {
   let adminRoutes;
 
   useEffect(() => {
     getGlobalData(token);
-  }, [getGlobalData, token]);
+    getUserMessages({ token, userId });
+  }, [getGlobalData, getUserMessages, token, userId]);
 
   if (isAdmin === "admin") {
     adminRoutes = <AdminRoutes />;
@@ -61,6 +72,7 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
           path="/user/profile/productsSales"
           component={ProductsSales}
         />
+        <Route exact path="/user/profile/inbox" component={InboxMessages} />
         <Route path="/products" component={AllProducts} />
         <Route
           path="/:userId/shoppingCart/summary"
@@ -84,15 +96,17 @@ const AuthenticatedRoutes = ({ isAdmin, token, getGlobalData }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isAdmin: authSelectors.getAuthAdmin(state),
-    token: authSelectors.getAuthToken(state),
+    isAdmin: getAuthAdmin(state),
+    token: getAuthToken(state),
+    userId: getAuthUserId(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getGlobalData: (token) =>
-      dispatch(adminActions.getGlobalDataRequest(token)),
+    getGlobalData: (token) => dispatch(getGlobalDataRequest(token)),
+    getUserMessages: ({ token, userId }) =>
+      dispatch(userMessagesRequest({ token, userId })),
   };
 };
 

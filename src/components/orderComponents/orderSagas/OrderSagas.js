@@ -46,7 +46,7 @@ function* addNewOrder(action) {
   } catch (e) {
     yield put(
       actions.addOrderFailure({
-        error: "Could not add new order, please try again.",
+        error: e.response.data.message,
       })
     );
   }

@@ -18,6 +18,8 @@ export const calcProductOrderSummary = (items, vatRate) => {
   let total;
   let totalPrice = items.map((item) => item.quantity * item.price);
 
+
+  // can be done with reduce method
   for (let i = 0; i < totalPrice.length; i++) {
     newSum += totalPrice[i];
   }

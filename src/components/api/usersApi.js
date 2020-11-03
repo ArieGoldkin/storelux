@@ -77,3 +77,35 @@ export const getUserSoldItems = ({ token, userId }) => {
     }
   );
 };
+
+export const getUserMessages = ({ token, userId }) => {
+  return axios.post(
+    `${UsersAPI}/getUserMessages`,
+    { userId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+};
+
+export const userSeenMessage = ({ token, userId, messageId }) => {
+  return axios.post(
+    `${UsersAPI}/userMessageSeen`,
+    { userId, messageId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+};
+
+export const deleteMessage = ({ token, messageId }) => {
+  return axios.delete(`${UsersAPI}/deleteMessage/${messageId}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};

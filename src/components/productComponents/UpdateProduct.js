@@ -32,8 +32,10 @@ import {
 } from "../categoriesComponents/categoriesSelectors";
 
 // IMPORTING ACTIONS
-import * as categoriesAction from "../categoriesComponents/categoriesActions";
-import * as productsAction from "./productsActions/productsActions";
+import { getCategoriesRequest } from "../categoriesComponents/categoriesActions";
+import {
+  updateProductRequest,
+} from "./productsActions/productsActions";
 
 import "./productsCss/ProductForm.css";
 
@@ -67,7 +69,6 @@ const UpdateProduct = ({
   useEffect(() => {
     if (productLoading) {
       setIsLoading(true);
-      getProduct(productId);
     } else {
       setIsLoading(false);
     }
@@ -252,11 +253,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCategories: () => dispatch(categoriesAction.getCategoriesRequest()),
-    getProduct: (productId) =>
-      dispatch(productsAction.getProductRequest(productId)),
+    loadCategories: () => dispatch(getCategoriesRequest()),
     onUpdate: (token, productId, formData) =>
-      dispatch(productsAction.updateProductRequest(token, productId, formData)),
+      dispatch(updateProductRequest(token, productId, formData)),
   };
 };
 

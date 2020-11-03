@@ -28,6 +28,9 @@ const UserManagement = (props) => {
       <Button to="/user/profile/productsSales" buttonClass={classes.btnSize}>
         Products Sales
       </Button>
+      <Button to="/user/profile/inbox" buttonClass={classes.btnSize}>
+        Messages inBox
+      </Button>
     </Card>
   );
 };

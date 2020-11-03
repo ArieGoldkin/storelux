@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
+import { getAuthUserId } from "../userComponents/selectors/AuthSelectors";
 import Card from "../common/UIElements/Card";
 import ProductItem from "./ProductItem";
 import Button from "../common/FormElements/Button";
@@ -53,7 +53,7 @@ const ProductsList = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    currentUserId: authSelectors.getAuthUserId(state),
+    currentUserId: getAuthUserId(state),
   };
 };
 

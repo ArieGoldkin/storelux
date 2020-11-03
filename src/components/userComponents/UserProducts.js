@@ -14,44 +14,26 @@ import {
 import { getAuthUserId, getAuthToken } from "./selectors/AuthSelectors";
 import { getNewProductRedirect } from "../productComponents/selectors/NewProductSelectors";
 import { getUserProductRequest } from "../productComponents/productsActions/productsActions";
-// import { getPersonalProductsRequest } from "./usersActions/UserActions";
+import { changeUserProducts } from "./usersActions/UserActions";
 
 const UserProducts = ({
   loadUserProducts,
-  getPersonalProducts,
+  changeLoading,
   userProducts,
   loading,
   error,
   loggedUserId,
-  token,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { userId } = useParams();
 
-  // if (userId === loggedUserId) {
-  //   console.log(true);
-  // }
-
-  // useEffect(() => {
-  //   if (userId === loggedUserId && loading === false) {
-  //     setIsLoading(true);
-  //     getPersonalProducts({ loggedUserId, token });
-  //   } else {
-  //     setIsLoading(false);
-  //   }
-  // }, [getPersonalProducts, loading, loggedUserId, token, userId]);
   useEffect(() => {
     if (userId === loggedUserId) {
-      setIsLoading(true);
-      loadUserProducts(userId);
-    } else {
-      setIsLoading(false);
+      changeLoading();
     }
-  }, [loadUserProducts, loggedUserId, userId]);
-
-
+  }, [changeLoading, loggedUserId, userId]);
 
   useEffect(() => {
     if (loading) {
@@ -96,8 +78,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadUserProducts: (userId) => dispatch(getUserProductRequest(userId)),
-    // getPersonalProducts: ({ token, loggedUserId }) =>
-    //   dispatch(getPersonalProductsRequest({ token, loggedUserId })),
+    changeLoading: () => dispatch(changeUserProducts()),
   };
 };
 

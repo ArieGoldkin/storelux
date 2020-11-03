@@ -1,8 +1,10 @@
 import { Types } from "../usersActions/UserActions";
 import { Types as soldItemsActions } from "../usersActions/UserSoldProductsActions";
+import { Types as messagesActions } from "../usersActions/UserMessagesAction";
 import { updateObject } from "../../store/utility";
+import { activeMessages } from "../../common/util/calculateActiveMessages";
 
-export const initialState = {
+const initialState = {
   item: [],
   error: null,
   loading: true,
@@ -16,6 +18,16 @@ export const initialState = {
     items: [],
     soldItemsLoading: true,
     soldItemsError: null,
+  },
+  messageIcon: {
+    count: null,
+    counterLoading: true,
+  },
+  userMessages: {
+    items: [],
+    messagesLoading: true,
+    messagesError: null,
+    messageItemLoading: true,
   },
 };
 
@@ -92,6 +104,102 @@ const getSoldItemsFailure = (state, action) => {
   };
 };
 
+const userMessagesRequest = (state, action) => {
+  return updateObject(state, {
+    messageIcon: {
+      count: null,
+      counterLoading: true,
+    },
+    userMessages: {
+      messagesLoading: true,
+      messagesError: null,
+    },
+  });
+};
+
+const userMessagesSuccess = (state, action) => {
+  return updateObject(state, {
+    messageIcon: {
+      count: action.payload.count,
+      counterLoading: false,
+    },
+    userMessages: {
+      items: action.payload.items,
+      messagesLoading: false,
+    },
+  });
+};
+
+const userMessagesFailure = (state, action) => {
+  return updateObject(state, {
+    messageIcon: {
+      count: null,
+      counterLoading: false,
+    },
+    userMessages: {
+      messagesError: action.payload.error.error,
+      messagesLoading: false,
+    },
+  });
+};
+
+const userSeenMessageRequest = (state, action) => {
+  return updateObject(state, {
+    messageIcon: {
+      count: null,
+      counterLoading: true,
+    },
+  });
+};
+
+const userSeenMessageSuccess = (state, action) => {
+  const index = state.userMessages.items.findIndex(
+    (item) => item.id === action.payload.item.id
+  );
+  const newArray = [...state.userMessages.items];
+  newArray[index].active = !newArray[index].active;
+  const countActive = activeMessages(newArray);
+  return updateObject(state, {
+    userMessages: {
+      items: newArray,
+    },
+    messageIcon: {
+      count: countActive,
+      counterLoading: false,
+    },
+  });
+};
+
+const messageDeleteRequest = (state, action) => {
+  return updateObject(state, {
+    userMessages: {
+      items: state.userMessages.items,
+      messageItemLoading: true,
+    },
+  });
+};
+
+const messageDeleteSuccess = (state, action) => {
+  return updateObject(state, {
+    userMessages: {
+      items: state.userMessages.items.filter((item) => {
+        return !action.payload.messageId.includes(item.id);
+      }),
+      messageItemLoading: false,
+    },
+  });
+};
+
+const messageDeleteFailure = (state, action) => {
+  debugger;
+  return updateObject(state, {
+    userMessages: {
+      messagesError: action.payload.error.error,
+      messageItemLoading: false,
+    },
+  });
+};
+
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case Types.USER_PROFILE_REQUEST:
@@ -121,6 +229,22 @@ export default function userReducer(state = initialState, action) {
       return getSoldItemsSuccess(state, action);
     case soldItemsActions.GET_USER_SOLD_ITEMS_FAILURE:
       return getSoldItemsFailure(state, action);
+    case messagesActions.USER_MESSAGES_REQUEST:
+      return userMessagesRequest(state, action);
+    case messagesActions.USER_MESSAGES_SUCCESS:
+      return userMessagesSuccess(state, action);
+    case messagesActions.USER_MESSAGES_FAILURE:
+      return userMessagesFailure(state, action);
+    case messagesActions.USER_SEEN_MESSAGE_REQUEST:
+      return userSeenMessageRequest(state, action);
+    case messagesActions.USER_SEEN_MESSAGE_SUCCESS:
+      return userSeenMessageSuccess(state, action);
+    case messagesActions.DELETE_MESSAGE_REQUEST:
+      return messageDeleteRequest(state, action);
+    case messagesActions.DELETE_MESSAGE_SUCCESS:
+      return messageDeleteSuccess(state, action);
+    case messagesActions.DELETE_MESSAGE_FAILURE:
+      return messageDeleteFailure(state, action);
     default:
       return state;
   }
