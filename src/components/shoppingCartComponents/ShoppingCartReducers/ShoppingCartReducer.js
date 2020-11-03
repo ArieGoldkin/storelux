@@ -119,19 +119,6 @@ const updateProductQuantityFailure = (state, action) => {
 };
 
 const addToCartSuccess = (state, action) => {
-  console.log(state);
-  console.log(action);
-  // const index = state.items.findIndex(
-  //   (item) => item.id === action.payload.items.id
-  // );
-  // debugger;
-  // let newArray = [...state.items]; // need to map instead, in order to create a correct copy of key value pares
-  // if (index !== -1) {
-  //   newArray[index].quantity = action.payload.items.quantity;
-  // } else {
-  //   newArray = action.payload.items;
-  // }
-  // debugger;
   return updateObject(state, {
     items: action.payload.items,
     loading: false,

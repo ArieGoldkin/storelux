@@ -48,7 +48,6 @@ const onDeleteProductSuccess = (state, action) => {
 };
 
 const onCreateProductSuccess = (state, action) => {
-  console.log(action);
   return updateObject(state, {
     items: state.items.concat(action.product),
   });

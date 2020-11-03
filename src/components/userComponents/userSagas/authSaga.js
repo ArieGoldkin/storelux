@@ -74,11 +74,11 @@ function* logoutUser(action) {
   yield call([localStorage, "removeItem"], "expiresIn");
   yield call([localStorage, "removeItem"], "isAdmin");
   yield put(actions.logoutSucceed());
-  yield put(
-    actions.onLogOutMessage({
-      message: "You where logged out, please login again.",
-    })
-  );
+  // yield put(
+  //   actions.onLogOutMessage({
+  //     message: "You where logged out, please login again.",
+  //   })
+  // );
 }
 
 function* watchLogoutUserRequest() {
@@ -88,6 +88,11 @@ function* watchLogoutUserRequest() {
 function* checkAuthTimeSaga(action) {
   yield delay(action.expirationTime * 1000);
   yield put(actions.logout());
+  yield put(
+    actions.onLogOutMessage({
+      message: "You where logged out, please login again.",
+    })
+  );
 }
 
 function* watchCheckAuthTimeSaga() {

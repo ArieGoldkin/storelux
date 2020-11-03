@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
@@ -15,15 +16,19 @@ import {
   getUserProductsError,
 } from "./selectors/UserProductsSelectors";
 
-import * as actionTypes from "./productsActions/productsActions";
+import {
+  deleteProductRequest,
+  getProductRequest,
+} from "./productsActions/productsActions";
 import "./productsCss/ProductItem.css";
 
 const ProductItem = (props) => {
-  const { onDeleteProduct, token, userId, loading, error } = props;
+  const { onDeleteProduct, token, userId, loading, error, getProduct } = props;
   const [showProduct, setShowProduct] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const history = useHistory();
 
   const openProductHandler = () => setShowProduct(true);
 
@@ -44,10 +49,14 @@ const ProductItem = (props) => {
     onDeleteProduct(token, props.id, userId);
   };
 
+  const getProductInfo = () => {
+    getProduct(props.id);
+    history.push(`/product/${props.id}`);
+  };
+
   useEffect(() => {
     if (loading) {
       setIsLoading(true);
-      // props.onDelete(props.id);
     } else {
       setIsLoading(false);
     }
@@ -127,7 +136,7 @@ const ProductItem = (props) => {
               VIEW PRODUCT
             </Button>
             {props.userId === props.creatorId && (
-              <Button to={`/product/${props.id}`}>EDIT</Button>
+              <Button onClick={getProductInfo}>EDIT</Button>
             )}
             {props.userId === props.creatorId && (
               <Button danger onClick={showDeleteHandler}>
@@ -152,7 +161,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onDeleteProduct: (token, productId, userId) =>
-      dispatch(actionTypes.deleteProductRequest(token, productId, userId)),
+      dispatch(deleteProductRequest(token, productId, userId)),
+    getProduct: (productId) => dispatch(getProductRequest(productId)),
   };
 };
 
