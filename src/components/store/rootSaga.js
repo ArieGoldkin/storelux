@@ -2,6 +2,7 @@ import { all } from "redux-saga/effects";
 import productsSagas from "../productComponents/productsSaga/productsSaga";
 import addToCartSagas from "../productComponents/productsSaga/addToCartSaga";
 import usersSagas from "../userComponents/userSagas/UserSaga";
+import userMessageSagas from "../userComponents/userSagas/UserMessageSaga";
 import authSagas from "../userComponents/userSagas/authSaga";
 import categoriesSagas from "../categoriesComponents/categoriesSaga";
 import cartSagas from "../shoppingCartComponents/shoppingCartSagas/ShoppingCartSaga";
@@ -19,6 +20,7 @@ const combineSagas = [
   ...orderSagas,
   ...adminSagas,
   ...ResetPasswordSagas,
+  ...userMessageSagas,
 ];
 
 export default function* rootSaga() {

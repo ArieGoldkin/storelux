@@ -3,6 +3,7 @@ import * as api from "../../api/usersApi";
 import * as actions from "../usersActions/UserActions";
 import * as soldItemsActions from "../usersActions/UserSoldProductsActions";
 
+
 function* getUsers() {
   try {
     const resultUsers = yield call(api.getUsers);
@@ -136,31 +137,6 @@ function* watchGetUserSoldItemsRequest() {
   );
 }
 
-// function* getPersonalProducts(action) {
-//   try {
-//     const responseData = yield call(api.getUserPersonalProducts, {
-//       token: action.payload.token,
-//       userId: action.payload.loggedUserId,
-//     });
-//     console.log(responseData);
-//     yield put(actions.getPersonalProductsSuccess(responseData.data.items));
-//     debugger;
-//   } catch (e) {
-//     yield put(
-//       actions.getPersonalProductsFailure({
-//         error: e.response.data.message,
-//       })
-//     );
-//   }
-// }
-
-// function* watchGetPersonalProductsRequest() {
-//   yield takeLatest(
-//     actions.Types.GET_USERS_PERSONAL_PRODUCTS_REQUEST,
-//     getPersonalProducts
-//   );
-// }
-
 const userSagas = [
   fork(watchGetUsersRequest),
   fork(watchGetUserDataRequest),
@@ -168,7 +144,6 @@ const userSagas = [
   fork(watchUserOrdersRequest),
   fork(watchGetOrdersByDateRequest),
   fork(watchGetUserSoldItemsRequest),
-  // fork(watchGetPersonalProductsRequest),
 ];
 
 export default userSagas;
