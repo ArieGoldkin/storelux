@@ -8,14 +8,15 @@ import {
 } from "../../userComponents/selectors/AuthSelectors";
 import {
   getNumberOfMes,
-  // getMessagesLoading,
   getCounterLoading,
+  getErrorMessage,
 } from "../../userComponents/selectors/UserMessagesSelectors";
 
 import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
 import Backdrop from "../UIElements/Backdrop";
+import ErrorModal from "../UIElements/ErrorModal";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./MainNavigation.css";
@@ -47,6 +48,7 @@ const MainNavigation = ({
   const classes = useStyles();
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [isLoading, SetIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     if (loading) {
@@ -63,8 +65,14 @@ const MainNavigation = ({
   const closeDrawerHandler = () => {
     setDrawerIsOpen(false);
   };
+
+  const clearError = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <>
+      <ErrorModal error={errorMessage} onClear={clearError} />
       {drawerIsOpen && <Backdrop onClick={closeDrawerHandler} />}
       <SideDrawer show={drawerIsOpen} onClick={closeDrawerHandler}>
         <nav className="main-navigation__drawer-nav">
@@ -126,6 +134,7 @@ const mapStateToProps = (state) => {
     userId: getAuthUserId(state),
     numberOfMessages: getNumberOfMes(state),
     loading: getCounterLoading(state),
+    error: getErrorMessage(state),
   };
 };
 

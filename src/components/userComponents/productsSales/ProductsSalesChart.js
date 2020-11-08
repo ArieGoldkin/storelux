@@ -14,7 +14,6 @@ const ProductsSalesChart = ({ data, products }) => {
       const colorsArray = createRandomColors(products);
       for (const key in products) {
         quantityArray[key] = products[key].soldUnits;
-        console.log(products[key].soldUnits);
       }
       data.labels = productsTitleArray;
       data.datasets[0].backgroundColor = colorsArray;
@@ -27,7 +26,6 @@ const ProductsSalesChart = ({ data, products }) => {
     !chartData && setChartData(data);
   }, [chartData, data]);
 
-  console.log(chartData);
   const options = {
     legend: {
       display: true,

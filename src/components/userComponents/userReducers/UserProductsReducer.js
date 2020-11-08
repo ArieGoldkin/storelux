@@ -1,12 +1,14 @@
 import { Types } from "../../productComponents/productsActions/productsActions";
 import { Types as authTypes } from "../usersActions/authActions";
 import { Types as userTypes } from "../usersActions/UserActions";
+import { Types as addToCartTypes } from "../../productComponents/productsActions/addToCartActions";
 import { updateObject } from "../../store/utility";
 
 const initialState = {
   items: [],
   error: null,
   loading: true,
+  itemLoading: false,
   isDone: false,
   hasChanged: false,
 };
@@ -103,6 +105,24 @@ const changeWatchUserProducts = (state, action) => {
   });
 };
 
+const addToCartRequest = (state, action) => {
+  return updateObject(state, {
+    itemLoading: true,
+  });
+};
+
+const addToCartSuccess = (state, action) => {
+  return updateObject(state, {
+    itemLoading: false,
+  });
+};
+
+const addToCartFailure = (state, action) => {
+  return updateObject(state, {
+    itemLoading: false,
+  });
+};
+
 export default function userProductsReducer(state = initialState, action) {
   switch (action.type) {
     case Types.GET_USER_PRODUCTS_REQUEST:
@@ -129,6 +149,12 @@ export default function userProductsReducer(state = initialState, action) {
       return updateProductSuccess(state, action);
     case userTypes.CHANGE_USER_PRODUCTS:
       return changeWatchUserProducts(state, action);
+    case addToCartTypes.ADD_TO_CART_REQUEST:
+      return addToCartRequest(state, action);
+    case addToCartTypes.ADD_TO_CART_SUCCESS:
+      return addToCartSuccess(state, action);
+    case addToCartTypes.ADD_TO_CART_FAILURE:
+      return addToCartFailure(state, action);
     default:
       return state;
   }

@@ -8,3 +8,5 @@ export const getUserProductsIsDone = (state) => state.userProducts.isDone;
 
 export const getCurrentUserProducts = (state) =>
   state.userProducts.userProductId;
+
+export const getItemLoading = (state) => state.userProducts.itemLoading;

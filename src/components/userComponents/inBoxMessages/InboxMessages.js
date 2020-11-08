@@ -7,6 +7,7 @@ import { getAuthToken, getAuthUserId } from "../selectors/AuthSelectors";
 import {
   getMessagesLoading,
   getMessages,
+  getErrorMessage,
 } from "../selectors/UserMessagesSelectors";
 
 import InboxDrawer from "./InboxDrawer";
@@ -15,7 +16,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../common/UIElements/Card";
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
-// import Button from "../../common/FormElements/Button";
 
 const useStyles = makeStyles((theme) => ({
   cardWrapper: {
@@ -41,6 +41,7 @@ const InboxMessages = ({
   getUserMessages,
   messages,
   loading,
+  error,
 }) => {
   const classes = useStyles();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -53,7 +54,8 @@ const InboxMessages = ({
     } else {
       SetIsLoading(false);
     }
-  }, [getUserMessages, loading, token, userId]);
+    error && setErrorMessage(error);
+  }, [error, getUserMessages, loading, token, userId]);
 
   const clearError = () => {
     setErrorMessage(null);
@@ -81,13 +83,13 @@ const InboxMessages = ({
   );
 };
 
-// need to add error message
 const mapStateToProps = (state) => {
   return {
     userId: getAuthUserId(state),
     token: getAuthToken(state),
     loading: getMessagesLoading(state),
     messages: getMessages(state),
+    error: getErrorMessage(state),
   };
 };
 

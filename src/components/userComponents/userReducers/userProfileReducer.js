@@ -191,7 +191,6 @@ const messageDeleteSuccess = (state, action) => {
 };
 
 const messageDeleteFailure = (state, action) => {
-  debugger;
   return updateObject(state, {
     userMessages: {
       messagesError: action.payload.error.error,
@@ -234,6 +233,7 @@ export default function userReducer(state = initialState, action) {
     case messagesActions.USER_MESSAGES_SUCCESS:
       return userMessagesSuccess(state, action);
     case messagesActions.USER_MESSAGES_FAILURE:
+    case messagesActions.USER_SEEN_MESSAGE_FAILURE:
       return userMessagesFailure(state, action);
     case messagesActions.USER_SEEN_MESSAGE_REQUEST:
       return userSeenMessageRequest(state, action);

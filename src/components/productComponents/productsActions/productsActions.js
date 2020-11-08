@@ -24,12 +24,9 @@ export const Types = {
   DELETE_PRODUCT_FAILURE: "product/DELETE_PRODUCT.FAILURE",
 
   ON_CHANGE_INPUT_SEARCH: "products/ON_CHANGE_INPUT_SEARCH",
-  // CHANGE_PRODUCT_LOADING: "/products/CHANGE_PRODUCT_LOADING",
 };
 
-// export const changeProductLoading = () => ({
-//   type: Types.CHANGE_PRODUCT_LOADING,
-// });
+
 
 // get products actions
 export const getProductsRequest = () => ({
