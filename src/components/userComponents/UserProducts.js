@@ -11,6 +11,7 @@ import {
   getUserProductsLoading,
   getUserProductsError,
 } from "../productComponents/selectors/UserProductsSelectors";
+import { getCartProductError } from "../shoppingCartComponents/selectors/CartSelectors";
 import { getAuthUserId, getAuthToken } from "./selectors/AuthSelectors";
 import { getNewProductRedirect } from "../productComponents/selectors/NewProductSelectors";
 import { getUserProductRequest } from "../productComponents/productsActions/productsActions";
@@ -23,6 +24,7 @@ const UserProducts = ({
   loading,
   error,
   loggedUserId,
+  addToCartError,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -45,7 +47,8 @@ const UserProducts = ({
     if (error) {
       setErrorMessage(error.error);
     }
-  }, [error, loadUserProducts, loading, loggedUserId, userId]);
+    addToCartError && setErrorMessage(addToCartError);
+  }, [addToCartError, error, loadUserProducts, loading, loggedUserId, userId]);
 
   const clearError = () => {
     setErrorMessage(null);
@@ -70,6 +73,7 @@ const mapStateToProps = (state) => {
     redirected: getNewProductRedirect(state),
     loading: getUserProductsLoading(state),
     error: getUserProductsError(state),
+    addToCartError: getCartProductError(state),
     loggedUserId: getAuthUserId(state),
     token: getAuthToken(state),
   };

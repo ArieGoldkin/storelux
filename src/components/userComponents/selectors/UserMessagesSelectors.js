@@ -10,3 +10,5 @@ export const getCounterLoading = (state) =>
 
 export const getItemLoading = (state) =>
   state.user.userMessages.messageItemLoading;
+
+export const getErrorMessage = (state) => state.user.userMessages.messagesError;

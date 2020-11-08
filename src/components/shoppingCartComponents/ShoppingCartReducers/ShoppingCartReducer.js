@@ -176,6 +176,7 @@ const addingProductsToCart = (state, action) => {
     isDone: false,
     product: {
       productLoading: true,
+      productError: null,
     },
   });
 };

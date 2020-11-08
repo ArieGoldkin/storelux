@@ -11,12 +11,13 @@ import {
   getCategories,
 } from "../../categoriesComponents/categoriesSelectors";
 import {
-  getAllOrdersLoading,
+  // getAllOrdersLoading,
   getAllOrdersError,
   getAllOrders,
+  chartLoading,
 } from "../selectors/AllOrdersSelectors";
-import * as adminActions from "../adminActions/adminActions";
-import * as categoriesActions from "../../categoriesComponents/categoriesActions";
+import { getOrdersRequest } from "../adminActions/adminActions";
+import { getCategoriesRequest } from "../../categoriesComponents/categoriesActions";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../common/UIElements/Card";
@@ -42,7 +43,7 @@ const TrafficChartsList = ({
   adminId,
   categories,
   orders,
-  orderLoading,
+  chartLoading,
   getOrders,
   orderError,
   products,
@@ -68,13 +69,13 @@ const TrafficChartsList = ({
   };
 
   useEffect(() => {
-    if (orderLoading) {
+    if (chartLoading) {
       setIsLoading(true);
       getOrders({ adminId, token });
     } else {
       setIsLoading(false);
     }
-  }, [adminId, getOrders, orderLoading, token]);
+  }, [adminId, getOrders, chartLoading, token]);
 
   useEffect(() => {
     categoryLoading && getCategories();
@@ -93,7 +94,7 @@ const TrafficChartsList = ({
             <LoadingSpinner style={{ marginTop: "6rem" }} />
           </div>
         )}
-        {!isLoading && currentChart === "orders" && (
+        {!isLoading && orders && currentChart === "orders" && (
           <MonthlyOrders orders={orders} />
         )}
         {!isLoading && currentChart === "ProductInventory" && (
@@ -114,11 +115,12 @@ const mapStateToProps = (state) => {
     categoryLoading: getCategoriesLoading(state),
     categories: getCategories(state),
     products: getProducts(state),
-    orderLoading: getAllOrdersLoading(state),
+    chartLoading: chartLoading(state),
     orderError: getAllOrdersError(state),
-    orders: getAllOrders(state).map((order, index) => {
+    orders: getAllOrders(state).map((order) => {
       return {
         month: new Date(order.createdAt).getMonth(),
+        year: new Date(order.createdAt).getFullYear(),
       };
     }),
   };
@@ -126,8 +128,8 @@ const mapStateToProps = (state) => {
 const MapDispatchToProps = (dispatch) => {
   return {
     getOrders: ({ adminId, token }) =>
-      dispatch(adminActions.getOrdersRequest({ adminId, token })),
-    getCategories: () => dispatch(categoriesActions.getCategoriesRequest()),
+      dispatch(getOrdersRequest({ adminId, token })),
+    getCategories: () => dispatch(getCategoriesRequest()),
   };
 };
 

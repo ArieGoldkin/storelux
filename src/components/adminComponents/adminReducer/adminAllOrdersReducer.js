@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   loading: true,
   isDone: false,
+  chartOrdersLoading: true,
 };
 
 const getOrdersRequest = (state, action) => {
@@ -15,12 +16,28 @@ const getOrdersRequest = (state, action) => {
   });
 };
 
+const getOrdersChartRequest = (state, action) => {
+  return updateObject(state, {
+    chartOrdersLoading: true,
+    error: null,
+  });
+};
+
+const getOrdersChartSuccess = (state, action) => {
+  return updateObject(state, {
+    items: action.payload.orders,
+    chartOrdersLoading: false,
+    error: null,
+  });
+};
+
 const getOrdersSuccess = (state, action) => {
   return updateObject(state, {
     items: action.payload.orders,
     loading: false,
     error: null,
     isDone: true,
+    chartOrdersLoading: true,
   });
 };
 
@@ -38,6 +55,7 @@ const getOrdersByUserNameSuccess = (state, action) => {
     loading: false,
     error: null,
     isDone: true,
+    chartOrdersLoading: true,
   });
 };
 
@@ -52,11 +70,13 @@ const getOrdersByUserNameFailure = (state, action) => {
 export default function adminAllOrdersReducer(state = initialState, action) {
   switch (action.type) {
     case Types.GET_ALL_ORDERS_REQUEST:
+      return getOrdersChartRequest(state, action);
     case Types.GET_ORDERS_BY_DATE_REQUEST:
     case Types.GET_ORDERS_BY_USER_NAME_REQUEST:
       return getOrdersRequest(state, action);
-    case Types.GET_ORDERS_BY_DATE_SUCCESS:
     case Types.GET_ALL_ORDERS_SUCCESS:
+      return getOrdersChartSuccess(state, action);
+    case Types.GET_ORDERS_BY_DATE_SUCCESS:
       return getOrdersSuccess(state, action);
     case Types.GET_ORDERS_BY_USER_NAME_SUCCESS:
       return getOrdersByUserNameSuccess(state, action);

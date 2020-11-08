@@ -27,7 +27,7 @@ function* signUpUser(action) {
   } catch (e) {
     yield put(
       actions.AuthFailure({
-        error: "an error happened when trying add new user",
+        error: e.response.data.message,
       })
     );
   }
@@ -59,7 +59,7 @@ function* loginUser(action) {
   } catch (e) {
     yield put(
       actions.LoginFailure({
-        error: "an error happened when trying login",
+        error: e.response.data.message,
       })
     );
   }

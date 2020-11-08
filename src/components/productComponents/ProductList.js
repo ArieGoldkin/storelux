@@ -34,8 +34,9 @@ const ProductsList = (props) => {
   }
   return (
     <ul className="product-list">
-      {props.items.map((product) => (
+      {props.items.map((product, index) => (
         <ProductItem
+          index={index}
           key={product.id}
           id={product.id}
           image={product.image}
