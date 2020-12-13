@@ -33,7 +33,7 @@ const InboxDrawer = ({ messages, setSidebarSection }) => {
       <h2 className={classes.messageHeader}>Messages</h2>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send message", "Drafts"].map((text, index) => (
+        {["Inbox"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}

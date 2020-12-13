@@ -15,7 +15,7 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
-import * as actionTypes from "./usersActions/UserActions";
+import { userUpdateRequest } from "./usersActions/UserActions";
 import { getAuthUserId } from "./selectors/AuthSelectors";
 import {
   getUserItem,
@@ -218,7 +218,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onUpdate: (userId, formData) =>
-      dispatch(actionTypes.userUpdateRequest(userId, formData)),
+      dispatch(userUpdateRequest(userId, formData)),
   };
 };
 

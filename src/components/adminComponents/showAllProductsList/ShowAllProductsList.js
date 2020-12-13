@@ -20,11 +20,21 @@ import Paper from "@material-ui/core/Paper";
 
 import { useStyles } from "./tableStyle";
 import { columnsData } from "./tableColumnsData";
-import * as adminProductsSelectors from "../selectors/AllProductsSelectors";
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as userSelectors from "../../userComponents/selectors/UserSelectors";
-import * as adminActions from "../adminActions/adminActions";
-import * as usersAction from "../../userComponents/usersActions/UserActions";
+import {
+  getAllProducts,
+  getLoading,
+  getError,
+} from "../selectors/AllProductsSelectors";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../../userComponents/selectors/AuthSelectors";
+import {
+  getUsers,
+  getUsersError,
+} from "../../userComponents/selectors/UserSelectors";
+import { getAllProductsRequest } from "../adminActions/adminActions";
+import { getUsersRequest } from "../../userComponents/usersActions/UserActions";
 
 const theme = createMuiTheme({
   overrides: {
@@ -242,21 +252,21 @@ const ShowAllProductsList = ({
 
 const mapStateToProps = (state) => {
   return {
-    products: adminProductsSelectors.getAllProducts(state),
-    loading: adminProductsSelectors.getLoading(state),
-    users: userSelectors.getUsers(state),
-    usersError: userSelectors.getUsersError(state),
-    productsError: adminProductsSelectors.getError(state),
-    adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
+    products: getAllProducts(state),
+    loading: getLoading(state),
+    users: getUsers(state),
+    usersError: getUsersError(state),
+    productsError: getError(state),
+    adminId: getAuthUserId(state),
+    token: getAuthToken(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadAllProducts: ({ adminId, token }) =>
-      dispatch(adminActions.getAllProductsRequest({ adminId, token })),
-    loadUsers: () => dispatch(usersAction.getUsersRequest()),
+      dispatch(getAllProductsRequest({ adminId, token })),
+    loadUsers: () => dispatch(getUsersRequest()),
   };
 };
 

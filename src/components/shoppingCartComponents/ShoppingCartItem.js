@@ -15,6 +15,8 @@ import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors"
 import bin from "../../images/bin.png";
 import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
 import "../productComponents/productsCss/AllProductsItem.css";
+import { CSSTransition } from "react-transition-group";
+import "./cartItem.css";
 
 const ShoppingCartItem = (props) => {
   const {
@@ -97,46 +99,48 @@ const ShoppingCartItem = (props) => {
         </div>
       )}
       {!orderLoading && (
-        <li className="product-cart__item">
-          <Card className="product-cart__content">
-            <div className="product-cart__description">
-              <div className="product-cart__image">
-                <img src={props.image} alt={props.title} />
+        <CSSTransition classNames="fade" timeout={300}>
+          <li className="product-cart__item">
+            <Card className="product-cart__content">
+              <div className="product-cart__description">
+                <div className="product-cart__image">
+                  <img src={props.image} alt={props.title} />
+                </div>
+                <div className="product-cart__info">
+                  <h4>{props.title}</h4>
+                  <p>Category: {props.category}</p>
+                  <p>{props.description}</p>
+                  <h3>Price: {`$${props.price}`}</h3>
+                </div>
               </div>
-              <div className="product-cart__info">
-                <h4>{props.title}</h4>
-                <p>Category: {props.category}</p>
-                <p>{props.description}</p>
-                <h3>Price: {`$${props.price}`}</h3>
-              </div>
-            </div>
-            <div className="product-cart__sum">
-              <div className="product-cart_qun">
-                <div className="product-cart_qun-content">
-                  <button className="btn_qun" onClick={addQuantityHandler}>
-                    <div className="plus">+</div>
-                  </button>
-                  <div>{quantity}</div>
-                  <button className="btn_qun" onClick={removeQuantityHandler}>
-                    <div className="minus">-</div>
+              <div className="product-cart__sum">
+                <div className="product-cart_qun">
+                  <div className="product-cart_qun-content">
+                    <button className="btn_qun" onClick={addQuantityHandler}>
+                      <div className="plus">+</div>
+                    </button>
+                    <div>{quantity}</div>
+                    <button className="btn_qun" onClick={removeQuantityHandler}>
+                      <div className="minus">-</div>
+                    </button>
+                  </div>
+                  <button
+                    className="product-cart__delete-item"
+                    onClick={deleteProductFromCart}
+                  >
+                    <img src={bin} alt="delete" />
                   </button>
                 </div>
-                <button
-                  className="product-cart__delete-item"
-                  onClick={deleteProductFromCart}
+                <Button
+                  to={`/${userId}/shoppingCart/${props.id}`}
+                  buttonClass="product-purchase"
                 >
-                  <img src={bin} alt="delete" />
-                </button>
+                  Order Item
+                </Button>
               </div>
-              <Button
-                to={`/${userId}/shoppingCart/${props.id}`}
-                buttonClass="product-purchase"
-              >
-                Order Item
-              </Button>
-            </div>
-          </Card>
-        </li>
+            </Card>
+          </li>
+        </CSSTransition>
       )}
     </>
   );

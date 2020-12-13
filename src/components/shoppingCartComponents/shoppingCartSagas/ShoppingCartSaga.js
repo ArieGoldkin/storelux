@@ -32,7 +32,6 @@ function* watchGetCartRequest() {
 }
 
 function* updateProductInCart(action) {
-  console.log(action.payload.vatRate);
   try {
     const responseData = yield call(api.updateProductQuantity, {
       userId: action.payload.userId,
@@ -74,7 +73,7 @@ function* deleteProductCart({ token, userId, productId, vatRate }) {
     console.log(responseData.data.cart);
     const cartData = yield responseData.data.cart;
     const newCartSummary = yield calcSummary(cartData, vatRate);
-    yield put(actions.deleteProductFromCartSuccess(cartData,newCartSummary));
+    yield put(actions.deleteProductFromCartSuccess(cartData, newCartSummary));
 
     yield toast.info("Product deleted successfully from cart.");
   } catch (e) {

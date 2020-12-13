@@ -7,7 +7,7 @@ import NotAuthenticatedRoutes from "./notAuthenticatedRoutes/NotAuthenticatedRou
 import ErrorModal from "./common/UIElements/ErrorModal";
 import MainNavigation from "../components/common/Navigation/MainNavigation";
 import LoadingSpinner from "./common/UIElements/LoadingSpinner";
-import * as actions from "./userComponents/usersActions/authActions";
+import { authCheckState } from "./userComponents/usersActions/authActions";
 import {
   getAuthToken,
   getLogOutMessage,
@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = ({ isAuthenticated, onTryAutoSignup, logOutMessage }) => {
   const [errorMessage, setErrorMessage] = useState(null);
+
   let routes;
   useEffect(() => {
     onTryAutoSignup();
@@ -62,7 +63,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState()),
+    onTryAutoSignup: () => dispatch(authCheckState()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

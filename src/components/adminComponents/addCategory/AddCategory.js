@@ -8,9 +8,19 @@ import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import { useForm } from "../../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../common/util/InputValidators";
-import * as categoriesAction from "../../categoriesComponents/categoriesActions";
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as categorySelectors from "../../categoriesComponents/categoriesSelectors";
+import {
+  getCategoriesRequest,
+  addCategoryRequest,
+} from "../../categoriesComponents/categoriesActions";
+import {
+  getAuthUserId,
+  getAuthToken,
+} from "../../userComponents/selectors/AuthSelectors";
+import {
+  getCategoriesIsDone,
+  getCategoriesLoading,
+  getCategoriesError,
+} from "../../categoriesComponents/categoriesSelectors";
 import "./AddCategory.css";
 
 const AddCategory = ({
@@ -88,18 +98,18 @@ const AddCategory = ({
 };
 const mapStateToProps = (state) => {
   return {
-    adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    categoriesIsDone: categorySelectors.getCategoriesIsDone(state),
-    loading: categorySelectors.getCategoriesLoading(state),
-    error: categorySelectors.getCategoriesError(state),
+    adminId: getAuthUserId(state),
+    token: getAuthToken(state),
+    categoriesIsDone: getCategoriesIsDone(state),
+    loading: getCategoriesLoading(state),
+    error: getCategoriesError(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCategories: () => dispatch(categoriesAction.getCategoriesRequest()),
+    loadCategories: () => dispatch(getCategoriesRequest()),
     onAddCategory: (category, userId, token) =>
-      dispatch(categoriesAction.addCategoryRequest(category, userId, token)),
+      dispatch(addCategoryRequest(category, userId, token)),
   };
 };
 
