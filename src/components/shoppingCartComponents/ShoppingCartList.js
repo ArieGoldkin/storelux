@@ -14,6 +14,7 @@ import {
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import * as userActions from "../userComponents/usersActions/UserActions";
+import { TransitionGroup } from "react-transition-group";
 
 const ShoppingCartList = (props) => {
   const {
@@ -70,18 +71,23 @@ const ShoppingCartList = (props) => {
     <>
       <ul className="product-cart__list">
         {props.items.map((product) => (
-          <ShoppingCartItem
+          <TransitionGroup
             key={product.id}
-            id={product.id}
-            image={product.image}
-            title={product.title}
-            creatorId={product.creator}
-            category={product.category}
-            price={product.price}
-            quantity={product.quantity}
-            units={product.units}
-            description={product.description}
-          />
+            className="product-cart__item"
+            component="ul"
+          >
+            <ShoppingCartItem
+              id={product.id}
+              image={product.image}
+              title={product.title}
+              creatorId={product.creator}
+              category={product.category}
+              price={product.price}
+              quantity={product.quantity}
+              units={product.units}
+              description={product.description}
+            />
+          </TransitionGroup>
         ))}
       </ul>
       <ErrorModal error={errorMessage} onClear={clearError} />

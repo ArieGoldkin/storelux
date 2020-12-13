@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import UsersList from "./UsersList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import * as actionTypes from "./usersActions/UserActions";
+import { getUsersRequest } from "./usersActions/UserActions";
 import {
   getUsers,
   getUsersLoading,
@@ -72,7 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUsers: () => dispatch(actionTypes.getUsersRequest()),
+    loadUsers: () => dispatch(getUsersRequest()),
   };
 };
 

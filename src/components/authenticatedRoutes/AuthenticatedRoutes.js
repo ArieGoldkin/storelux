@@ -86,6 +86,8 @@ const AuthenticatedRoutes = ({
         <Route path="/about" component={AboutPage} />
         <Route path="/logout" component={Logout} />
         {adminRoutes}
+
+        {/* add from="/" */}
         <Redirect to="/products" />
         {/* <Route component={PageNotFound} /> */}
       </Switch>

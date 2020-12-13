@@ -4,9 +4,9 @@ import { Bar as BarChart } from "react-chartjs-2";
 
 require("./RoundedBars.js");
 
-const MonthlyOrders = ({ orders, datasets }) => {
+const MonthlyOrders = ({ orders, data }) => {
   const [chartData, setChartData] = useState();
-  console.log(orders);
+  // console.log(orders);
   let monthsArray = new Array(12).fill(0);
   const lastYearOrders = orders.filter((order) => order.year === 2019);
   console.log(lastYearOrders);
@@ -36,14 +36,14 @@ const MonthlyOrders = ({ orders, datasets }) => {
         }
         monthsArray[month] = count;
       }
-      datasets.datasets[0].data = monthsArray;
+      data.datasets[0].data = monthsArray;
     };
     setMonths();
-  }, [datasets.datasets, monthsArray, orders]);
+  }, [data.datasets, monthsArray, orders]);
 
   useEffect(() => {
-    setChartData(datasets);
-  }, [datasets]);
+    setChartData(data);
+  }, [data]);
 
   const options = {
     title: {
@@ -67,7 +67,7 @@ MonthlyOrders.propTypes = {
 };
 
 MonthlyOrders.defaultProps = {
-  datasets: {
+  data: {
     labels: [
       "Jan",
       "Feb",
