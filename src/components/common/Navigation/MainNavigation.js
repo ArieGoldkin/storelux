@@ -5,12 +5,10 @@ import { connect } from "react-redux";
 import {
   getAuthToken,
   getAuthUserId,
-} from "../../userComponents/selectors/AuthSelectors";
-import {
   getNumberOfMes,
   getCounterLoading,
   getErrorMessage,
-} from "../../userComponents/selectors/UserMessagesSelectors";
+} from "../../../store/selectors";
 
 import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";

@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+import { getOrdersRequest, getCategoriesRequest } from "../../../store/actions";
 import {
   getAuthUserId,
   getAuthToken,
-} from "../../userComponents/selectors/AuthSelectors";
-import { getProducts } from "../../productComponents/selectors/AllProductsSelectors";
-import {
+  getProducts,
   getCategoriesLoading,
   getCategories,
-} from "../../categoriesComponents/categoriesSelectors";
-import {
-  // getAllOrdersLoading,
   getAllOrdersError,
   getAllOrders,
   chartLoading,
-} from "../selectors/AllOrdersSelectors";
-import { getOrdersRequest } from "../adminActions/adminActions";
-import { getCategoriesRequest } from "../../categoriesComponents/categoriesActions";
+} from "../../../store/selectors";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../common/UIElements/Card";

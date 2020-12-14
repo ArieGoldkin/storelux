@@ -10,12 +10,13 @@ import {
   getUserProductsIsDone,
   getUserProductsLoading,
   getUserProductsError,
-} from "../productComponents/selectors/UserProductsSelectors";
-import { getCartProductError } from "../shoppingCartComponents/selectors/CartSelectors";
-import { getAuthUserId, getAuthToken } from "./selectors/AuthSelectors";
-import { getNewProductRedirect } from "../productComponents/selectors/NewProductSelectors";
-import { getUserProductRequest } from "../productComponents/productsActions/productsActions";
-import { changeUserProducts } from "./usersActions/UserActions";
+  getCartProductError,
+  getAuthUserId,
+  getAuthToken,
+  getNewProductRedirect,
+} from "../../store/selectors";
+import { getUserProductRequest, changeUserProducts } from "../../store/actions";
+
 
 const UserProducts = ({
   loadUserProducts,

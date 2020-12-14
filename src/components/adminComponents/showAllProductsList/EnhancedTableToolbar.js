@@ -2,6 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import { DeleteProductsRequest } from "../../../store/actions";
+import {
+  getAuthAdmin,
+  getAuthUserId,
+  getAuthToken,
+} from "../../../store/selectors";
+
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,9 +17,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as actions from "../adminActions/adminActions";
-
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -103,17 +107,15 @@ EnhancedTableToolbar.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    isAdmin: authSelectors.getAuthAdmin(state),
-    adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
+    isAdmin: getAuthAdmin(state),
+    adminId: getAuthUserId(state),
+    token: getAuthToken(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     onDeleteRequest: ({ selectedItems, adminId, token }) =>
-      dispatch(
-        actions.DeleteProductsRequest({ selectedItems, adminId, token })
-      ),
+      dispatch(DeleteProductsRequest({ selectedItems, adminId, token })),
   };
 };
 

@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
+import {
+  getCategoriesRequest,
+  addCategoryRequest,
+} from "../../../store/actions";
+import {
+  getAuthUserId,
+  getAuthToken,
+  getCategoriesIsDone,
+  getCategoriesLoading,
+  getCategoriesError,
+} from "../../../store/selectors";
+
 import Card from "../../common/UIElements/Card";
 import Input from "../../common/FormElements/Input";
 import Button from "../../common/FormElements/Button";
@@ -8,19 +20,6 @@ import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import { useForm } from "../../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../common/util/InputValidators";
-import {
-  getCategoriesRequest,
-  addCategoryRequest,
-} from "../../categoriesComponents/categoriesActions";
-import {
-  getAuthUserId,
-  getAuthToken,
-} from "../../userComponents/selectors/AuthSelectors";
-import {
-  getCategoriesIsDone,
-  getCategoriesLoading,
-  getCategoriesError,
-} from "../../categoriesComponents/categoriesSelectors";
 import "./AddCategory.css";
 
 const AddCategory = ({

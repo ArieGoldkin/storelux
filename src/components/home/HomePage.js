@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+import { getAuthToken } from "../../store/selectors";
 import "./HomePage.css";
 
 const HomePage = ({ isAuthenticated }) => {
@@ -38,7 +39,7 @@ const HomePage = ({ isAuthenticated }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.auth.token !== null,
+    isAuthenticated: getAuthToken(state),
   };
 };
 

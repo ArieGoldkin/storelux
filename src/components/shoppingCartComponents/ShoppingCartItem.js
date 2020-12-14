@@ -5,17 +5,26 @@ import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+
 import {
   getAuthUserId,
   getAuthToken,
-} from "../userComponents/selectors/AuthSelectors";
-import { getCartProductError } from "./selectors/CartSelectors";
-import { getOrderLoading } from "../orderComponents/selectors/OrderSelectors";
-import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
-import bin from "../../images/bin.png";
-import * as actionTypes from "./shoppingCartActions/ShoppingCartActions";
+  getCartProductError,
+  getOrderLoading,
+  getGlobalCurrentVatRate,
+} from "../../store/selectors";
+
+import {
+  addProductQuantity,
+  removeProductQuantity,
+  setProductQuantityRequest,
+  deleteProductFromCartRequest,
+} from "../../store/actions";
+
 import "../productComponents/productsCss/AllProductsItem.css";
 import { CSSTransition } from "react-transition-group";
+
+import bin from "../../images/bin.png";
 import "./cartItem.css";
 
 const ShoppingCartItem = (props) => {
@@ -152,34 +161,19 @@ const mapStateToProps = (state) => {
     // productLoading: cartSelectors.getCartProductLoading(state),
     productError: getCartProductError(state),
     orderLoading: getOrderLoading(state),
-    vatRate: getCurrentVatRate(state),
+    vatRate: getGlobalCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addQuantity: (productId) =>
-      dispatch(actionTypes.addProductQuantity(productId)),
-    removeQuantity: (productId) =>
-      dispatch(actionTypes.removeProductQuantity(productId)),
+    addQuantity: (productId) => dispatch(addProductQuantity(productId)),
+    removeQuantity: (productId) => dispatch(removeProductQuantity(productId)),
     updateProductInCart: (userId, token, productId, quantity, vatRate) =>
       dispatch(
-        actionTypes.setProductQuantityRequest(
-          userId,
-          token,
-          productId,
-          quantity,
-          vatRate
-        )
+        setProductQuantityRequest(userId, token, productId, quantity, vatRate)
       ),
     onDeleteProductCart: (token, userId, productId, vatRate) =>
-      dispatch(
-        actionTypes.deleteProductFromCartRequest(
-          token,
-          userId,
-          productId,
-          vatRate
-        )
-      ),
+      dispatch(deleteProductFromCartRequest(token, userId, productId, vatRate)),
   };
 };
 

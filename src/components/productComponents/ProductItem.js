@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import {
+  deleteProductRequest,
+  getProductRequest,
+  addToCartRequest,
+} from "../../store/actions";
+
+import {
+  getGlobalCurrentVatRate,
+  getAuthUserId,
+  getAuthToken,
+  getUserProductsLoading,
+  getUserProductsError,
+  getItemLoading,
+} from "../../store/selectors";
+
 import ProductModal from "./ProductModal";
 import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import Modal from "../common/UIElements/Modal";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import {
-  getAuthUserId,
-  getAuthToken,
-} from "../userComponents/selectors/AuthSelectors";
-import {
-  getUserProductsLoading,
-  getUserProductsError,
-  getItemLoading,
-} from "./selectors/UserProductsSelectors";
-import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
-import {
-  deleteProductRequest,
-  getProductRequest,
-} from "./productsActions/productsActions";
-import { addToCartRequest } from "./productsActions/addToCartActions";
 import { makeStyles } from "@material-ui/core/styles";
 import "./productsCss/ProductItem.css";
 
@@ -220,7 +220,7 @@ const mapStateToProps = (state) => {
     token: getAuthToken(state),
     loading: getUserProductsLoading(state),
     error: getUserProductsError(state),
-    vatRate: getCurrentVatRate(state),
+    vatRate: getGlobalCurrentVatRate(state),
     itemLoading: getItemLoading(state),
   };
 };

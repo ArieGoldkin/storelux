@@ -4,27 +4,25 @@ import { connect } from "react-redux";
 import {
   searchProductsByTitleRequest,
   searchProductsByCategoryRequest,
-} from "../productComponents/productsActions/SearchProductsActions";
-import { getProductsRequest } from "./productsActions/productsActions";
-import { getUsersRequest } from "../userComponents/usersActions/UserActions";
-import { getCategoriesRequest } from "../categoriesComponents/categoriesActions";
+  getProductsRequest,
+  getUsersRequest,
+  getCategoriesRequest,
+} from "../../store/actions";
+
 import {
   getCartError,
   getCartProductError,
-} from "../shoppingCartComponents/selectors/CartSelectors";
-import {
   getProducts,
   getProductsLoading,
   getProductsError,
   getItemLoading,
   getCategoryLoading,
-} from "./selectors/AllProductsSelectors";
-import {
   getUsers,
   getUsersLoading,
   getUsersError,
-} from "../userComponents/selectors/UserSelectors";
-import { getCategories } from "../categoriesComponents/categoriesSelectors";
+  getCategories,
+} from "../../store/selectors";
+
 
 import { useStyles } from "./productsCss/AllProductsStyle";
 import SearchByCategory from "../common/FormElements/SearchByCategory";

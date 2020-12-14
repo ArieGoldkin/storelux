@@ -3,8 +3,8 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
-import ResetPassword from "../userComponents/passwordRecovery/ResetPassword";
-import ResetPasswordPage from "../userComponents/passwordRecovery/RestPasswordPage";
+import RecoveryEmail from "../../containers/Auth/ResetPassword/RecoveryEmail";
+import ResetPassword from "../../containers/Auth/ResetPassword/ResetPassword";
 import { ToastContainer } from "react-toastify";
 // import PageNotFound from "../common/PageNoFound";
 
@@ -13,7 +13,7 @@ const AllProducts = React.lazy(() =>
   import("../productComponents/AllProducts")
 );
 const UserProducts = React.lazy(() => import("../userComponents/UserProducts"));
-const Auth = React.lazy(() => import("../userComponents/Auth"));
+const Auth = React.lazy(() => import("../../containers/Auth/Auth"));
 
 const notAuthenticatedRoutes = () => {
   return (
@@ -24,12 +24,8 @@ const notAuthenticatedRoutes = () => {
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/:userId/products" component={UserProducts} />
         <Route exact path="/about" component={AboutPage} />
-        <Route exact path="/resetPassword" component={ResetPassword} />
-        <Route
-          exact
-          path="/resetPassword/:token"
-          component={ResetPasswordPage}
-        />
+        <Route exact path="/resetPassword" component={RecoveryEmail} />
+        <Route exact path="/resetPassword/:token" component={ResetPassword} />
         <Route exact path="/auth" component={Auth} />
         <Redirect to="/auth" />
         {/* <Route component={PageNotFound} /> */}

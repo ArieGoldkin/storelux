@@ -6,7 +6,7 @@ import {
   getAuthToken,
   getAuthUserId,
   getAuthAdmin,
-} from "../../userComponents/selectors/AuthSelectors";
+} from "../../../store/selectors";
 import AdminOptionDrawer from "../../adminComponents/AdminOptionDrawer";
 import "./NavLinks.css";
 

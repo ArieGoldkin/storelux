@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 
-import { changeUserProducts } from "./usersActions/UserActions";
+import { changeUserProducts } from "../../store/actions";
+
 import CustomAvatar from "../common/UIElements/CustomAvatar";
 import Card from "../common/UIElements/Card";
 import "./usersCss/UserItem.css";

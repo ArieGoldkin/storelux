@@ -2,6 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
+import {
+  getCategoriesRequest,
+  createProductRequest,
+} from "../../store/actions";
+
+import {
+  getAuthUserId,
+  getAuthToken,
+  getCategoriesLoading,
+  getCategories,
+  getCategoriesIsDone,
+  getCategoriesError,
+  getNewProductLoading,
+  getNewProductError,
+  getNewProductRedirect,
+} from "../../store/selectors";
+
 import Input from "../common/FormElements/Input";
 import Button from "../common/FormElements/Button";
 import ErrorModal from "../common/UIElements/ErrorModal";
@@ -14,24 +31,8 @@ import {
   VALIDATOR_SELECT,
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
-import {
-  getAuthUserId,
-  getAuthToken,
-} from "../userComponents/selectors/AuthSelectors";
-import {
-  getCategoriesLoading,
-  getCategories,
-  getCategoriesIsDone,
-  getCategoriesError,
-} from "../categoriesComponents/categoriesSelectors";
-import {
-  getNewProductLoading,
-  getNewProductError,
-  getNewProductRedirect,
-} from "./selectors/NewProductSelectors";
 
-import * as categoriesAction from "../categoriesComponents/categoriesActions";
-import * as productsAction from "./productsActions/productsActions";
+
 import "./productsCss/ProductForm.css";
 
 const NewProduct = ({
@@ -218,9 +219,9 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCategories: () => dispatch(categoriesAction.getCategoriesRequest()),
+    loadCategories: () => dispatch(getCategoriesRequest()),
     onCreate: (token, formData) =>
-      dispatch(productsAction.createProductRequest(token, formData)),
+      dispatch(createProductRequest(token, formData)),
   };
 };
 

@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+import { getAllProductsRequest, getUsersRequest } from "../../../store/actions";
+import {
+  getAllProducts,
+  getLoading,
+  getError,
+  getAuthUserId,
+  getAuthToken,
+  getUsers,
+  getUsersError,
+} from "../../../store/selectors";
+
 import ErrorModal from "../../common/UIElements/ErrorModal";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -20,21 +31,6 @@ import Paper from "@material-ui/core/Paper";
 
 import { useStyles } from "./tableStyle";
 import { columnsData } from "./tableColumnsData";
-import {
-  getAllProducts,
-  getLoading,
-  getError,
-} from "../selectors/AllProductsSelectors";
-import {
-  getAuthUserId,
-  getAuthToken,
-} from "../../userComponents/selectors/AuthSelectors";
-import {
-  getUsers,
-  getUsersError,
-} from "../../userComponents/selectors/UserSelectors";
-import { getAllProductsRequest } from "../adminActions/adminActions";
-import { getUsersRequest } from "../../userComponents/usersActions/UserActions";
 
 const theme = createMuiTheme({
   overrides: {

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { onChangeSearchInput } from "../../productComponents/productsActions/productsActions";
+import { onChangeSearchInput } from "../../../store/actions";
 import "./Search.css";
 
 const Search = ({ searchValue, setSearchValue, onChangeInput, inputStyle }) => {

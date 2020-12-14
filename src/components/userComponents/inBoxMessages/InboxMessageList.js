@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { userSeenMessageRequest } from "../usersActions/UserMessagesAction";
-import { getAuthToken, getAuthUserId } from "../selectors/AuthSelectors";
+import { userSeenMessageRequest } from "../../../store/actions";
+
+import { getAuthToken, getAuthUserId } from "../../../store/selectors";
+
 import InboxMessageItem from "./InboxMessageItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";

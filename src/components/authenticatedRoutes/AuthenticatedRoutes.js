@@ -2,20 +2,20 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { getGlobalDataRequest } from "../adminComponents/adminActions/adminActions";
-import { userMessagesRequest } from "../userComponents/usersActions/UserMessagesAction";
+import { getGlobalDataRequest, userMessagesRequest } from "../../store/actions";
 import {
   getAuthAdmin,
   getAuthToken,
   getAuthUserId,
-} from "../userComponents/selectors/AuthSelectors";
+} from "../../store/selectors";
+
 import HomePage from "../home/HomePage";
 import AboutPage from "../about/AboutPage";
 // import PageNotFound from "../common/PageNoFound";
 import UserOrders from "../userComponents/userOrders/UserOrders";
 import ProductsSales from "../userComponents/productsSales/ProductsSales";
 import InboxMessages from "../userComponents/inBoxMessages/InboxMessages";
-import Logout from "../userComponents/Logout";
+import Logout from "../../containers/Auth/Logout/Logout";
 import AdminRoutes from "./AdminRoutes";
 import { ToastContainer } from "react-toastify";
 

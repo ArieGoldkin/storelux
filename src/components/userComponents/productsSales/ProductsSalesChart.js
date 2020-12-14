@@ -20,7 +20,7 @@ const ProductsSalesChart = ({ data, products }) => {
       data.datasets[0].data = quantityArray;
     };
     setData();
-  }, [data.datasets, data.labels, products, productsTitleArray, quantityArray]);
+  }, [data, data.datasets, data.labels, products, productsTitleArray, quantityArray]);
 
   useEffect(() => {
     !chartData && setChartData(data);

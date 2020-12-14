@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { userMessagesRequest } from "../usersActions/UserMessagesAction";
-import { getAuthToken, getAuthUserId } from "../selectors/AuthSelectors";
-
+import { userMessagesRequest } from "../../../store/actions";
 import {
+  getAuthToken,
+  getAuthUserId,
   getMessagesLoading,
   getMessages,
   getErrorMessage,
-} from "../selectors/UserMessagesSelectors";
+} from "../../../store/selectors";
+
 
 import InboxDrawer from "./InboxDrawer";
 import InboxMessageList from "./InboxMessageList";

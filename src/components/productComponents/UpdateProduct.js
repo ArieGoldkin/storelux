@@ -3,6 +3,20 @@ import { useParams, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import {
+  getCategoriesRequest,
+  updateProductRequest,
+} from "../../store/actions";
+import {
+  getAuthToken,
+  getAuthUserId,
+  getUpdateProduct,
+  getUpdateProductLoading,
+  getUpdateProductError,
+  getCategories,
+  getCategoriesIsDone,
+} from "../../store/selectors";
+
+import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MIN_NUMBER,
   VALIDATOR_MINLENGTH,
@@ -15,28 +29,6 @@ import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import ImageUpload from "../common/FormElements/ImageUpload";
 import { useForm } from "../hooks/form-hook";
-
-// IMPORTING SELECTORS
-import {
-  getAuthToken,
-  getAuthUserId,
-} from "../userComponents/selectors/AuthSelectors";
-import {
-  getUpdateProduct,
-  getUpdateProductLoading,
-  getUpdateProductError,
-} from "./selectors/UpdateProductSelector";
-import {
-  getCategories,
-  getCategoriesIsDone,
-} from "../categoriesComponents/categoriesSelectors";
-
-// IMPORTING ACTIONS
-import { getCategoriesRequest } from "../categoriesComponents/categoriesActions";
-import {
-  updateProductRequest,
-} from "./productsActions/productsActions";
-
 import "./productsCss/ProductForm.css";
 
 const UpdateProduct = ({

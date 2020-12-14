@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { getAuthUserId } from "../userComponents/selectors/AuthSelectors";
+import { getAuthUserId } from "../../store/selectors";
+
 import Card from "../common/UIElements/Card";
 import ProductItem from "./ProductItem";
 import Button from "../common/FormElements/Button";

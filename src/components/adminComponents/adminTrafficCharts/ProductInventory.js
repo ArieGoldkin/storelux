@@ -30,7 +30,7 @@ const ProductInventory = ({ categories, products, data }) => {
       data.datasets[0].data = counterCategory;
     };
     setData();
-  }, [categoriesArray, counterCategory, data.datasets, data.labels, products]);
+  }, [categoriesArray, counterCategory, data, data.datasets, data.labels, products]);
 
   useEffect(() => {
     setChartData(data);

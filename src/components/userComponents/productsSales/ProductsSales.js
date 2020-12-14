@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { getUserSoldItemsRequest } from "../usersActions/UserSoldProductsActions";
+import { getUserSoldItemsRequest } from "../../../store/actions";
 
-import { getAuthToken, getAuthUserId } from "../selectors/AuthSelectors";
 import {
+  getAuthToken,
+  getAuthUserId,
   getUserSoldItems,
   getUserSoldLoading,
   getUserSoldError,
-} from "../selectors/UserSelectors";
+} from "../../../store/selectors";
 
 import Card from "../../common/UIElements/Card";
 import Button from "../../common/FormElements/Button";

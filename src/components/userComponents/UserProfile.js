@@ -5,14 +5,15 @@ import UserManagement from "./UserManagement";
 import UserProfileItem from "./UserProfileItem";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import * as actionTypes from "./usersActions/UserActions";
-import { getAuthUserId } from "./selectors/AuthSelectors";
+import { userDataStart } from "../../store/actions";
 import {
+  getAuthUserId,
   getUserItem,
   getUserIsDone,
   getUserError,
   getUserLoading,
-} from "./selectors/UserSelectors";
+} from "../../store/selectors";
+
 import "./usersCss/UserProfile.css";
 
 const UserProfile = ({ userId, userData, user, loading, error }) => {
@@ -69,7 +70,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    userData: (userId) => dispatch(actionTypes.userDataStart(userId)),
+    userData: (userId) => dispatch(userDataStart(userId)),
   };
 };
 

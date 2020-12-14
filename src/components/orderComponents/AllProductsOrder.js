@@ -2,6 +2,28 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import {
+  setOrderRequest,
+  addOrderRequest,
+  setOrderRedirectPath,
+  DeleteProductsFromCart,
+} from "../../store/actions";
+import {
+  getCartItems,
+  getCartSummary,
+  getUserItem,
+  getAuthUserId,
+  getAuthToken,
+  getOrderLoading,
+  getOrderError,
+  getOrderRedirectPath,
+  getOrderIsDone,
+  getOrderRedirect,
+  getOrderIsSet,
+  getOrderCanRemove,
+  getGlobalCurrentVatRate,
+} from "../../store/selectors";
+
 import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import Input from "../common/FormElements/Input";
@@ -17,27 +39,6 @@ import {
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
 
-import {
-  getCartItems,
-  getCartSummary,
-} from "../shoppingCartComponents/selectors/CartSelectors";
-import { getUserItem } from "../userComponents/selectors/UserSelectors";
-import {
-  getAuthUserId,
-  getAuthToken,
-} from "../userComponents/selectors/AuthSelectors";
-import {
-  getOrderLoading,
-  getOrderError,
-  getOrderRedirectPath,
-  getOrderIsDone,
-  getOrderRedirect,
-  getOrderIsSet,
-  getOrderCanRemove,
-} from "./selectors/OrderSelectors";
-import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
-
-import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/AllproductsOrder.css";
 
 export const AllProductsOrder = ({
@@ -287,13 +288,13 @@ const mapStateToProps = (state) => {
     canRedirect: getOrderRedirect(state),
     orderSet: getOrderIsSet(state),
     canRemove: getOrderCanRemove(state),
-    vatRate: getCurrentVatRate(state),
+    vatRate: getGlobalCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     setOrder: (products, vatRate) =>
-      dispatch(actions.setOrderRequest(products, vatRate)),
+      dispatch(setOrderRequest(products, vatRate)),
     addNewOrder: (
       userId,
       token,
@@ -305,7 +306,7 @@ const mapDispatchToProps = (dispatch) => {
       cartSummary
     ) =>
       dispatch(
-        actions.addOrderRequest(
+        addOrderRequest(
           userId,
           token,
           cartItems,
@@ -317,9 +318,9 @@ const mapDispatchToProps = (dispatch) => {
         )
       ),
     onOrderSuccessRedirectPath: (userId) =>
-      dispatch(actions.setOrderRedirectPath(userId, `/${userId}/shoppingcart`)),
+      dispatch(setOrderRedirectPath(userId, `/${userId}/shoppingcart`)),
     onSuccessDeletefromCart: (token, userId, cartItems) =>
-      dispatch(actions.DeleteProductsFromCart(token, userId, cartItems)),
+      dispatch(DeleteProductsFromCart(token, userId, cartItems)),
   };
 };
 

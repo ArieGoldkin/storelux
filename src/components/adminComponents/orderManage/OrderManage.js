@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { columnsTable } from "./TableColumns";
-import { useStyle } from "./OrderManageStyle";
 import {
   getOrdersByDateRequest,
   getOrdersByUserNameRequest,
-} from "../adminActions/adminActions";
-import { getUsersRequest } from "../../userComponents/usersActions/UserActions";
+  getUsersRequest,
+} from "../../../store/actions";
 import {
   getAllOrders,
   getIsDone,
   getAllOrdersLoading,
   getAllOrdersError,
-} from "../selectors/AllOrdersSelectors";
-import {
   getAuthToken,
   getAuthUserId,
-} from "../../userComponents/selectors/AuthSelectors";
-import {
   getUsers,
   getUsersLoading,
-} from "../../userComponents/selectors/UserSelectors";
+} from "../../../store/selectors";
 
+import { columnsTable } from "./TableColumns";
+import { useStyle } from "./OrderManageStyle";
 import Card from "../../common/UIElements/Card";
 import LoadingSpinner from "../../common/UIElements/LoadingSpinner";
 import ErrorModal from "../../common/UIElements/ErrorModal";

@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
-import * as globalSelectors from "../../adminComponents/selectors/globalSelectors";
-import * as adminActions from "../adminActions/adminActions";
+import { updateRateRequest } from "../../../store/actions";
+import {
+  getAuthUserId,
+  getAuthToken,
+  getLoading,
+  getError,
+  getGlobalCurrentVatRate,
+} from "../../../store/selectors";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { VALIDATOR_REQUIRE } from "../../common/util/InputValidators";
 import { useForm } from "../../hooks/form-hook";
@@ -107,17 +113,17 @@ const AdminRateChange = ({
 
 const mapStateToProps = (state) => {
   return {
-    adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    loading: globalSelectors.getLoading(state),
-    error: globalSelectors.getError(state),
-    currentRate: globalSelectors.getCurrentVatRate(state),
+    adminId: getAuthUserId(state),
+    token: getAuthToken(state),
+    loading: getLoading(state),
+    error: getError(state),
+    currentRate: getGlobalCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     vatRateChange: ({ rate, adminId, token }) =>
-      dispatch(adminActions.updateRateRequest({ rate, adminId, token })),
+      dispatch(updateRateRequest({ rate, adminId, token })),
   };
 };
 

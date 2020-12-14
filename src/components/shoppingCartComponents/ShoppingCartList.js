@@ -4,16 +4,18 @@ import { connect } from "react-redux";
 import Card from "../common/UIElements/Card";
 import ShoppingCartItem from "./ShoppingCartItem";
 import ShoppingCartSummary from "./ShoppingCartSummary";
-import { getAuthUserId } from "../userComponents/selectors/AuthSelectors";
+
 import {
   getCartItems,
   getCartIsDone,
   getCartSummaryLoading,
   getCartSummary,
-} from "./selectors/CartSelectors";
+  getAuthUserId,
+} from "../../store/selectors";
+import { userDataStart } from "../../store/actions";
+
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import * as userActions from "../userComponents/usersActions/UserActions";
 import { TransitionGroup } from "react-transition-group";
 
 const ShoppingCartList = (props) => {
@@ -120,7 +122,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUser: (userId) => dispatch(userActions.userDataStart(userId)),
+    loadUser: (userId) => dispatch(userDataStart(userId)),
   };
 };
 

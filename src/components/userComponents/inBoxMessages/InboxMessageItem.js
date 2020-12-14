@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { getAuthToken } from "../selectors/AuthSelectors";
-import { getItemLoading } from "../selectors/UserMessagesSelectors";
+import { getAuthToken, getItemLoading } from "../../../store/selectors";
 
-import { getProductRequest } from "../../productComponents/productsActions/productsActions";
-import { messageDeleteRequest } from "../usersActions/UserMessagesAction";
+import {
+  getProductRequest,
+  messageDeleteRequest,
+} from "../../../store/actions";
 
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";

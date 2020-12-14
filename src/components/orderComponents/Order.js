@@ -2,25 +2,24 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import ErrorModal from "../common/UIElements/ErrorModal";
-import ProductOrder from "./ProductOrder";
-import ShoppingCartSummary from "../shoppingCartComponents/ShoppingCartSummary";
-import { getCartItems } from "../shoppingCartComponents/selectors/CartSelectors";
+import { setOrderRequest } from "../../store/actions";
 import {
+  getCartItems,
   getAuthUserId,
   getAuthToken,
-} from "../userComponents//selectors/AuthSelectors";
-import { getUserItem } from "../userComponents/selectors/UserSelectors";
-import {
+  getUserItem,
   getOrderSummaryLoading,
   getOrderLoading,
   getOrderSummary,
   getOrderCanRemove,
   getOrderIsDone,
-} from "./selectors/OrderSelectors";
-import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
-import { setOrderRequest } from "./orderActions/OrderActions";
+  getGlobalCurrentVatRate,
+} from "../../store/selectors";
+
+import LoadingSpinner from "../common/UIElements/LoadingSpinner";
+import ErrorModal from "../common/UIElements/ErrorModal";
+import ProductOrder from "./ProductOrder";
+import ShoppingCartSummary from "../shoppingCartComponents/ShoppingCartSummary";
 import "./ordersCss/order.css";
 
 const Order = (props) => {
@@ -108,7 +107,7 @@ const mapStateToProps = (state) => {
     orderSummary: getOrderSummary(state),
     canRemove: getOrderCanRemove(state),
     orderIsDone: getOrderIsDone(state),
-    vatRate: getCurrentVatRate(state),
+    vatRate: getGlobalCurrentVatRate(state),
   };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -4,14 +4,15 @@ import { connect } from "react-redux";
 import UsersList from "./UsersList";
 import ErrorModal from "../common/UIElements/ErrorModal";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
-import { getUsersRequest } from "./usersActions/UserActions";
+
+import { getUsersRequest } from "../../store/actions";
 import {
   getUsers,
   getUsersLoading,
   getUsersError,
   getUsersIsDone,
   getUserProductsChange,
-} from "./selectors/UserSelectors";
+} from "../../store/selectors";
 
 const Users = ({
   loadUsers,

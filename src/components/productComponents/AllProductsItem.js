@@ -2,15 +2,13 @@ import React, { useState, useEffect, createRef } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { addToCartRequest } from "./productsActions/addToCartActions";
-import { changeUserProducts } from "../userComponents/usersActions/UserActions";
-
-import { getCurrentVatRate } from "../adminComponents/selectors/globalSelectors";
+import { addToCartRequest, changeUserProducts } from "../../store/actions";
 import {
+  getGlobalCurrentVatRate,
   getAuthUserId,
   getAuthToken,
-} from "../userComponents/selectors/AuthSelectors";
-import { getCartProductLoading } from "../shoppingCartComponents/selectors/CartSelectors";
+  getCartProductLoading,
+} from "../../store/selectors";
 
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
 import CustomAvatar from "../common/UIElements/CustomAvatar";
@@ -270,7 +268,7 @@ const mapStateToProps = (state) => {
     userId: getAuthUserId(state),
     token: getAuthToken(state),
     loading: getCartProductLoading(state),
-    vatRate: getCurrentVatRate(state),
+    vatRate: getGlobalCurrentVatRate(state),
   };
 };
 

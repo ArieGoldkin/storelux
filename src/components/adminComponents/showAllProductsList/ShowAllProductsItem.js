@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import * as adminActions from "../adminActions/adminActions";
-import * as adminProductsSelectors from "../selectors/AllProductsSelectors";
-import * as authSelectors from "../../userComponents/selectors/AuthSelectors";
+import { changeStatusStart } from "../../../store/actions";
+import {
+  getItemLoading,
+  getAuthUserId,
+  getAuthToken,
+} from "../../../store/selectors";
 
 import TableCell from "@material-ui/core/TableCell";
 import { makeStyles } from "@material-ui/core/styles";
@@ -109,16 +112,16 @@ const ShowAllProductsItem = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    itemLoading: adminProductsSelectors.getItemLoading(state),
-    adminId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
+    itemLoading: getItemLoading(state),
+    adminId: getAuthUserId(state),
+    token: getAuthToken(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     changeProductStatus: ({ adminId, token, productId }) =>
-      dispatch(adminActions.changeStatusStart({ adminId, token, productId })),
+      dispatch(changeStatusStart({ adminId, token, productId })),
   };
 };
 

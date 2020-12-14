@@ -15,14 +15,16 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../common/util/InputValidators";
 import { useForm } from "../hooks/form-hook";
-import { userUpdateRequest } from "./usersActions/UserActions";
-import { getAuthUserId } from "./selectors/AuthSelectors";
+import { userUpdateRequest } from "../../store/actions";
+
 import {
+  getAuthUserId,
   getUserItem,
   getUserIsDone,
   getUserLoading,
   getUsersError,
-} from "./selectors/UserSelectors";
+} from "../../store/selectors";
+
 import "./usersCss/UserForm.css";
 
 const UpdateUserProfile = ({ user, userId, onUpdate, loading, error }) => {

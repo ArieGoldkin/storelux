@@ -2,6 +2,27 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import {
+  getUsersRequest,
+  addOrderRequest,
+  setOrderRedirectPath,
+  DeleteFromCartAfterOrderRequest,
+} from "../../store/actions";
+import {
+  getAuthUserId,
+  getAuthToken,
+  getCartItems,
+  getOrderLoading,
+  getOrderError,
+  getOrderItems,
+  getUsersIsDone,
+  getOrderSummary,
+  getOrderRedirect,
+  getOrderCanRemove,
+  getOrderIsDone,
+  getOrderRedirectPath,
+} from "../../store/selectors";
+
 import Card from "../common/UIElements/Card";
 import Button from "../common/FormElements/Button";
 import LoadingSpinner from "../common/UIElements/LoadingSpinner";
@@ -14,12 +35,6 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_EMAIL,
 } from "../common/util/InputValidators";
-import * as authSelectors from "../userComponents/selectors/AuthSelectors";
-import * as userSelectors from "../userComponents/selectors/UserSelectors";
-import * as orderSelectors from "./selectors/OrderSelectors";
-import * as cartSelectors from "../shoppingCartComponents/selectors/CartSelectors";
-import * as usersActions from "../userComponents/usersActions/UserActions";
-import * as actions from "./orderActions/OrderActions";
 import "./ordersCss/order.css";
 
 const ProductOrder = ({
@@ -40,7 +55,6 @@ const ProductOrder = ({
   orderRedirectPath,
   onOrderSuccessRedirectPath,
   onSuccessDeleteFromCart,
-  seller,
 }) => {
   const [errorMessage, setErrorMessage] = useState();
   const [formState, inputHandler, setFormData] = useForm();
@@ -247,18 +261,18 @@ const ProductOrder = ({
 
 const mapStateToProps = (state) => {
   return {
-    userId: authSelectors.getAuthUserId(state),
-    token: authSelectors.getAuthToken(state),
-    products: cartSelectors.getCartItems(state),
-    orderLoading: orderSelectors.getOrderLoading(state),
-    orderError: orderSelectors.getOrderError(state),
-    orderItems: orderSelectors.getOrderItems(state),
-    usersIsDone: userSelectors.getUsersIsDone(state),
-    orderSummary: orderSelectors.getOrderSummary(state),
-    canRedirect: orderSelectors.getOrderRedirect(state),
-    canRemove: orderSelectors.getOrderCanRemove(state),
-    isDone: orderSelectors.getOrderIsDone(state),
-    orderRedirectPath: orderSelectors.getOrderRedirectPath(state),
+    userId: getAuthUserId(state),
+    token: getAuthToken(state),
+    products: getCartItems(state),
+    orderLoading: getOrderLoading(state),
+    orderError: getOrderError(state),
+    orderItems: getOrderItems(state),
+    usersIsDone: getUsersIsDone(state),
+    orderSummary: getOrderSummary(state),
+    canRedirect: getOrderRedirect(state),
+    canRemove: getOrderCanRemove(state),
+    isDone: getOrderIsDone(state),
+    orderRedirectPath: getOrderRedirectPath(state),
 
     // need to fix problem
     // seller: state.users.items.find((user) =>
@@ -270,7 +284,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsers: () => dispatch(usersActions.getUsersRequest()),
+    getUsers: () => dispatch(getUsersRequest()),
     addNewOrder: (
       userId,
       token,
@@ -282,7 +296,7 @@ const mapDispatchToProps = (dispatch) => {
       orderSummary
     ) =>
       dispatch(
-        actions.addOrderRequest(
+        addOrderRequest(
           userId,
           token,
           product,
@@ -294,9 +308,9 @@ const mapDispatchToProps = (dispatch) => {
         )
       ),
     onOrderSuccessRedirectPath: (userId) =>
-      dispatch(actions.setOrderRedirectPath(userId, `/${userId}/shoppingcart`)),
+      dispatch(setOrderRedirectPath(userId, `/${userId}/shoppingcart`)),
     onSuccessDeleteFromCart: (token, userId, product) =>
-      dispatch(actions.DeleteFromCartAfterOrderRequest(token, userId, product)),
+      dispatch(DeleteFromCartAfterOrderRequest(token, userId, product)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductOrder);
