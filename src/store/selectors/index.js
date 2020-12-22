@@ -71,6 +71,7 @@ export {
   getUpdateProduct,
   getUpdateProductLoading,
   getUpdateProductError,
+  getUpdateProductRedirect,
 } from "./products/updateProduct";
 
 export {
