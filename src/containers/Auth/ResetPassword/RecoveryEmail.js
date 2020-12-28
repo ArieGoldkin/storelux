@@ -17,12 +17,8 @@ import { VALIDATOR_EMAIL } from "../../../components/common/util/InputValidators
 
 import "../Auth.css";
 
-const RecoveryEmail = ({
-  resetPasswordRequest,
-  loading,
-  error,
-  clearErrorMessage,
-}) => {
+const RecoveryEmail = (props) => {
+  const { resetPasswordRequest, loading, error, clearErrorMessage } = props;
   const [formState, inputHandler] = useForm(
     {
       email: {

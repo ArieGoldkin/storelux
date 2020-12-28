@@ -1,8 +1,10 @@
 import React, { useEffect, Suspense, useState } from "react";
 import { connect } from "react-redux";
 
-import AuthenticatedRoutes from "./components/authenticatedRoutes/AuthenticatedRoutes";
-import NotAuthenticatedRoutes from "./components/notAuthenticatedRoutes/NotAuthenticatedRoutes";
+// import AuthenticatedRoutes from "./components/authenticatedRoutes/AuthenticatedRoutes";
+// import NotAuthenticatedRoutes from "./components/notAuthenticatedRoutes/NotAuthenticatedRoutes";
+import Guest from "./routes/Guest/Guest";
+import Authenticated from "./routes/Authenticated/Authenticated";
 
 import ErrorModal from "./components/common/UIElements/ErrorModal";
 import MainNavigation from "./components/common/Navigation/MainNavigation";
@@ -14,18 +16,19 @@ import { getAuthToken, getLogOutMessage } from "./store/selectors";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const App = ({ isAuthenticated, onTryAutoSignup, logOutMessage }) => {
+const App = (props) => {
+  const { isAuthenticated, onTryAutoSignup, logOutMessage } = props;
   const [errorMessage, setErrorMessage] = useState(null);
 
-  let routes;
   useEffect(() => {
     onTryAutoSignup();
   }, [onTryAutoSignup]);
 
+  let routes;
   if (isAuthenticated) {
-    routes = <AuthenticatedRoutes />;
+    routes = <Authenticated />;
   } else {
-    routes = <NotAuthenticatedRoutes />;
+    routes = <Guest />;
   }
 
   useEffect(() => {

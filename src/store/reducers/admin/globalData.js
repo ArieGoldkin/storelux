@@ -7,10 +7,19 @@ const initialState = {
   loading: false,
 };
 
+const getGlobalDataRequest = (state, action) => {
+  return updateObject(state, {
+    vat: null,
+    error: null,
+    loading: true,
+  });
+};
+
 const globalDataSuccess = (state, action) => {
   return updateObject(state, {
     vat: action.payload.data.vatRate,
     error: null,
+    loading: false,
   });
 };
 
@@ -42,6 +51,8 @@ const updateRateFailure = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.GET_GLOBAL_DATA_REQUEST:
+      return getGlobalDataRequest(state, action);
     case actionTypes.GET_GLOBAL_DATA_SUCCESS:
       return globalDataSuccess(state, action);
     case actionTypes.GET_GLOBAL_DATA_FAILURE:

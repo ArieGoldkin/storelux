@@ -1,0 +1,15 @@
+.one_item_card {
+  display: flex;
+  justify-content: space-between;
+  background-color: #9cbedf87;
+  margin-top: 1.5rem;
+}
+
+.order_summary {
+  width: 17rem;
+  padding-top: 1.5rem;
+}
+
+.order_one_item {
+  width: 32rem;
+}

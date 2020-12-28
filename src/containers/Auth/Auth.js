@@ -97,11 +97,88 @@ const Auth = ({ onAuth, onLogin, loading, error, onClearMessage }) => {
       top: 0,
     });
   }
-  
+
   let errorMessage = null;
   if (error) {
     errorMessage = error.error;
   }
+
+  let form = (
+    <>
+      <h2>{isLoginMode ? "Login" : "Sign Up"} Required</h2>
+      <hr />
+      <form onSubmit={authSubmitHandler} ref={moveToTop}>
+        {!isLoginMode && (
+          <>
+            <Input
+              element="input"
+              type="text"
+              id="firstName"
+              label="First Name"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter your first name."
+              onInput={inputHandler}
+            />
+            <Input
+              element="input"
+              type="text"
+              id="lastName"
+              label="Last Name"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter your Last name."
+              onInput={inputHandler}
+            />
+          </>
+        )}
+        <Input
+          element="input"
+          id="email"
+          type="email"
+          label="E-Mail"
+          validators={[VALIDATOR_EMAIL()]}
+          errorText="Please enter a valid email address."
+          onInput={inputHandler}
+        />
+        <Input
+          element="input"
+          id="password"
+          type="password"
+          label="Password"
+          validators={[VALIDATOR_MINLENGTH(6)]}
+          errorText="Please enter a valid password, at least 6 characters."
+          onInput={inputHandler}
+        />
+        {!isLoginMode && (
+          <Input
+            element="input"
+            id="passwordConfirm"
+            type="password"
+            label="Retype Password"
+            validators={[PASSWORD_VALIDATE(formState.inputs.password.value)]}
+            errorText="Please retype the provided password."
+            onInput={inputHandler}
+          />
+        )}
+        {isLoginMode && (
+          <div className="resetPassword">
+            <Link className="resetPassword_link" to="/RecoveryEmail">
+              Forgot Password?
+            </Link>
+          </div>
+        )}
+        <Button
+          type="submit"
+          disabled={!formState.isValid}
+          buttonClass="btnStyle"
+        >
+          {isLoginMode ? "LOGIN" : "SIGNUP"}
+        </Button>
+      </form>
+      <Button inverse onClick={switchModeHandler} buttonClass="btnStyle">
+        SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
+      </Button>
+    </>
+  );
 
   return (
     <>
@@ -109,80 +186,7 @@ const Auth = ({ onAuth, onLogin, loading, error, onClearMessage }) => {
       <div className="auth__box">
         <Card className="authentication">
           {loading && <LoadingSpinner asOverlay />}
-          <h2>{isLoginMode ? "Login" : "Sign Up"} Required</h2>
-          <hr />
-          <form onSubmit={authSubmitHandler} ref={moveToTop}>
-            {!isLoginMode && (
-              <>
-                <Input
-                  element="input"
-                  type="text"
-                  id="firstName"
-                  label="First Name"
-                  validators={[VALIDATOR_REQUIRE()]}
-                  errorText="Please enter your first name."
-                  onInput={inputHandler}
-                />
-                <Input
-                  element="input"
-                  type="text"
-                  id="lastName"
-                  label="Last Name"
-                  validators={[VALIDATOR_REQUIRE()]}
-                  errorText="Please enter your Last name."
-                  onInput={inputHandler}
-                />
-              </>
-            )}
-            <Input
-              element="input"
-              id="email"
-              type="email"
-              label="E-Mail"
-              validators={[VALIDATOR_EMAIL()]}
-              errorText="Please enter a valid email address."
-              onInput={inputHandler}
-            />
-            <Input
-              element="input"
-              id="password"
-              type="password"
-              label="Password"
-              validators={[VALIDATOR_MINLENGTH(6)]}
-              errorText="Please enter a valid password, at least 6 characters."
-              onInput={inputHandler}
-            />
-            {!isLoginMode && (
-              <Input
-                element="input"
-                id="passwordConfirm"
-                type="password"
-                label="Retype Password"
-                validators={[
-                  PASSWORD_VALIDATE(formState.inputs.password.value),
-                ]}
-                errorText="Please retype the provided password."
-                onInput={inputHandler}
-              />
-            )}
-            {isLoginMode && (
-              <div className="resetPassword">
-                <Link className="resetPassword_link" to="/resetPassword">
-                  Forgot Password?
-                </Link>
-              </div>
-            )}
-            <Button
-              type="submit"
-              disabled={!formState.isValid}
-              buttonClass="btnStyle"
-            >
-              {isLoginMode ? "LOGIN" : "SIGNUP"}
-            </Button>
-          </form>
-          <Button inverse onClick={switchModeHandler} buttonClass="btnStyle">
-            SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
-          </Button>
+          {form}
         </Card>
       </div>
     </>

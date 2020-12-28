@@ -1,4 +1,4 @@
-import * as actionTypes from "../actionTypes"
+import * as actionTypes from "../actionTypes";
 
 // get products actions
 export const getProductsRequest = () => ({
@@ -31,6 +31,12 @@ export const createProductFailure = (error) => {
   return {
     type: actionTypes.CREATE_PRODUCT_FAILURE,
     error: error,
+  };
+};
+
+export const clearAddProductFailure = () => {
+  return {
+    type: actionTypes.CLEAR_PRODUCT_FAILURE,
   };
 };
 
@@ -97,6 +103,12 @@ export const updateProductFailure = (error) => ({
   type: actionTypes.UPDATE_PRODUCT_FAILURE,
   error: error,
 });
+
+export const clearUpdateProductFailure = () => {
+  return {
+    type: actionTypes.CLEAR_UPDATE_PRODUCT_FAILURE,
+  };
+};
 
 export const onChangeSearchInput = () => ({
   type: actionTypes.ON_CHANGE_INPUT_SEARCH,

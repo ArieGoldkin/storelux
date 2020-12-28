@@ -32,6 +32,8 @@ export {
   updateProductSuccess,
   updateProductFailure,
   onChangeSearchInput,
+  clearAddProductFailure,
+  clearUpdateProductFailure,
 } from "./products/products";
 
 export {
@@ -59,6 +61,7 @@ export {
   addToCartRequest,
   addToCartSuccess,
   addToCartFailure,
+  clearCartErrorMessage,
 } from "./shoppingCart/cart";
 
 export {
@@ -115,6 +118,7 @@ export {
   getUserOrdersByDateRequest,
   getUserOrdersByDateSuccess,
   getUserOrdersByDateFailure,
+  clearUsersErrorMessage,
 } from "./user/user";
 
 export {
@@ -127,6 +131,7 @@ export {
   getCategoriesRequest,
   getCategoriesSuccess,
   getCategoriesFailure,
+  clearCategoriesFailure,
 } from "./categories/categories";
 
 export {
@@ -172,4 +177,5 @@ export {
   getOrdersRequest,
   getOrdersSuccess,
   getOrdersFailure,
+  clearOrdersByDataError,
 } from "./admin/orders";

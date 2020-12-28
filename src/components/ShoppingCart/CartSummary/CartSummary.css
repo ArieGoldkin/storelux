@@ -1,0 +1,19 @@
+.summary-header {
+  margin-top: 0.5rem;
+}
+.summary-subtotal {
+  display: flex;
+  justify-content: space-between;
+}
+.summary-vat {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.summary-total__sum {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 1.3rem 0 1.2rem 0;
+}

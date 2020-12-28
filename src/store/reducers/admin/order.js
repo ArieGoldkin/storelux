@@ -67,6 +67,12 @@ const getOrdersByUserNameFailure = (state, action) => {
   });
 };
 
+const clearErrorMessage = (state, action) => {
+  return updateObject(state, {
+    error: null,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_ALL_ORDERS_REQUEST:
@@ -86,6 +92,8 @@ const reducer = (state = initialState, action) => {
       return getOrdersFailure(state, action);
     case actionTypes.GET_ORDERS_BY_USER_NAME_FAILURE:
       return getOrdersByUserNameFailure(state, action);
+    case actionTypes.CLEAR_ORDERS_BY_DATE_ERROR:
+      return clearErrorMessage(state, action);
     default:
       return state;
   }

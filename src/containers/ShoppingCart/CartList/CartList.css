@@ -1,0 +1,24 @@
+.product-list {
+  list-style: none;
+  margin: 1rem auto;
+  padding: 0;
+  width: 90%;
+  max-width: 40rem;
+}
+.product-cart__list {
+  width: 68%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.product-cart__item {
+  margin-top: 1rem;
+}
+
+.loadingSpinnerPosition {
+  display: flex;
+  justify-content: center;
+  width: 25%;
+  padding-top: 6rem;
+  height: 20vh;
+}

@@ -116,7 +116,7 @@ export {
   getAllProducts,
   getLoading,
   getError,
-  getAdminItemLoading,
+  getAdminProductsItemLoading,
 } from "./admin/products";
 
 export {

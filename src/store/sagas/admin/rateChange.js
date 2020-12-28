@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export function* updateRate(action) {
   try {
     const responseData = yield call(api.updateRate, {
-      vatRate: action.payload.rate,
+      vatRate: action.payload.newRate,
       adminId: action.payload.adminId,
       token: action.payload.token,
     });

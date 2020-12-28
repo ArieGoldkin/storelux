@@ -37,6 +37,7 @@ html {
 .center {
   text-align: center;
   display: flex;
+  height: 80vh;
   justify-content: center;
   align-items: center;
 }

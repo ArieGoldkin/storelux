@@ -114,3 +114,9 @@ export const addToCartFailure = (error) => ({
     error,
   },
 });
+
+export const clearCartErrorMessage = () => {
+  return {
+    type: actionTypes.CLEAR_CART_ERROR_MESSAGE,
+  };
+};

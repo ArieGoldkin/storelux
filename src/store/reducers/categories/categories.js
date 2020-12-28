@@ -54,6 +54,12 @@ const addCategoryFailure = (state, action) => {
   });
 };
 
+const clearCategoriesFailure = (state, action) => {
+  return updateObject(state, {
+    error: null,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_CATEGORIES_REQUEST:
@@ -68,6 +74,8 @@ const reducer = (state = initialState, action) => {
       return addCategorySuccess(state, action);
     case actionTypes.ADD_CATEGORY_FAILURE:
       return addCategoryFailure(state, action);
+    case actionTypes.CLEAR_CATEGORIES_FAILURE:
+      return clearCategoriesFailure(state, action);
     default:
       return state;
   }

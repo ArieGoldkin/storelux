@@ -91,7 +91,7 @@ const updateProductSuccess = (state, action) => {
   );
   return updateObject(state, {
     items: updatedProductsArray,
-    loading: false,
+    loading: true,
     error: null,
   });
 };

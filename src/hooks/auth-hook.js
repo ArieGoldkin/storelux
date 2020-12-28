@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 
-// global variable for remainig token login time
+// global variable for remaining token login time
 let logoutTimer;
 
 export const useAuth = () => {
@@ -35,13 +35,13 @@ export const useAuth = () => {
     if (token && tokenExpirationDate) {
       const remainingTime =
         tokenExpirationDate.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, remainingTime); // saves the time globaly in global variable
+      logoutTimer = setTimeout(logout, remainingTime); // saves the time globally in global variable
     } else {
-      clearTimeout(logoutTimer); //if clicked logout clear timer will happend and clears the token expiration time
+      clearTimeout(logoutTimer); //if clicked logout clear timer will happened and clears the token expiration time
     }
   }, [token, logout, tokenExpirationDate]);
 
-  // rerenders only if the data has changed
+  // re-renders only if the data has changed
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
     if (

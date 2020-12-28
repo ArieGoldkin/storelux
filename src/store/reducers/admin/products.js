@@ -14,6 +14,7 @@ const initialState = {
 const getProductsRequest = (state, action) => {
   return updateObject(state, {
     loading: true,
+    error: null,
     isDone: false,
   });
 };

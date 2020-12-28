@@ -183,6 +183,16 @@ const setCartLoading = (state, action) => {
   });
 };
 
+const clearCartErrorMessage = (state, action) => {
+  console.log(state);
+  return updateObject(state, {
+    product: {
+      productLoading: false,
+      productError: null,
+    },
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_CART_REQUEST:
@@ -214,6 +224,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_ORDER_REQUEST:
     case actionTypes.UPDATE_VAT_RATE_SUCCESS:
       return setCartLoading(state, action);
+    case actionTypes.CLEAR_CART_ERROR_MESSAGE:
+      return clearCartErrorMessage(state, action);
     default:
       return state;
   }

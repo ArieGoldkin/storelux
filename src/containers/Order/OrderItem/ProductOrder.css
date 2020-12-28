@@ -1,0 +1,44 @@
+.order_item {
+  width: 70%;
+  margin-top: 1rem;
+}
+.order_item_header {
+  padding-left: 1rem;
+}
+.info-container_order {
+  height: 25rem;
+  display: flex;
+}
+
+.shippment_address {
+  width: 18rem;
+}
+
+.shippment_info_title {
+  margin-bottom: 0;
+}
+
+.orderItem_summary {
+  width: 25%;
+}
+
+.subTotal_item_price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button_position {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.loadingSpinnerOrderPosition {
+  display: flex;
+  justify-content: center;
+  width: 73%;
+  padding-top: 8rem;
+  height: 20vh;
+}
+
+.loadingOrderPosition {
+  width: 100%;
+}

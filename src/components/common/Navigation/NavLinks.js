@@ -7,7 +7,7 @@ import {
   getAuthUserId,
   getAuthAdmin,
 } from "../../../store/selectors";
-import AdminOptionDrawer from "../../adminComponents/AdminOptionDrawer";
+import DrawerOptions from "../../Admin/DrawerOptions";
 import "./NavLinks.css";
 
 const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
@@ -15,7 +15,7 @@ const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
     <ul className="nav-links">
       {isAdmin === "admin" && (
         <li>
-          <AdminOptionDrawer />
+          <DrawerOptions />
         </li>
       )}
       <li>

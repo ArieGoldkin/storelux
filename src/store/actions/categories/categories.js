@@ -14,3 +14,8 @@ export const getCategoriesFailure = (error) => ({
   error: error,
 });
 
+export const clearCategoriesFailure = () => {
+  return {
+    type: actionTypes.CLEAR_CATEGORIES_FAILURE,
+  };
+};

@@ -9,7 +9,7 @@ const ModalOverlay = (props) => {
   const modalRef = useRef();
 
   useEffect(() => {
-    modalRef.current.click();
+    modalRef.current.focus();
   }, []);
   const content = (
     <div className={`modal ${props.className}`} style={props.style}>
@@ -34,13 +34,13 @@ const ModalOverlay = (props) => {
   return ReactDOM.createPortal(content, document.getElementById("modal-hook"));
 };
 
-const Modal = (props, ref) => {
+const Modal = (props, modalRef) => {
   return (
     <>
       {props.show && <Backdrop onClick={props.onCancel} />}
       <CSSTransition
         in={props.show}
-        ref={ref}
+        ref={modalRef}
         mountOnEnter
         unmountOnExit
         timeout={200}

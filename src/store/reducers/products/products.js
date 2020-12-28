@@ -6,7 +6,7 @@ const initialState = {
   error: null,
   loading: true,
   isDone: false,
-  itemLoading: false,
+  itemLoading: true,
   categoryLoading: false,
 };
 
@@ -15,6 +15,8 @@ const requestProductsStart = (state, action) => {
     error: null,
     loading: true,
     isDone: false,
+    itemLoading: true,
+    categoryLoading: false,
   });
 };
 

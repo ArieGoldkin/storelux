@@ -43,6 +43,12 @@ const getProductsAfterRedirect = (state, action) => {
   });
 };
 
+const clearProductErrorMessage = (state, action) => {
+  return updateObject(state, {
+    error: null,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CREATE_PRODUCT_REQUEST:
@@ -53,6 +59,8 @@ const reducer = (state = initialState, action) => {
       return createNewProductFailure(state, action);
     case actionTypes.GET_USER_PRODUCTS_REQUEST:
       return getProductsAfterRedirect(state, action);
+    case actionTypes.CLEAR_PRODUCT_FAILURE:
+      return clearProductErrorMessage(state, action);
     default:
       return state;
   }

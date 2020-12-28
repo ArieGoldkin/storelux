@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { VALIDATOR_SELECT } from "../../common/util/InputValidators";
 import Input from "./Input";
 import Button from "./Button";
-import { useForm } from "../../hooks/form-hook";
+import { useForm } from "../../../hooks/form-hook";
 
 const useStyles = makeStyles((theme) => ({
   inputWrapperSelect: {

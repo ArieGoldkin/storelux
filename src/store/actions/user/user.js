@@ -18,6 +18,12 @@ export const userError = (error) => ({
   error: error,
 });
 
+export const clearUsersErrorMessage = () => {
+  return {
+    type: actionTypes.CLEAR_USER_ERROR_MESSAGE,
+  };
+};
+
 export const userDataStart = (userId) => ({
   type: actionTypes.USER_PROFILE_REQUEST,
   userId: userId,

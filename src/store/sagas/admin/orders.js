@@ -5,18 +5,17 @@ import * as actions from "../../actions";
 
 export function* getAdminOrdersByDate(action) {
   try {
-    const responseData = yield call(api.getOrdersByDate, {
+    const responseData = yield call(api.getAdminOrdersByDate, {
       token: action.payload.token,
       adminId: action.payload.adminId,
       fromDate: action.payload.fromSelectedDate,
       toDate: action.payload.ToSelectedDate,
     });
-    console.log(responseData);
     yield put(actions.getOrdersByDateSuccess(responseData.data.orders));
   } catch (e) {
     yield put(
       actions.getOrdersByDateFailure({
-        error: "Could not get orders from server",
+        error: e.response.data.message,
       })
     );
   }

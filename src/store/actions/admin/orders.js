@@ -73,3 +73,9 @@ export const getOrdersFailure = (error) => ({
     error,
   },
 });
+
+export const clearOrdersByDataError = () => {
+  return {
+    type: actionTypes.CLEAR_ORDERS_BY_DATE_ERROR,
+  };
+};

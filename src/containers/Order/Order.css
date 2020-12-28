@@ -1,0 +1,18 @@
+.order_wrapper {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.loadingSpinnerOrderPosition {
+  display: flex;
+  justify-content: center;
+  width: 73%;
+  padding-top: 8rem;
+  height: 20vh;
+}
+
+.loadingOrderPosition {
+  width: 100%;
+}

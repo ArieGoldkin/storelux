@@ -1,0 +1,12 @@
+.user-profile__manage {
+  width: 21%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-profile__manage h3 {
+  text-align: center;
+  margin: 0;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}

@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   loading: true,
   isDone: false,
+  canRedirect: false,
 };
 
 const productRequest = (state, action) => {
@@ -13,6 +14,7 @@ const productRequest = (state, action) => {
     error: null,
     loading: true,
     isDone: false,
+    canRedirect: false,
   });
 };
 
@@ -33,9 +35,33 @@ const productFailure = (state, action) => {
   });
 };
 
+const updateRequest = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+    isDone: false,
+  });
+};
+
+const updateProductFailure = (state, action) => {
+  console.log(state);
+  console.log(action.error);
+  return updateObject(state, {
+    error: action.error.error,
+    canRedirect: false,
+    loading: false,
+  });
+};
+
 const updateLoadingAfterSuccess = (state, action) => {
   return updateObject(state, {
     loading: true,
+    canRedirect: true,
+  });
+};
+
+const clearUpdateErrorMessage = (state, action) => {
+  return updateObject(state, {
+    error: null,
   });
 };
 
@@ -47,9 +73,14 @@ const reducer = (state = initialState, action) => {
       return productSuccess(state, action);
     case actionTypes.GET_PRODUCT_FAILURE:
       return productFailure(state, action);
+    case actionTypes.UPDATE_PRODUCT_REQUEST:
+      return updateRequest(state, action);
     case actionTypes.UPDATE_PRODUCT_SUCCESS:
       return updateLoadingAfterSuccess(state, action);
-
+    case actionTypes.UPDATE_PRODUCT_FAILURE:
+      return updateProductFailure(state, action);
+    case actionTypes.CLEAR_UPDATE_PRODUCT_FAILURE:
+      return clearUpdateErrorMessage(state, action);
     default:
       return state;
   }

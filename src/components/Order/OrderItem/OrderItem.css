@@ -1,0 +1,35 @@
+.product-modal_image_item {
+  width: 23rem;
+  height: 22rem;
+  padding: 1rem;
+}
+.item_wrapper {
+  display: flex;
+}
+
+.product-modal_content_item {
+  display: inherit;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 12rem;
+  padding-bottom: 4rem;
+}
+
+.order_info {
+  width: 100%;
+}
+
+.product-modal_qun-orderItem {
+  display: flex;
+  width: 6rem;
+  justify-content: space-between;
+}
+
+.image_avatar img {
+  border-radius: 0.5rem;
+}
+.product-info_box {
+  align-items: center;
+  display: inherit;
+  justify-content: space-between;
+}

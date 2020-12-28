@@ -1,9 +1,9 @@
 import * as actionTypes from "../actionTypes";
 
-export const updateRateRequest = ({ rate, adminId, token }) => ({
+export const updateRateRequest = ({ newRate, adminId, token }) => ({
   type: actionTypes.UPDATE_VAT_RATE_REQUEST,
   payload: {
-    rate: rate,
+    newRate: newRate,
     adminId: adminId,
     token: token,
   },

@@ -36,6 +36,12 @@ const changeProductStatus = (state, action) => {
   });
 };
 
+const clearErrorMessage = (state, action) => {
+  return updateObject(state, {
+    error: null,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_USERS_REQUEST:
@@ -46,6 +52,8 @@ const reducer = (state = initialState, action) => {
       return getUsersFailure(state, action);
     case actionTypes.CHANGE_PRODUCT_STATUS_SUCCESS:
       return changeProductStatus(state, action);
+    case actionTypes.CLEAR_USER_ERROR_MESSAGE:
+      return clearErrorMessage(state, action);
     default:
       return state;
   }
