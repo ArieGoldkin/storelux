@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import Input from "../../components/common/FormElements/Input";
 import Button from "../../components/common/FormElements/Button";
@@ -26,6 +26,7 @@ import "./Auth.css";
 
 const Auth = ({ onAuth, onLogin, loading, error, onClearMessage }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const history = useHistory();
 
   let moveToTop = useRef();
 
@@ -74,9 +75,10 @@ const Auth = ({ onAuth, onLogin, loading, error, onClearMessage }) => {
 
   const authSubmitHandler = (event) => {
     event.preventDefault();
-
+    const pageNumber = 1;
     if (isLoginMode) {
       onLogin(formState.inputs.email.value, formState.inputs.password.value);
+      history.push(`/products/page/${pageNumber}`);
     } else {
       onAuth(
         formState.inputs.firstName.value,
@@ -84,6 +86,7 @@ const Auth = ({ onAuth, onLogin, loading, error, onClearMessage }) => {
         formState.inputs.email.value,
         formState.inputs.password.value
       );
+      history.push(`/products/page/${pageNumber}`);
     }
   };
 

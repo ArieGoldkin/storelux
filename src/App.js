@@ -1,8 +1,6 @@
 import React, { useEffect, Suspense, useState } from "react";
 import { connect } from "react-redux";
 
-// import AuthenticatedRoutes from "./components/authenticatedRoutes/AuthenticatedRoutes";
-// import NotAuthenticatedRoutes from "./components/notAuthenticatedRoutes/NotAuthenticatedRoutes";
 import Guest from "./routes/Guest/Guest";
 import Authenticated from "./routes/Authenticated/Authenticated";
 

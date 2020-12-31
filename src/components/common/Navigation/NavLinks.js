@@ -6,11 +6,12 @@ import {
   getAuthToken,
   getAuthUserId,
   getAuthAdmin,
+  getRedirectPath,
 } from "../../../store/selectors";
 import DrawerOptions from "../../Admin/DrawerOptions";
 import "./NavLinks.css";
 
-const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
+const NavLinks = ({ isAuthenticated, userId, isAdmin, pageNumber }) => {
   return (
     <ul className="nav-links">
       {isAdmin === "admin" && (
@@ -34,7 +35,7 @@ const NavLinks = ({ isAuthenticated, userId, isAdmin }) => {
         </li>
       )}
       <li>
-        <NavLink to="/products">ALL PRODUCTS</NavLink>
+        <NavLink to={`/products/page/${pageNumber}`}>ALL PRODUCTS</NavLink>
       </li>
       {isAuthenticated && (
         <li>
@@ -68,6 +69,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: getAuthToken(state),
     userId: getAuthUserId(state),
     isAdmin: getAuthAdmin(state),
+    pageNumber: getRedirectPath(state),
   };
 };
 

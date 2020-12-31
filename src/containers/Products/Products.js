@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import {
@@ -30,7 +31,7 @@ import Search from "../../components/common/FormElements/Search";
 import LoadingSpinner from "../../components/common/UIElements/LoadingSpinner";
 import Button from "../../components/common/FormElements/Button";
 import ErrorModal from "../../components/common/UIElements/ErrorModal";
-
+import Pagination from "../../components/common/Pagination/Pagination";
 import ProductsList from "../../components/Products/ProductsList/ProductsList";
 
 const AllProducts = ({
@@ -54,9 +55,37 @@ const AllProducts = ({
 }) => {
   const classes = useStyles();
 
+  const history = useHistory();
+
   const [errorMessage, setErrorMessage] = useState();
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(8);
+
+  //Get current Students
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  //Change page number
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const nextPageNumber = (lastPageNumber) => {
+    if (currentPage !== lastPageNumber) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const prevPageNumber = (firstPageNumber) => {
+    if (currentPage !== firstPageNumber) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
   const clearError = () => {
     setErrorMessage(null);
@@ -82,7 +111,8 @@ const AllProducts = ({
     if (loadingProducts) {
       loadProducts();
     }
-  }, [loadProducts, loadingProducts]);
+    history.push(`/products/page/${currentPage}`);
+  }, [currentPage, history, loadProducts, loadingProducts]);
 
   useEffect(() => {
     if (loadingUsers) {
@@ -134,7 +164,18 @@ const AllProducts = ({
                 <LoadingSpinner />
               </div>
             )}
-            {!itemLoading && <ProductsList products={products} users={users} />}
+            {!itemLoading && (
+              <>
+                <ProductsList products={currentProducts} users={users} />
+                <Pagination
+                  productsPerPage={productsPerPage}
+                  totalProducts={products.length}
+                  paginate={paginate}
+                  nextPage={nextPageNumber}
+                  prevPage={prevPageNumber}
+                />
+              </>
+            )}
           </div>
         </div>
       )}
