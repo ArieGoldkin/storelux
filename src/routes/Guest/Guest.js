@@ -1,12 +1,12 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import HomePage from "../../components/home/HomePage";
 import AboutPage from "../../components/about/AboutPage";
 import RecoveryEmail from "../../containers/Auth/ResetPassword/RecoveryEmail";
 import ResetPassword from "../../containers/Auth/ResetPassword/ResetPassword";
 import { ToastContainer } from "react-toastify";
-// import PageNotFound from "../common/PageNoFound";
+import PageNotFound from "../../components/common/PageNoFound";
 
 const Users = React.lazy(() =>
   import("../../containers/users/usersList/Users")
@@ -25,14 +25,13 @@ const Guest = () => {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/users" component={Users} />
-        <Route exact path="/products" component={AllProducts} />
+        <Route exact path="/products/page/:number" component={AllProducts} />
         <Route exact path="/:userId/products" component={UserProducts} />
         <Route exact path="/about" component={AboutPage} />
         <Route exact path="/RecoveryEmail" component={RecoveryEmail} />
         <Route exact path="/resetPassword/:token" component={ResetPassword} />
         <Route exact path="/auth" component={Auth} />
-        <Redirect to="/auth" />
-        {/* <Route component={PageNotFound} /> */}
+        <Route component={PageNotFound} />
       </Switch>
       <ToastContainer autoClose={3000} hideProgressBar />
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import { getGlobalDataRequest, userMessagesRequest } from "../../store/actions";
 import {
@@ -11,7 +11,7 @@ import {
 
 import HomePage from "../../components/home/HomePage";
 import AboutPage from "../../components/about/AboutPage";
-// import PageNotFound from "../common/PageNoFound";
+import PageNotFound from "../../components/common/PageNoFound";
 import UserOrders from "../../containers/users/Orders/Order";
 import ProductsSales from "../../containers/users/ProductsSales/ProductsSales";
 import InboxMessages from "../../containers/users/InboxMessages/InboxMessages";
@@ -81,7 +81,7 @@ const Authenticated = ({
           component={ProductsSales}
         />
         <Route exact path="/user/profile/inbox" component={InboxMessages} />
-        <Route path="/products" component={AllProducts} />
+        <Route exact path="/products/page/:number" component={AllProducts} />
         <Route path="/:userId/shoppingCart/summary" component={ProductsOrder} />
         <Route path="/:userId/shoppingCart/:pcartId" component={Order} />
         <Route path="/:userId/shoppingCart" component={ShoppingCart} />
@@ -91,8 +91,7 @@ const Authenticated = ({
         <Route path="/about" component={AboutPage} />
         <Route path="/logout" component={Logout} />
         {adminRoutes}
-        <Redirect to="/products" />
-        {/* <Route component={PageNotFound} /> */}
+        <Route component={PageNotFound} />
       </Switch>
       <ToastContainer autoClose={3000} hideProgressBar />
     </>
