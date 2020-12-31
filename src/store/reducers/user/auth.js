@@ -33,6 +33,7 @@ const authUserSuccess = (state, action) => {
     loading: false,
     isLogin: true,
     isAdmin: action.admin,
+    authRedirectPath: 1,
   });
 };
 

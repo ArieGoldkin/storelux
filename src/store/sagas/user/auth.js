@@ -68,11 +68,6 @@ export function* logoutUser(action) {
   yield call([localStorage, "removeItem"], "expiresIn");
   yield call([localStorage, "removeItem"], "isAdmin");
   yield put(actions.logoutSucceed());
-  // yield put(
-  //   actions.onLogOutMessage({
-  //     message: "You where logged out, please login again.",
-  //   })
-  // );
 }
 
 export function* checkAuthTimeSaga(action) {
