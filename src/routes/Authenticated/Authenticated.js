@@ -11,7 +11,7 @@ import {
 
 import HomePage from "../../components/home/HomePage";
 import AboutPage from "../../components/about/AboutPage";
-import PageNotFound from "../../components/common/PageNoFound";
+import PageNotFound from "../../components/common/PageNotFound/PageNoFound";
 import UserOrders from "../../containers/users/Orders/Order";
 import ProductsSales from "../../containers/users/ProductsSales/ProductsSales";
 import InboxMessages from "../../containers/users/InboxMessages/InboxMessages";

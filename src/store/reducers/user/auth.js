@@ -66,7 +66,7 @@ const authLogout = (state, action) => {
     isLogin: false,
     isAdmin: null,
     logOutMessage: null,
-    authRedirectPath: "/",
+    authRedirectPath: 1,
   });
 };
 const ResetPasswordStart = (state, action) => {

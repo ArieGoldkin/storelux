@@ -131,10 +131,10 @@ const addToCartSuccess = (state, action) => {
 
 const addToCartFailure = (state, action) => {
   return updateObject(state, {
-    loading: true,
+    loading: false,
     product: {
-      productError: action.payload.error.error,
       productLoading: false,
+      productError: action.payload.error.error,
     },
   });
 };

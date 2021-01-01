@@ -6,7 +6,7 @@ import ProductsList from "../../containers/Admin/ProductsList/ProductsList";
 import VatRateChange from "../../containers/Admin/VatRateChange/VatRateChange";
 import OrderManage from "../../containers/Admin/OrdersManage/OrderManage";
 import TrafficChartsList from "../../containers/Admin/Charts/TrafficChartsList";
-import PageNotFound from "../../components/common/PageNoFound";
+import PageNotFound from "../../components/common/PageNotFound/PageNoFound";
 
 const Admin = () => {
   return (
@@ -16,7 +16,6 @@ const Admin = () => {
       <Route path="/admin/ratechanges" component={VatRateChange} />
       <Route path="/admin/allorders" component={OrderManage} />
       <Route path="/admin/trafficChart" component={TrafficChartsList} />
-      {/* <Redirect to="/products/page" /> */}
       <Route component={PageNotFound} />
     </Switch>
   );

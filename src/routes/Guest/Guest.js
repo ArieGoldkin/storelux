@@ -6,7 +6,7 @@ import AboutPage from "../../components/about/AboutPage";
 import RecoveryEmail from "../../containers/Auth/ResetPassword/RecoveryEmail";
 import ResetPassword from "../../containers/Auth/ResetPassword/ResetPassword";
 import { ToastContainer } from "react-toastify";
-import PageNotFound from "../../components/common/PageNoFound";
+import PageNotFound from "../../components/common/PageNotFound/PageNoFound";
 
 const Users = React.lazy(() =>
   import("../../containers/users/usersList/Users")
