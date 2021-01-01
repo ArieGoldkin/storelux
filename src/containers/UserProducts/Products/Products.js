@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -15,7 +15,11 @@ import {
   getAuthToken,
   getNewProductRedirect,
 } from "../../../store/selectors";
-import { getUserProductRequest, changeUserProducts } from "../../../store/actions";
+import {
+  getUserProductRequest,
+  changeUserProducts,
+  clearCartErrorMessage,
+} from "../../../store/actions";
 
 const UserProducts = ({
   loadUserProducts,
@@ -25,9 +29,9 @@ const UserProducts = ({
   error,
   loggedUserId,
   addToCartError,
+  clearErrorMessage,
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [isLoading, setIsLoading] = useState(true);
 
   const { userId } = useParams();
 
@@ -39,29 +43,35 @@ const UserProducts = ({
 
   useEffect(() => {
     if (loading) {
-      setIsLoading(true);
+      // setIsLoading(true);
       loadUserProducts(userId);
-    } else {
-      setIsLoading(false);
     }
-    if (error) {
-      setErrorMessage(error.error);
-    }
-    addToCartError && setErrorMessage(addToCartError);
+    // else {
+    // setIsLoading(false);
+    // }
   }, [addToCartError, error, loadUserProducts, loading, loggedUserId, userId]);
 
   const clearError = () => {
-    setErrorMessage(null);
+    clearErrorMessage();
   };
+
+  let errorMessage = null;
+
+  if (addToCartError) {
+    errorMessage = addToCartError;
+  } else if (error) {
+    errorMessage = error.error;
+  }
+
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      {isLoading && (
+      {loading && (
         <div className="center">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && userProducts && <ProductList items={userProducts} />}
+      {!loading && userProducts && <ProductList items={userProducts} />}
     </>
   );
 };
@@ -83,6 +93,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadUserProducts: (userId) => dispatch(getUserProductRequest(userId)),
     changeLoading: () => dispatch(changeUserProducts()),
+    clearErrorMessage: () => dispatch(clearCartErrorMessage()),
   };
 };
 
