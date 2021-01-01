@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -14,11 +14,11 @@ import {
   getAuthToken,
   getUserProductsLoading,
   getUserProductsError,
-  getItemLoading,
+  getUserItemLoading,
 } from "../../../store/selectors";
 
-import ProductModal from "../../../components/UserProducts/ProductModal/ProductModal";
-import Card from "../../../components/common/UIElements/Card";
+import ProductsItemModal from "../../../components/Products/ProductsItemModal/ProductsItemModal";
+import ItemContent from "../../../components/UserProducts/ItemContent/ItemContent";
 import Button from "../../../components/common/FormElements/Button";
 import Modal from "../../../components/common/UIElements/Modal";
 import ErrorModal from "../../../components/common/UIElements/ErrorModal";
@@ -49,17 +49,19 @@ const ProductItem = (props) => {
     onAddProductToCart,
   } = props;
   const classes = useStyles();
+  const history = useHistory();
+  const modalRef = createRef();
+
   const [showProduct, setShowProduct] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [loadingItem, setLoadingItem] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState({});
 
-  const history = useHistory();
   const openProductHandler = () => {
     setShowProduct(true);
+
     setSelectedProduct({
       productId: props.id,
       title: props.title,
@@ -78,7 +80,6 @@ const ProductItem = (props) => {
     setLoadingItem(index);
     onAddProductToCart({ userId, token, selectedProduct, quantity, vatRate });
     setShowProduct(false);
-    setIsLoading(true);
   };
 
   const showDeleteHandler = () => {
@@ -91,8 +92,6 @@ const ProductItem = (props) => {
 
   const confirmDeleteHandler = () => {
     setShowConfirmModal(false);
-    setIsLoading(true);
-
     onDeleteProduct(token, props.id, userId);
   };
 
@@ -102,10 +101,7 @@ const ProductItem = (props) => {
   };
 
   useEffect(() => {
-    if (loading || itemLoading) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
+    if (!loading && !itemLoading) {
       setLoadingItem(null);
     }
     if (error) {
@@ -117,34 +113,47 @@ const ProductItem = (props) => {
     setErrorMessage(null);
   };
 
+  const productItem = (
+    <li index={index} className="product-item">
+      {index === loadingItem && !loading ? (
+        <div className={classes.spinnerStyle}>
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <ItemContent
+          userId={props.userId}
+          creatorId={props.creatorId}
+          title={props.title}
+          category={props.category}
+          price={props.price}
+          units={props.units}
+          description={props.description}
+          image={props.image}
+          openModal={openProductHandler}
+          getInfo={getProductInfo}
+          deleteModal={showDeleteHandler}
+        />
+      )}
+    </li>
+  );
+
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      <Modal
-        show={showProduct}
-        onCancel={closeProductHandler}
-        header={props.title}
-        contentClass="product-item__modal-content"
-        footerClass="product-item__modal-actions"
-        footer={
-          <>
-            <Button onClick={closeProductHandler}>CLOSE</Button>
-            <Button onClick={addProductToCart}>ADD TO CART</Button>
-          </>
-        }
-      >
-        <div className="info-container">
-          <ProductModal
-            image={`${process.env.REACT_APP_BACKEND_URL}/${props.image}`}
-            title={props.title}
-            description={props.description}
-            price={props.price}
-            units={props.units}
-            quantity={quantity}
-            setQuantity={setQuantity}
-          />
-        </div>
-      </Modal>
+      <ProductsItemModal
+        showProduct={showProduct}
+        close={closeProductHandler}
+        title={props.title}
+        modalRef={modalRef}
+        closeHandler={closeProductHandler}
+        addToCart={addProductToCart}
+        image={`${process.env.REACT_APP_BACKEND_URL}/${props.image}`}
+        description={props.description}
+        price={props.price}
+        units={props.units}
+        quantity={quantity}
+        setQuantity={setQuantity}
+      />
       <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
@@ -166,51 +175,7 @@ const ProductItem = (props) => {
           can't be undone thereafter.
         </p>
       </Modal>
-      <li index={index} className="product-item">
-        {index === loadingItem && isLoading ? (
-          <div className={classes.spinnerStyle}>
-            <LoadingSpinner />
-          </div>
-        ) : (
-          <Card className="product-item__content">
-            <div className="product-item__header">
-              <h2>{props.title}</h2>
-            </div>
-            <div className="product-item__info-wrapper">
-              <div className="product-item__info">
-                <h4>Category: {props.category}</h4>
-                <h4>Price:</h4>
-                <p>{`$${props.price}`}</p>
-                <h4>Units Available:</h4>
-                <p>
-                  {`${props.units}`} {props.units === 1 ? "unit" : "units"}
-                </p>
-                <h4>Description:</h4>
-                <p>{props.description}</p>
-              </div>
-              <div className="product-item__image">
-                <img
-                  src={`${process.env.REACT_APP_BACKEND_URL}/${props.image}`}
-                  alt={props.title}
-                />
-              </div>
-            </div>
-            <div className="product-item__actions">
-              <Button inverse onClick={openProductHandler}>
-                VIEW PRODUCT
-              </Button>
-              {props.userId === props.creatorId && (
-                <Button onClick={getProductInfo}>EDIT</Button>
-              )}
-              {props.userId === props.creatorId && (
-                <Button danger onClick={showDeleteHandler}>
-                  DELETE
-                </Button>
-              )}
-            </div>
-          </Card>
-        )}
-      </li>
+      {productItem}
     </>
   );
 };
@@ -219,9 +184,9 @@ const mapStateToProps = (state) => {
     userId: getAuthUserId(state),
     token: getAuthToken(state),
     loading: getUserProductsLoading(state),
+    itemLoading: getUserItemLoading(state),
     error: getUserProductsError(state),
     vatRate: getGlobalCurrentVatRate(state),
-    itemLoading: getItemLoading(state),
   };
 };
 

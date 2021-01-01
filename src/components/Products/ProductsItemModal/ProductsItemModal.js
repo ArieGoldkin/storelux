@@ -3,9 +3,23 @@ import React from "react";
 import Modal from "../../common/UIElements/Modal";
 import CustomAvatar from "../../common/UIElements/CustomAvatar";
 import { Button } from "@material-ui/core";
-import "./ProductsItem.css";
+import "./ProductsItemModal.css";
 
 const ProductsItemModal = (props) => {
+  const { quantity, setQuantity } = props;
+
+  const addQuantityHandler = () => {
+    if (quantity !== props.units) {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const removeQuantityHandler = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
   return (
     <Modal
       show={props.showProduct}
@@ -34,15 +48,15 @@ const ProductsItemModal = (props) => {
           <p>{props.description}</p>
           <div className="product-modal_box">
             <div>
-              <h3>Price: {props.price + "$"}</h3>
+              <h3>Price: {"$" + props.price}</h3>
               <p>Units Available: {props.units}</p>
             </div>
             <div className="product-modal_qun">
-              <button className="btn_qun" onClick={props.addQuantityHandler}>
+              <button className="btn_qun" onClick={addQuantityHandler}>
                 <div className="plus">+</div>
               </button>
               <div>{props.quantity}</div>
-              <button className="btn_qun" onClick={props.removeQuantityHandler}>
+              <button className="btn_qun" onClick={removeQuantityHandler}>
                 <div className="minus">-</div>
               </button>
             </div>

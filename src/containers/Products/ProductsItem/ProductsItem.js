@@ -11,7 +11,7 @@ import {
 } from "../../../store/selectors";
 
 import LoadingSpinner from "../../../components/common/UIElements/LoadingSpinner";
-import ProductsItemModal from "./ProductsItemModal";
+import ProductsItemModal from "../../../components/Products/ProductsItemModal/ProductsItemModal";
 import ProductItemHeader from "../../../components/Products/ItemHeader/ProductItemHeader";
 import ProductItemFooter from "../../../components/Products/ItemFooter/ProductItemFooter";
 import ProductItemContent from "../../../components/Products/ItemContent/ProductItemContent";
@@ -84,18 +84,6 @@ const ProductsItem = (props) => {
     setIsLoading(true);
   };
 
-  const addQuantityHandler = () => {
-    if (quantity !== props.units) {
-      setQuantity(quantity + 1);
-    }
-  };
-
-  const removeQuantityHandler = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
   const addProductToCart = (event) => {
     event.preventDefault();
     setLoadingItem(place);
@@ -142,8 +130,7 @@ const ProductsItem = (props) => {
         price={props.price}
         units={props.units}
         quantity={quantity}
-        addQuantityHandler={addQuantityHandler}
-        removeQuantityHandler={removeQuantityHandler}
+        setQuantity={setQuantity}
       />
       <Grid item className={classes.itemSize} index={place}>
         {place === loadingItem && isLoading ? (
