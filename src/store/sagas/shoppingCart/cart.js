@@ -6,7 +6,6 @@ import * as actions from "../../actions";
 import { toast } from "react-toastify";
 
 export function* getCartByUserId(action) {
-  // console.log(action);
   try {
     const responseData = yield call(api.getCartByUserId, {
       userId: action.userId,
@@ -14,10 +13,6 @@ export function* getCartByUserId(action) {
     });
     const cartData = yield responseData.data.cart;
     const cartSummary = yield calcSummary(cartData, action.vatRate);
-
-    // console.log(cartData);
-    // console.log(cartSummary);
-
     yield put(actions.getCartSuccess(responseData.data.cart, cartSummary));
   } catch (e) {
     yield put(
@@ -37,11 +32,8 @@ export function* updateProductInCart(action) {
       productId: action.payload.productId,
       quantity: action.payload.quantity,
     });
-
-    console.log(responseData.data.cart);
     const cartData = yield responseData.data.cart;
     const cartSummary = yield calcSummary(cartData, action.payload.vatRate);
-    // console.log(cartSummary);
 
     yield put(actions.setProductQuantitySuccess(cartSummary));
   } catch (e) {

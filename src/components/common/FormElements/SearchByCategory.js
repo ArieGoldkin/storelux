@@ -11,24 +11,34 @@ import { useForm } from "../../../hooks/form-hook";
 
 const useStyles = makeStyles((theme) => ({
   inputWrapperSelect: {
-    display: "flex",
-    alignItems: "center",
-    width: "38%",
-    borderRadius: "4px",
-    margin: "0 0 0 4rem",
+    width: "40%",
+    [theme.breakpoints.down(768)]: {
+      width: "100%",
+      display: "block",
+    },
   },
   formWrapper: {
     display: "flex",
     height: "100%",
+    alignItems: "center",
+    [theme.breakpoints.down(768)]: {
+      justifyContent: "space-between",
+    },
   },
   inputStyle: {
     display: "flex",
     margin: 0,
     width: "100%",
-    height: "100%",
     "&.form-box select": {
       borderColor: "#0582ca",
       backgroundColor: "#fff",
+      padding: "0.7rem",
+    },
+    [theme.breakpoints.down(768)]: {
+      width: "70%",
+    },
+    [theme.breakpoints.down(500)]: {
+      width: "65%",
     },
   },
   categoryStyle: {
@@ -37,9 +47,24 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     width: "17rem",
     margin: "0 0 0 2rem",
+    padding: "0.8rem",
+    [theme.breakpoints.down(768)]: {
+      width: "25%",
+      margin: 0,
+      padding: "0.8rem 0 0.8rem 0",
+    },
+    [theme.breakpoints.down(500)]: {
+      width: "30%",
+    },
   },
   errorMessage: {
     margin: "0 0 0 1rem",
+    position: "relative",
+    fontSize: "0.8rem",
+    textAlign: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
   },
 }));
 
@@ -65,7 +90,6 @@ const SearchByCategory = ({ categories, setCategory, onChangeCategory }) => {
 
   return (
     <div className={classes.inputWrapperSelect}>
-      {/* <h3 className={classes.categoryStyle}>Category</h3> */}
       <form onSubmit={handleChangeProduct} className={classes.formWrapper}>
         <Input
           classInput={classes.inputStyle}
@@ -75,7 +99,7 @@ const SearchByCategory = ({ categories, setCategory, onChangeCategory }) => {
           value="Select Category"
           options={categories}
           validators={[VALIDATOR_SELECT("Select Category")]}
-          errorText="Please enter a valid Category."
+          errorText="Please select a valid Category."
           errorStyle={classes.errorMessage}
           onInput={inputHandler}
         />

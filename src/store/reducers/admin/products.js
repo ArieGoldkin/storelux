@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   loading: true,
   isDone: false,
+  deletingProcess: false,
   item: {
     statusLoading: true,
   },
@@ -66,6 +67,21 @@ const getProductsFailure = (state, action) => {
   });
 };
 
+const DeleteProductsSuccess = (state, action) => {
+  return updateObject(state, {
+    items: {
+      ...state.items.filter((product) => {
+        return !action.items.includes(product.id);
+      }),
+    },
+    loading: true,
+    deletingProcess: false,
+    item: {
+      ...state.item,
+    },
+  });
+};
+
 //NEED TO MOVE THE DELETE METHODS FROM PRODUCTS REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -81,6 +97,26 @@ const reducer = (state = initialState, action) => {
       return changeStatusSuccess(state, action);
     case actionTypes.CHANGE_PRODUCT_STATUS_FAILURE:
       return changeStatusFailure(state, action);
+    case actionTypes.CREATE_PRODUCT_SUCCESS:
+    case actionTypes.DELETE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: true,
+        item: {
+          ...state.item,
+        },
+      };
+    case actionTypes.DELETE_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        deletingProcess: true,
+        item: {
+          statusLoading: true,
+        },
+      };
+    case actionTypes.DELETE_PRODUCTS_SUCCESS:
+      return DeleteProductsSuccess(state, action);
     default:
       return state;
   }

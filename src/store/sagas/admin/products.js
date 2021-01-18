@@ -24,7 +24,6 @@ export function* getAllProducts(action) {
       token: action.payload.token,
       adminId: action.payload.adminId,
     });
-    console.log(responseData);
     const products = responseData.data.products;
     yield put(actions.getAllProductsSuccess({ products }));
   } catch (e) {

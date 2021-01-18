@@ -10,7 +10,6 @@ export function* changeProductStatus(action) {
       token: action.payload.token,
       productId: action.payload.productId,
     });
-    console.log(responseData);
     yield put(actions.changeStatusSuccess(responseData.data.product));
   } catch (e) {
     yield put(

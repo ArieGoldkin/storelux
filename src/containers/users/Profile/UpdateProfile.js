@@ -122,7 +122,6 @@ const UpdateProfile = ({ user, userId, onUpdate, loading, error }) => {
                 <div className="user-profile__profile-name">
                   <div className="avatar-size">
                     <ImageUpload
-                      center
                       id="image"
                       onInput={inputHandler}
                       initialValue={user.image}

@@ -31,7 +31,6 @@ const UserProducts = ({
   addToCartError,
   clearErrorMessage,
 }) => {
-  // const [isLoading, setIsLoading] = useState(true);
 
   const { userId } = useParams();
 
@@ -43,13 +42,9 @@ const UserProducts = ({
 
   useEffect(() => {
     if (loading) {
-      // setIsLoading(true);
       loadUserProducts(userId);
     }
-    // else {
-    // setIsLoading(false);
-    // }
-  }, [addToCartError, error, loadUserProducts, loading, loggedUserId, userId]);
+  }, [loadUserProducts, loading, userId]);
 
   const clearError = () => {
     clearErrorMessage();

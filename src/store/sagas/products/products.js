@@ -2,7 +2,6 @@ import { call, put } from "redux-saga/effects";
 
 import * as actions from "../../actions";
 import * as api from "../../../api";
-
 import { toast } from "react-toastify";
 
 export function* getProducts() {
@@ -47,6 +46,7 @@ export function* updateProduct(action) {
       formData: action.formData,
     });
     yield put(actions.updateProductSuccess(responseData.data.product));
+    yield toast.info("Product updated successfully.");
   } catch (e) {
     yield put(
       actions.updateProductFailure({
@@ -111,9 +111,7 @@ export function* getProductsByTitle(action) {
     const responseData = yield call(api.findProductByTitle, {
       title: action.payload.title,
     });
-    yield put(
-      actions.searchProductsByTitleSuccess(responseData.data.products)
-    );
+    yield put(actions.searchProductsByTitleSuccess(responseData.data.products));
   } catch (e) {
     yield put(
       actions.searchProductsByTitleFailure({

@@ -1,5 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  createMuiTheme,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 
 import ProductsItem from "../../../containers/Products/ProductsItem/ProductsItem";
 import Card from "../../common/UIElements/Card";
@@ -32,6 +36,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#01579b",
+    },
+    secondary: {
+      main: "#F44336",
+    },
+  },
+});
+
 const ProductsList = ({ products, users }) => {
   const classes = useStyles();
 
@@ -47,35 +62,37 @@ const ProductsList = ({ products, users }) => {
 
   return (
     <Grid container className={classes.root} spacing={2}>
-      {products.map((product, index) => {
-        return (
-          <ProductsItem
-            className={classes.paper}
-            place={index}
-            key={product.id}
-            id={product.id}
-            creatorId={product.creator}
-            active={product.active}
-            image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
-            title={product.title}
-            creatorName={users.map((user) =>
-              user.id === product.creator
-                ? user.firstName + " " + user.lastName
-                : null
-            )}
-            userImage={users.map(
-              (user) =>
-                user.id === product.creator &&
-                `${process.env.REACT_APP_BACKEND_URL}/${user.image}`
-            )}
-            category={product.category}
-            price={product.price}
-            units={product.units}
-            description={product.description}
-            uploadDate={product.createdAt}
-          />
-        );
-      })}
+      <ThemeProvider theme={theme}>
+        {products.map((product, index) => {
+          return (
+            <ProductsItem
+              className={classes.paper}
+              place={index}
+              key={product.id}
+              id={product.id}
+              creatorId={product.creator}
+              active={product.active}
+              image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
+              title={product.title}
+              creatorName={users.map((user) =>
+                user.id === product.creator
+                  ? user.firstName + " " + user.lastName
+                  : null
+              )}
+              userImage={users.map(
+                (user) =>
+                  user.id === product.creator &&
+                  `${process.env.REACT_APP_BACKEND_URL}/${user.image}`
+              )}
+              category={product.category}
+              price={product.price}
+              units={product.units}
+              description={product.description}
+              uploadDate={product.createdAt}
+            />
+          );
+        })}
+      </ThemeProvider>
     </Grid>
   );
 };

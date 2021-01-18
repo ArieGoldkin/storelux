@@ -146,18 +146,23 @@ const AllProducts = ({
         <div className={classes.root}>
           <div className={classes.contentWrapper}>
             <div className={classes.searchWrapper}>
-              <Search
-                inputStyle={classes.searchBar}
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-              />
+              <div className={classes.searchBarWrapper}>
+                <Search
+                  inputStyle={classes.searchBar}
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
+                />
+                <Button
+                  buttonClass={classes.getAllBtn}
+                  onClick={getAllProducts}
+                >
+                  All products
+                </Button>
+              </div>
               <SearchByCategory
                 categories={categories}
                 setCategory={setCategory}
               />
-              <Button buttonClass={classes.getAllBtn} onClick={getAllProducts}>
-                All products
-              </Button>
             </div>
             {itemLoading && (
               <div className={classes.spinnerPosition}>

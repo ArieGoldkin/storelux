@@ -45,9 +45,9 @@ const requestSetOrderSuccess = (state, action) => {
     canRemove: false,
     isSet: true,
     orderSummary: {
-      totalPrice: summary.sum,
-      vat: summary.calcVat,
-      totalSum: summary.total,
+      totalPrice: summary.totalSum,
+      vat: summary.calcVatPrice,
+      totalSum: summary.totalSumPrices,
       loading: false,
     },
   });

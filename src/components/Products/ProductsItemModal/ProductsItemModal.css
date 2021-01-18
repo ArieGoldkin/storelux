@@ -1,12 +1,3 @@
-/* .td_product_image {
-  width: 7rem;
-  height: 6rem;
-  padding: 0.5rem 1rem;
-}
-
-.btn_td {
-  width: 16%;
-} */
 .product-modal_header {
   background-color: #fff;
   color: #0077b6;
@@ -74,4 +65,23 @@
   color: #0096c7;
   background-color: #fff;
   border: 0.5px solid #0096c7;
+}
+
+@media (max-width: 600px) {
+  .info-container {
+    flex-direction: column;
+    height: 100%;
+  }
+  .product-modal_image {
+    padding: 0;
+    width: 100%;
+    height: 20rem;
+  }
+  .image_radius img {
+    border-radius: 0;
+  }
+  .product-modal_content {
+    width: 100%;
+    padding: 0.5rem;
+  }
 }

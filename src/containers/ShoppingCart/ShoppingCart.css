@@ -4,3 +4,15 @@
   display: flex;
   justify-content: space-around;
 }
+
+@media (max-width: 1400px) {
+  .user-cart__wrapper {
+    width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .user-cart__wrapper {
+    width: 100%;
+  }
+}

@@ -10,6 +10,7 @@ import {
   getAuthToken,
   getUsers,
   getUsersError,
+  getDeletingLoading,
 } from "../../../store/selectors";
 
 import ErrorModal from "../../../components/common/UIElements/ErrorModal";
@@ -68,10 +69,11 @@ const ProductsList = ({
   usersError,
   adminId,
   token,
+  deleting,
 }) => {
   const classes = useStyles();
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -127,14 +129,14 @@ const ProductsList = ({
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   useEffect(() => {
-    if (loading) {
-      setIsLoading(true);
+    if (loading && !deleting) {
+      // setIsLoading(true);
       loadAllProducts({ adminId, token });
       loadUsers();
     } else {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
-  }, [adminId, loadAllProducts, loadUsers, loading, token]);
+  }, [adminId, loadAllProducts, loadUsers, loading, token, deleting]);
 
   useEffect(() => {
     if (usersError) {
@@ -152,12 +154,12 @@ const ProductsList = ({
   return (
     <>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      {isLoading && (
+      {loading && (
         <div className="center">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && products && users && (
+      {!loading && products && users && (
         <div className={classes.tableWrapper}>
           <Paper className={classes.root} elevation={3}>
             <TableToolbar
@@ -221,7 +223,7 @@ const ProductsList = ({
                               category={product.category}
                               price={product.price}
                               units={product.units}
-                              available={product.active}
+                              active={product.active}
                               image={`${process.env.REACT_APP_BACKEND_URL}/${product.image}`}
                             />
                           </TableRow>
@@ -256,6 +258,7 @@ const mapStateToProps = (state) => {
     productsError: getError(state),
     adminId: getAuthUserId(state),
     token: getAuthToken(state),
+    deleting: getDeletingLoading(state),
   };
 };
 

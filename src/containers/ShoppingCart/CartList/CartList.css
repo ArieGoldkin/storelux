@@ -22,3 +22,18 @@
   padding-top: 6rem;
   height: 20vh;
 }
+.spinner-wrapper {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .product-cart__list {
+    width: 80%;
+  }
+  .loadingSpinnerPosition {
+    display: none;
+  }
+  .spinner-wrapper {
+    display: flex;
+  }
+}

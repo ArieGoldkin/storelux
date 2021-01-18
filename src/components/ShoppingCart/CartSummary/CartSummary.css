@@ -17,3 +17,14 @@
   font-weight: bold;
   margin: 1.3rem 0 1.2rem 0;
 }
+
+@media (max-width: 1100px) {
+  .summary-total__sum {
+    font-size: 1.2rem;
+    margin: 1rem 0 1rem 0;
+    transition: bottom 0.3s;
+  }
+  .hiddenSummary {
+    bottom: -13.3rem;
+  }
+}

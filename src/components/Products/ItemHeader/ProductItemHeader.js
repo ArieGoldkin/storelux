@@ -19,7 +19,7 @@ const ProductItemHeader = (props) => {
             aria-haspopup="true"
             onClick={props.click}
           >
-            <MoreVertIcon />
+            <MoreVertIcon color="primary" />
           </IconButton>
           <Menu
             id="long-menu"

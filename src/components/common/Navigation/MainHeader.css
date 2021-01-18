@@ -3,6 +3,7 @@
   height: 4rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: fixed;
   top: 0;
   left: 0;
@@ -18,9 +19,9 @@ main {
   /* justify-content: center;
   display: flex; */
 }
-
-@media (min-width: 768px) {
+/* 
+@media (max-width: 768px) {
   .main-header {
     justify-content: space-between;
   }
-}
+} */

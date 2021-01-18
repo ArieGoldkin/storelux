@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-
-import { TransitionGroup } from "react-transition-group";
 
 import {
   getCartItems,
@@ -31,15 +29,12 @@ const CartList = (props) => {
   const [totalSum, setTotalSum] = useState(0);
   const [vat, setVat] = useState();
   const [totalPrice, setTotalPrice] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const prevScrollY = useRef(0);
+  const [scrollDown, setScrollDown] = useState(false);
+
   useEffect(() => {
-    if (cartSummaryLoading) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
     setVat(cartSummary.vat);
     setTotalPrice(cartSummary.totalSum);
     setTotalSum(cartSummary.totalPrice);
@@ -57,6 +52,22 @@ const CartList = (props) => {
     }
   }, [loadUser, userId, isDone]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (prevScrollY.current < currentScrollY && !scrollDown) {
+        setScrollDown(true);
+      }
+      if (currentScrollY < 20) {
+        setScrollDown(false);
+      }
+      prevScrollY.current = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrollDown]);
+
   const clearError = () => {
     setErrorMessage(null);
   };
@@ -73,34 +84,32 @@ const CartList = (props) => {
   return (
     <>
       <ul className="product-cart__list">
-        {props.items.map((product) => (
-          <TransitionGroup
+        {props.items.map((product, index) => (
+          <CartItem
+            loadingItem={cartSummaryLoading}
+            index={index}
             key={product.id}
-            className="product-cart__item"
-            component="ul"
-          >
-            <CartItem
-              id={product.id}
-              image={product.image}
-              title={product.title}
-              creatorId={product.creator}
-              category={product.category}
-              price={product.price}
-              quantity={product.quantity}
-              units={product.units}
-              description={product.description}
-            />
-          </TransitionGroup>
+            id={product.id}
+            image={product.image}
+            title={product.title}
+            creatorId={product.creator}
+            category={product.category}
+            price={product.price}
+            quantity={product.quantity}
+            units={product.units}
+            description={product.description}
+          />
         ))}
       </ul>
       <ErrorModal error={errorMessage} onClear={clearError} />
-      {isLoading && (
+      {cartSummaryLoading && (
         <div className="loadingSpinnerPosition">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && (
+      {!cartSummaryLoading && (
         <CartSummary
+          isScrolling={scrollDown}
           orderPage={false}
           userId={userId}
           totalPrice={totalSum}

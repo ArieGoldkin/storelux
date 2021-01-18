@@ -1,4 +1,11 @@
-import { takeLatest, all, fork, take, call } from "redux-saga/effects";
+import {
+  takeLatest,
+  takeEvery,
+  all,
+  fork,
+  take,
+  call,
+} from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 
 import {
@@ -199,7 +206,7 @@ function* watchAdminSagas() {
     takeLatest(actionTypes.UPDATE_VAT_RATE_REQUEST, updateRate),
     takeLatest(actionTypes.GET_ORDERS_BY_DATE_REQUEST, getAdminOrdersByDate),
     takeLatest(actionTypes.GET_ALL_PRODUCTS_REQUEST, getAllProducts),
-    takeLatest(actionTypes.CHANGE_PRODUCT_STATUS_START, changeProductStatus),
+    takeEvery(actionTypes.CHANGE_PRODUCT_STATUS_START, changeProductStatus),
     takeLatest(
       actionTypes.GET_ORDERS_BY_USER_NAME_REQUEST,
       getOrdersByUserName

@@ -16,9 +16,6 @@ const HomePage = ({ isAuthenticated }) => {
           </p>
           <p className="home-header__p">For all Business and Private Users</p>
           <div className="home-buttons">
-            <Link style={{ textDecoration: "none", color: "#fff" }} to="about">
-              <button className="btn">ABOUT US</button>
-            </Link>
             {!isAuthenticated && (
               <Link
                 to="/auth"
@@ -30,6 +27,9 @@ const HomePage = ({ isAuthenticated }) => {
                 </button>
               </Link>
             )}
+            <Link style={{ textDecoration: "none", color: "#fff" }} to="about">
+              <button className="btn">ABOUT US</button>
+            </Link>
           </div>
         </div>
       </div>

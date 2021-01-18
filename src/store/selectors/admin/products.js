@@ -6,3 +6,6 @@ export const getError = (state) => state.adminProducts.error;
 
 export const getAdminProductsItemLoading = (state) =>
   state.adminProducts.item.statusLoading;
+
+export const getDeletingLoading = (state) =>
+  state.adminProducts.deletingProcess;

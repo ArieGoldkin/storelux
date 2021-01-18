@@ -59,7 +59,7 @@ const deleteUserProductError = (state, action) => {
 const createUserProductSuccess = (state, action) => {
   return updateObject(state, {
     items: state.items.concat(action.product),
-    loading: false,
+    loading: true,
     hasChanged: true,
   });
 };
@@ -84,8 +84,6 @@ const updateProductRequest = (state, action) => {
 };
 
 const updateProductSuccess = (state, action) => {
-  console.log(state);
-  console.log(action);
   let updatedProductsArray = state.items.map((item) =>
     item.id === action.product.id ? action.product : item
   );
@@ -117,6 +115,12 @@ const addToCartSuccess = (state, action) => {
 const addToCartFailure = (state, action) => {
   return updateObject(state, {
     itemLoading: false,
+  });
+};
+
+const clearErrorMessage = (state, action) => {
+  return updateObject(state, {
+    error: null,
   });
 };
 
@@ -152,6 +156,8 @@ const reducer = (state = initialState, action) => {
       return addToCartSuccess(state, action);
     case actionTypes.ADD_TO_CART_FAILURE:
       return addToCartFailure(state, action);
+    case actionTypes.CLEAR_CART_ERROR_MESSAGE:
+      return clearErrorMessage(state, action);
     default:
       return state;
   }

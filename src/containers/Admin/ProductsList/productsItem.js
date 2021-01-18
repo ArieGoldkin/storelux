@@ -92,7 +92,7 @@ const ProductsItem = (props) => {
           <div className={classes.spinnerPosition}>
             <LoadingSpinner style={{ height: "6vh" }} />
           </div>
-        ) : props.available ? (
+        ) : props.active ? (
           <div className={classes.itemsPosition}>
             <FiberManualRecordIcon style={{ color: green[500] }} />
             <Button

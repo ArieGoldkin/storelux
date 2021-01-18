@@ -51,6 +51,12 @@
   color: white;
 }
 
+@media (max-width: 1400px) {
+  .nav-links {
+    font-size: 0.9rem;
+  }
+}
+
 @media (min-width: 768px) {
   .nav-links {
     flex-direction: row;

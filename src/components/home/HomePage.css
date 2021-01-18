@@ -81,3 +81,34 @@
   opacity: 1;
   right: 0;
 }
+
+@media (max-width: 980px) {
+  .home-header__title {
+    font-size: 3rem;
+  }
+  .home-header__p {
+    font-size: 1.5rem;
+  }
+  .home-buttons {
+    width: 70%;
+  }
+}
+
+@media (max-width: 450px) {
+  .home-header__title {
+    font-size: 2.7rem;
+    text-align: center;
+  }
+  .home-header__p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  .home-buttons {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5rem;
+  }
+  .btn {
+    margin-bottom: 1rem;
+  }
+}

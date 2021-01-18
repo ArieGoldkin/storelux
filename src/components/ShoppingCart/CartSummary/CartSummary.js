@@ -8,7 +8,9 @@ const CartSummary = (props) => {
   let inOrderPage = props.orderPage;
 
   return (
-    <Card className="shopping-cart__sum">
+    <Card
+      className={`shopping-cart__sum ${props.isScrolling && `hiddenSummary`}`}
+    >
       <h2 className="summary-header">Order Summary</h2>
       <div className="summary-subtotal">
         <div>Subtotal Price: </div>

@@ -1,19 +1,17 @@
 import { call, put, take } from "redux-saga/effects";
 import * as actions from "../../actions";
-import * as actionTypes from "../../actions/actionTypes"
+import * as actionTypes from "../../actions/actionTypes";
 import * as api from "../../../api";
 
-import { calcProductOrderSummary } from "../../../components/common/util/calcTotalPrice";
+import { calcSummary } from "../../../components/common/util/calcTotalPrice";
 import { toast } from "react-toastify";
 
 export function* setOrder(action) {
-  console.log(action);
   try {
-    const orderSummary = yield calcProductOrderSummary(
+    const orderSummary = yield calcSummary(
       action.payload.items,
       action.payload.vatRate
     );
-    console.log(orderSummary);
     yield put(actions.setOrderSuccess(action.payload.items, orderSummary));
   } catch (e) {
     yield put(

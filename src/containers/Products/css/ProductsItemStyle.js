@@ -22,11 +22,8 @@ export const useStyles = makeStyles((theme) => ({
   itemSize: {
     flexGrow: 0,
     width: "20rem",
-    [theme.breakpoints.down(1200)]: {
-      width: "16rem",
-    },
-    [theme.breakpoints.down("md")]: {
-      width: "17rem",
+    [theme.breakpoints.down(1400)]: {
+      width: "18rem",
     },
   },
   imageWrapper: {
@@ -46,6 +43,9 @@ export const useStyles = makeStyles((theme) => ({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down(600)]: {
+      height: "31rem",
+    },
   },
   spinner: {
     alignItems: "center",

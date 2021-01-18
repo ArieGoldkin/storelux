@@ -37,9 +37,9 @@ const getCartSuccess = (state, action) => {
       productLoading: false,
     },
     cartSummary: {
-      totalPrice: action.cartSum.total,
-      vat: action.cartSum.calcVat,
-      totalSum: action.cartSum.sum,
+      totalPrice: action.cartSum.totalSumPrices,
+      vat: action.cartSum.calcVatPrice,
+      totalSum: action.cartSum.totalSum,
       loading: false,
     },
   });
@@ -97,9 +97,9 @@ const updateProductQuantitySuccess = (state, action) => {
       productLoading: false,
     },
     cartSummary: {
-      totalPrice: action.payload.cartSummary.total,
-      vat: action.payload.cartSummary.calcVat,
-      totalSum: action.payload.cartSummary.sum,
+      totalPrice: action.payload.cartSummary.totalSumPrices,
+      vat: action.payload.cartSummary.calcVatPrice,
+      totalSum: action.payload.cartSummary.totalSum,
       loading: false,
     },
   });
@@ -121,9 +121,9 @@ const addToCartSuccess = (state, action) => {
       productLoading: false,
     },
     cartSummary: {
-      totalPrice: action.payload.cartSum.total,
-      vat: action.payload.cartSum.calcVat,
-      totalSum: action.payload.cartSum.sum,
+      totalPrice: action.payload.cartSum.totalSumPrices,
+      vat: action.payload.cartSum.calcVatPrice,
+      totalSum: action.payload.cartSum.totalSum,
       loading: false,
     },
   });
@@ -157,9 +157,9 @@ const updateCartSummary = (state, action) => {
       productLoading: false,
     },
     cartSummary: {
-      totalPrice: action.payload.newCartSummary.total,
-      vat: action.payload.newCartSummary.calcVat,
-      totalSum: action.payload.newCartSummary.sum,
+      totalPrice: action.payload.newCartSummary.totalSumPrices,
+      vat: action.payload.newCartSummary.calcVatPrice,
+      totalSum: action.payload.newCartSummary.totalSum,
       loading: false,
     },
   });
