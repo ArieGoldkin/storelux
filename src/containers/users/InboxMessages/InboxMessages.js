@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerWrapper: {
     height: "100%",
+    width: "24%",
   },
 }));
 

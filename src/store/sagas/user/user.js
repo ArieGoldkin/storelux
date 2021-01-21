@@ -41,7 +41,6 @@ export function* updateUser(action) {
       formData: action.formData,
     });
     yield put(actions.userUpdateSuccess(userUpdate.data.user));
-    console.log(userUpdate.data.user);
   } catch (e) {
     yield put(
       actions.userUpdateFailure({
@@ -95,9 +94,7 @@ export function* getSoldItems(action) {
       token: action.payload.token,
       userId: action.payload.userId,
     });
-    yield put(
-      actions.getUserSoldItemsSuccess(responseData.data.items)
-    );
+    yield put(actions.getUserSoldItemsSuccess(responseData.data.items));
   } catch (e) {
     console.log(e.response.data);
     yield put(

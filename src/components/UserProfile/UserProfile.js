@@ -8,28 +8,24 @@ import "./UserProfile.css";
 const UserProfile = ({ user }) => {
   return (
     <Card className="user-profile__info">
-      <div>
-        <div className="info">
-          <div className="user-profile__profile-name">
-            <div className="avatar-size">
-              <CustomAvatar
-                image={`${process.env.REACT_APP_BACKEND_URL}/${user.image}`}
-                alt={user.firstName}
-              />
-            </div>
-            <div className="user-profile__title">
-              <h4>User Email:</h4>
-              {user.email}
-            </div>
-          </div>
+      <div className="info__wrapper">
+        <div className="avatar-size">
+          <CustomAvatar
+            image={`${process.env.REACT_APP_BACKEND_URL}/${user.image}`}
+            alt={user.firstName}
+          />
+        </div>
+        <div className="user-profile__title">
           <div className="user-profile__profile-info">
             <div className="user-profile__profile-info__title">
+              <label className="profile_label">User Email:</label>
               <label className="profile_label">First Name:</label>
               <label className="profile_label">Last Name:</label>
               <label className="profile_label">Address:</label>
               <label className="profile_label">Phone Number:</label>
             </div>
             <div className="user-profile__profile-info__content">
+              <p>{user.email}</p>
               <p>{user.firstName}</p>
               <p>{user.lastName}</p>
               <p>{user.address}</p>
@@ -37,9 +33,9 @@ const UserProfile = ({ user }) => {
             </div>
           </div>
         </div>
-        <div className="user-profile__footer">
-          <Button to={`/user/${user.id}`}>EDIT PROFILE</Button>
-        </div>
+      </div>
+      <div className="user-profile__footer">
+        <Button to={`/user/${user.id}`}>EDIT PROFILE</Button>
       </div>
     </Card>
   );

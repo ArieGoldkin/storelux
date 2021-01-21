@@ -86,7 +86,6 @@ const UpdateProfile = ({ user, userId, onUpdate, loading, error }) => {
 
   const updateUserSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
     const formData = new FormData();
     formData.append("email", formState.inputs.email.value);
     formData.append("firstName", formState.inputs.firstName.value);
@@ -119,85 +118,85 @@ const UpdateProfile = ({ user, userId, onUpdate, loading, error }) => {
           <Card className="update-user__form">
             <form onSubmit={updateUserSubmitHandler}>
               <div className="info">
-                <div className="user-profile__profile-name">
-                  <div className="avatar-size">
-                    <ImageUpload
-                      id="image"
-                      onInput={inputHandler}
-                      initialValue={user.image}
-                      initialValid={true}
-                    />
-                  </div>
-                  <div className="user-profile__title">
-                    <h4>User Email:</h4>
-                    <Input
-                      id="email"
-                      element="input"
-                      validators={[VALIDATOR_EMAIL()]}
-                      errorText="Please enter a valid email address."
-                      onInput={inputHandler}
-                      initialValue={user.email}
-                      initialValid={true}
-                    />
-                  </div>
-                </div>
-                <div className="user-profile__profile-info">
-                  <div className="user-profile__profile-info__title">
-                    <label className="profile_label">First Name:</label>
-                    <label className="profile_label">Last Name:</label>
-                    <label className="profile_label">Address:</label>
-                    <label className="profile_label">Phone Number:</label>
-                  </div>
-                  <div className="user-profile__profile-info__content">
-                    <div className="user-profile__input-container">
-                      <Input
-                        id="firstName"
-                        element="input"
-                        type="text"
-                        validators={[VALIDATOR_REQUIRE()]}
+                <div className="info_content">
+                  <div className="user-profile__profile-image">
+                    <div className="avatar-size">
+                      <ImageUpload
+                        id="image"
                         onInput={inputHandler}
-                        errorText="Please enter a valid First Name"
-                        initialValue={user.firstName}
-                        initialValid={true}
-                      />
-                      <Input
-                        id="lastName"
-                        element="input"
-                        type="text"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandler}
-                        errorText="Please enter a valid Last Name"
-                        initialValue={user.lastName}
-                        initialValid={true}
-                      />
-                      <Input
-                        id="address"
-                        element="input"
-                        type="text"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandler}
-                        errorText="Please enter a valid Address"
-                        initialValue={user.address}
-                        initialValid={true}
-                      />
-                      <Input
-                        id="phone"
-                        element="input"
-                        type="text"
-                        validators={[VALIDATOR_MINLENGTH(10)]}
-                        onInput={inputHandler}
-                        errorText="Please enter a valid phone Number"
-                        initialValue={user.phone}
+                        initialValue={user.image}
                         initialValid={true}
                       />
                     </div>
                   </div>
+                  <div className="user-profile__profile-info">
+                    <div className="user-profile__profile-info__title">
+                      <label className="profile_label">User Email:</label>
+                      <label className="profile_label">First Name:</label>
+                      <label className="profile_label">Last Name:</label>
+                      <label className="profile_label">Address:</label>
+                      <label className="profile_label">Phone Number:</label>
+                    </div>
+                    <div className="user-profile__profile-info__content">
+                      <div className="user-profile__input-container">
+                        <Input
+                          id="email"
+                          element="input"
+                          validators={[VALIDATOR_EMAIL()]}
+                          errorText="Please enter a valid email address."
+                          onInput={inputHandler}
+                          initialValue={user.email}
+                          initialValid={true}
+                        />
+                        <Input
+                          id="firstName"
+                          element="input"
+                          type="text"
+                          validators={[VALIDATOR_REQUIRE()]}
+                          onInput={inputHandler}
+                          errorText="Please enter a valid First Name"
+                          initialValue={user.firstName}
+                          initialValid={true}
+                        />
+                        <Input
+                          id="lastName"
+                          element="input"
+                          type="text"
+                          validators={[VALIDATOR_REQUIRE()]}
+                          onInput={inputHandler}
+                          errorText="Please enter a valid Last Name"
+                          initialValue={user.lastName}
+                          initialValid={true}
+                        />
+                        <Input
+                          id="address"
+                          element="input"
+                          type="text"
+                          validators={[VALIDATOR_REQUIRE()]}
+                          onInput={inputHandler}
+                          errorText="Please enter a valid Address"
+                          initialValue={user.address}
+                          initialValid={true}
+                        />
+                        <Input
+                          id="phone"
+                          element="input"
+                          type="text"
+                          validators={[VALIDATOR_MINLENGTH(10)]}
+                          onInput={inputHandler}
+                          errorText="Please enter a valid phone Number"
+                          initialValue={user.phone}
+                          initialValid={true}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="user-profile__footer">
-                <Button type="submit" disabled={!formState.isValid}>
-                  UPDATE PROFILE
-                </Button>
+                <div className="user-profile__footer">
+                  <Button type="submit" buttonClass="update-profile_btn" disabled={!formState.isValid}>
+                    UPDATE PROFILE
+                  </Button>
+                </div>
               </div>
             </form>
           </Card>
