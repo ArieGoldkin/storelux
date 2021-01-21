@@ -1,0 +1,48 @@
+.about-page_wrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.about-page_header {
+  text-align: center;
+  font-size: 2rem;
+  color: #0069d9;
+}
+.our-story-header {
+  margin: 0 0 2em 0;
+}
+.fancy {
+  line-height: 0.5;
+  text-align: center;
+  color: #0069d9;
+}
+
+.fancy span {
+  display: inline-block;
+  position: relative;
+  font-size: 1.2rem;
+}
+.fancy span:before,
+.fancy span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid #0069d9;
+  top: 0;
+  width: 9rem;
+}
+.fancy span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.fancy span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+.about-page_content {
+  width: 80%;
+  line-height: 1.6rem;
+  text-align: justify;
+  margin: 3rem auto 2rem auto;
+}
